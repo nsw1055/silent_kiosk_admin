@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.judy.manager.mapper.ManagerMapper">
+
+
+
+<sql id="search" >
+		<if test="type != null and arr != null">
+		
+		 and
+  		<foreach collection="arr" item="item" separator="or" open="(" close=")">
+  		
+  		<if test="item == 'm'.toString()">
+  		<![CDATA[
+  			tm.mid like concat ('%' , #{keyword} , '%')
+  			]]> 
+  		</if>
+  		<if test="item == 's'.toString()">
+  			ts.sname like concat ('%' , #{keyword} , '%')
+  		</if>
+  		<if test="item == 'c'.toString()">
+  			tm.mid like concat ('%' , #{keyword} , '%')
+  		</if>
+  		</foreach>
+  		</if>
+</sql>
+
+	<select id="getManagerList" resultType="org.judy.manager.domain.Manager">
+		<![CDATA[
+  		select * from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid 
+  		where enabled = 1
+  		]]> 
+  		<include refid="search"/>
+  		
+  		<![CDATA[
+  		order by regdate desc limit #{skip}, #{perSheet}
+  		]]>
+  		
+	</select>
+	
+		<select id="delManagerList" resultType="org.judy.manager.domain.Manager">
+		<![CDATA[
+  		select * from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid 
+  		where enabled = 0
+  		]]> 
+  		<include refid="search"/>
+  		
+  		<![CDATA[
+  		order by regdate desc limit #{skip}, #{perSheet}
+  		]]>
+	    </select>
+	    
+	    <select id="appManagerList" resultType="org.judy.manager.domain.Manager">
+		<![CDATA[
+  		select * from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid 
+  		where approval = 0
+  		]]> 
+  		<include refid="search"/>
+  		
+  		<![CDATA[
+  		order by regdate desc limit #{skip}, #{perSheet}
+  		]]>
+	    </select>
+	
+	<select id="selectOne" resultType="org.judy.manager.domain.Manager">
+		<![CDATA[
+  		select * from tbl_manager tm
+		left join tbl_store ts on tm.mid = ts.mid 
+		where tm.mid = #{mid}
+  		]]>
+	</select>
+
+	<insert id="registerMan">
+	<![CDATA[
+  		insert into tbl_manager ( mid , mpw , email , phone , logoimg)
+		values (#{mid} , #{mpw} , #{email} , #{phone} , #{logoImg})
+  		]]>
+	</insert>
+	
+	<select id="totalMan" resultType="int">
+	<![CDATA[
+  		select count(*) from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid
+  		where enabled = 1
+  		]]>  		
+  		<include refid="search"/>
+  		
+	</select>
+	
+	<update id = "enabled">
+	<![CDATA[
+	update tbl_manager set enabled = if(enabled = 0, 1, 0) where mid = #{mid}
+	]]>
+	</update>
+	
+	<update id = "approval">
+	<![CDATA[
+	update tbl_manager set approval = 1 where mid = #{mid}
+	]]>
+	</update>
+	
+
+	
+	
+</mapper>

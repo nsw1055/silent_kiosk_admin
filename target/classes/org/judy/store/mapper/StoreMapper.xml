@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.judy.store.mapper.StoreMapper">
+
+	<select id="getStore" resultType="org.judy.store.domain.Store">
+		<![CDATA[
+  		select * from tbl_store where mid = #{mid}
+  		]]>
+	</select>
+
+	<select id="findByMid" resultType="org.judy.store.domain.DocumentFile">
+		<![CDATA[
+  		select * from tbl_document where mid = #{mid}
+  		]]>
+	</select>
+
+
+</mapper>

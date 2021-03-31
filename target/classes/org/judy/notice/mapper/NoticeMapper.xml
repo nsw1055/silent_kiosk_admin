@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.judy.notice.mapper.NoticeMapper">
+	<sql id="search">
+		<where>
+		<if test="arr != null">
+		<foreach collection="arr" item="type" separator="or" open="(" close=")">
+				<if test="type=='t'.toString()">
+					title like concat('%',#{keyword},'%')
+				</if>
+				<if test="type=='c'.toString()">
+					content like concat('%',#{keyword},'%')
+				</if>
+				<if test="type == 'y'.toString()">
+					category like concat('%',#{keyword},'%')
+				</if>
+			</foreach>
+			</if>
+			</where>
+	</sql>
+
+	<select id="getList" resultType="org.judy.notice.domain.Notice">
+		select * from tbl_notice
+			<include refid="search"></include>
+		order by nno desc limit #{skip}, #{perSheet}
+
+	</select>
+
+	<select id="getOne" resultType="org.judy.notice.domain.Notice">
+		select * from tbl_notice where
+		nno=#{nno}
+	</select>
+
+	<select id="getTotal" resultType="int">
+		select count(nno) from tbl_notice
+		<include refid="search"></include>
+	</select>
+
+	<insert id="insert">
+		insert into tbl_notice (title,content,writer,category) 
+		values(#{title}, #{content}, #{writer}, #{category})
+	</insert>
+
+	<delete id="delete">
+		delete from tbl_notice where nno = #{nno}
+	</delete>
+
+</mapper>

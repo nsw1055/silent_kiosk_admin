@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+
+.contentBox{
+	min-height:70vh;
+	/* box-shadow: 0 16px 38px -12px rgb(0 0 0 / 56%), 0 4px 25px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%); */
+	/* -webkit-box-shadow: 25px 21px 46px -30px rgba(0,0,0,0.57);
+-moz-box-shadow: 25px 21px 46px -30px rgba(0,0,0,0.57);
+box-shadow: 25px 21px 46px -30px rgba(0,0,0,0.57);
+	background-color: white; */
+}
+
+.listTop{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+.selectPerSheet{
+	float: right;
+	width: 100px;
+	margin-bottom: 10px;
+	margin-left : auto;
+	
+}
+.searchList{
+	float: left;
+	width:300px;
+	margin-bottom: 10px;
+	
+}
+
+.selectType{
+	float: right;
+	width: 130px;
+	margin-bottom: 10px;
+	margin-right : 20px
+	
+}
+
+.cardHeaderStyle{
+	display: flex;
+	flex-direction: row;
+}
+
+.cardHeaderBtn{
+	float: right;
+	margin-left: auto;
+}
+
+.cardBottomBtn{
+	float: left;
+	margin-right: auto;
+}
+
