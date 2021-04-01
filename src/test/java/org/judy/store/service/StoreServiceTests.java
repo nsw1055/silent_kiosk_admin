@@ -23,7 +23,12 @@ public class StoreServiceTests {
 	
 	@Test
 	public void testGetStore() {
-		log.info(service.getStore("user147"));
+		log.info(service.getStore("user150"));
+	}
+	
+	@Test
+	public void testDeleteDoc() {
+		service.deleteDoc("08051d27-c76b-481a-a943-b406c939d270");
 	}
 	
 }

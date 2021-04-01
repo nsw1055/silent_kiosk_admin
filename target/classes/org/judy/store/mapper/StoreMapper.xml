@@ -16,5 +16,10 @@
   		]]>
 	</select>
 
+	<delete id="deleteDoc">
+		<![CDATA[
+  		delete from tbl_document where muuid= #{muuid}
+  		]]>
+	</delete>
 
 </mapper>

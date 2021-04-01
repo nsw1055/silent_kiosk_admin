@@ -13,6 +13,8 @@ import java.util.UUID;
 
 import org.judy.common.util.ManagerFileDTO;
 import org.judy.notice.domain.NoticeFileDTO;
+import org.judy.store.domain.DocumentFile;
+import org.judy.store.service.StoreService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,18 +25,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @RequestMapping("/common")
 @Log4j
+@RequiredArgsConstructor
 public class FileUploadController {
 
+	private final StoreService storeService;
+	
    @GetMapping("/notice/view")
    @ResponseBody
    public ResponseEntity<byte[]> getView(String link) {
@@ -149,6 +156,66 @@ public class FileUploadController {
    return new ResponseEntity<List<ManagerFileDTO>>(fileList, HttpStatus.OK);
    
    }
+     
+   @GetMapping(value = "/manager/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+   @ResponseBody
+   public ResponseEntity<Resource> downloadDoc(String link){
+	   
+	   log.info("download file: "+link);
+	   
+	   String path = "C:\\upload\\temp\\admin\\manager";
+	   
+	   String str = "";
+	   
+	   File targetFile = encoding(link,path);
+		
+	   log.info(targetFile);
+	   
+	   Resource resource = new FileSystemResource(targetFile);
+	   
+	   log.info("resource : "+ resource);
+	   
+	   String resourceName = resource.getFilename();
+	   
+	   log.info(resourceName);
+	   
+	   HttpHeaders headers = new HttpHeaders();
+	   
+	   try {
+		headers.add("Content-Disposition", "attachment; filename=" + new String(resourceName.getBytes("UTF-8"),"ISO-8859-1"));
+	} catch (UnsupportedEncodingException e) {
+		e.printStackTrace();
+	}
+	   
+	   return new ResponseEntity<Resource>(resource , headers , HttpStatus.OK);
+   }
+   
+   
+   // deleteFile
+   
+   @PostMapping(value = "/manager/delete")
+   @ResponseBody
+   public ResponseEntity<String> delFile(@RequestBody String link, @RequestBody String muuid) {
+	   
+	   String path = "C:\\upload\\temp\\admin\\manager";
+	   
+	   File file = encoding(link, path);
+	   
+	   file.delete();
+	  
+	   storeService.deleteDoc(muuid);
+	   
+	   return new ResponseEntity<String>("success", HttpStatus.OK);
+	   
+   }
+   
+   
+   
+   
+   
+   
+ //====================================================================================================================   
+   //notice
 
    @PostMapping("/notice/upload")
    public ResponseEntity<List<NoticeFileDTO>> uploadPost(MultipartFile[] uploadFile) {

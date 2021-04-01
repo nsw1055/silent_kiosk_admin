@@ -29,5 +29,10 @@ public class StoreMapperTests {
 	public void testDoc() {
 		log.info(mapper.findByMid("user154"));
 	}
+
+	@Test
+	public void testDelete() {
+		mapper.deleteDoc("08051d27-c76b-481a-a943-b406c939d270");
+	}
 	
 }

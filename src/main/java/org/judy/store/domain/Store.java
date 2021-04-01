@@ -18,5 +18,4 @@ public class Store {
 	private double lat,lng;
 	private String address,category;
 	
-	private List<DocumentFile> docFiles;
 }

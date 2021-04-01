@@ -66,11 +66,13 @@
 							<h4 class="card-title">Edit Profile</h4>
 							<p class="card-category">Complete your profile</p>
 						</div>
+						
+						<div class="cardHeaderBtn approvalBtn" >
 						<c:if test = "${manager.approval == false}">
-						<div class="cardHeaderBtn" >
-							<button type="submit" class="approvalBtn btn btn-primary pull-right" style = "background-color: #ffffff; color: #ee6d09;">가입 승인</button>
-						</div>
+							<button type="submit" class="btn btn-primary pull-right" style = "background-color: #ffffff; color: #ee6d09;">가입 승인</button>
 						</c:if>
+						</div>
+						
 					</div>
 					<div class="card-body">
 						<form>
@@ -144,6 +146,18 @@
 					<div class="card-body">
 						<h4 class="card-title">${store.sname }</h4>
 						<p class="card-description">${store.address }</p>
+						<div class= "docDiv">
+						<c:forEach items="${store.docFiles }" var = "doc">
+						<div class="doctest" style = "display: flex; flex-direction: row;">
+							<p class="docFile card-description" data-href="${doc.muploadPath }/${doc.muuid }_${doc.mfileName }">${doc.mfileName }</p>
+						 	<button rel="tooltip" title="Remove" class="fileDelete btn btn-danger btn-link btn-sm" value = "${doc.muuid }">
+                        		<i class="material-icons"  style = "margin-bottom: auto;">close</i>
+                        	</button>
+                        </div>
+						</c:forEach>
+						</div>
+						
+						
 						<a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
 					</div>
 				</div>
@@ -218,7 +232,7 @@ document.querySelector(".delCancel").addEventListener("click" , function(e){
 } , false)
 
 // approval
-document.querySelector(".approvalBtn").addEventListener("click", function(e){
+ document.querySelector(".approvalBtn").addEventListener("click", function(e){
 	
 	e.preventDefault()
 	function approval() {
@@ -232,7 +246,7 @@ document.querySelector(".approvalBtn").addEventListener("click", function(e){
 	approval().then(result => $(".modal3").modal("show"))
 	
 	//location.href = "/admin/manager/read?mid=" + mid
-})
+}) 
 
 // approval modal commit
 document.querySelector(".appCommit").addEventListener("click" , function(e){
@@ -240,6 +254,84 @@ document.querySelector(".appCommit").addEventListener("click" , function(e){
 	location.href = "/admin/manager/read?mid=" + mid
 	
 } , false)
+
+// fileDonwload
+/* 
+	document.querySelectorAll(".docFile").forEach(e => {
+		
+		e.addEventListener("click" , function(e){
+			const href = event.currentTarget.getAttribute("data-href")
+			
+			console.log(href)
+		
+			location.href = "/admin/common/manager/download?link=" +href
+			
+		})
+		
+	})
+	
+	 */
+// deleteFile
+/* 
+document.querySelectorAll(".fileDelete").forEach(e =>{
+	
+document.querySelectorAll(".docFile").forEach(e => {
+
+			const href = event.currentTarget.getAttribute("data-href")
+			
+			
+	})
+	
+		e.addEventListener("click" , function(e){
+		
+		const muuid = e.currentTarget.getAttribute("value")
+		
+	
+		
+		function sendDelete(){
+		
+			return fetch("/admin/common/manager/delete", {
+				method : 'post',
+				headers : {"Content-Type" : "application/json"},
+				body : JSON.stringify(muuid)
+			}).then(res => res.text())
+		
+		}
+	
+		sendDelete().then(result => {console.log(result)})
+		
+	} , false)
+})
+ */
+document.querySelectorAll(".doctest").forEach(e => {
+
+	e.addEventListener("click", function(event){
+		if(event.target.nodeName == 'I'){
+			console.log("iiiiiiii")
+			
+			const muuid = document.querySelector(".fileDelete").getAttribute("value")
+			console.log(muuid)
+			const link = document.querySelector(".docFile").getAttribute("data-href")
+			console.log(link)
+		
+			/* function sendDelete(){
+				
+				return fetch("/admin/common/manager/delete", {
+					method : 'post',
+					headers : {"Content-Type" : "application/json"},
+					body : JSON.stringify(muuid)
+				}).then(res => res.text())
+			
+			}
+		
+			sendDelete().then(result => {console.log(result)}) */
+			
+		}else{
+			console.log("ppppppppppppp")
+		}
+	} , false)
+})
+
 
 
 </script>

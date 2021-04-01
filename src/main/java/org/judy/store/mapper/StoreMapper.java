@@ -10,4 +10,6 @@ public interface StoreMapper {
 	public Store getStore(String mid);
 	
 	public List<DocumentFile> findByMid(String mid);
+	
+	public void deleteDoc(String muuid);
 }
