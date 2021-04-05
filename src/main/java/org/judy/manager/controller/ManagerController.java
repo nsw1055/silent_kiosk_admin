@@ -31,6 +31,16 @@ public class ManagerController {
 	private final StoreService storeService;
 	
 	
+	@GetMapping("/Sample")
+	public void sample() {
+		
+	}
+	
+	@GetMapping("/jusoPopup")
+	public void juso() {
+		
+	}
+	
 	@GetMapping("/list")
 	public void getList(PageDTO pageDTO, Model model ) {
 //		log.info("getList...............");
