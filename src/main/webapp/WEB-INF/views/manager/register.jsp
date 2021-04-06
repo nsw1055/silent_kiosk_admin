@@ -58,8 +58,7 @@
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
-                              <label class="bmd-label-floating">ID</label> <input
-                                 type="text" class="form-control" >
+                              <label class="bmd-label-floating">ID</label> <input name="mid" type="text" class="form-control" >
                            </div>
                         </div>
                         </div>
@@ -79,30 +78,79 @@
                         </div>
                         <div class="row">
                         <div class="col-md-12">
-                           <div class="form-group">
-                              <label class="bmd-label-floating">Address</label> <input
-                                 type="text" class="form-control">
+                           <div class="form-group is-focused" >
+                              <label class="bmd-label-floating">Address</label> 
+                              <input type="text" onClick="goPopup();" class="form-control" id="roadFullAddr"  >
                            </div>
                         </div>
                         </div>
-                     
+                    <div class="docUpload">
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="cdn col-md-6">
                            <div class="form-group bmd-form-group is-focused">
-                              <label class="bmd-label-floating">LogoImg</label> 
+                              <label class="bmd-label-floating">사업자등록증</label> 
                               
                            </div>
                            
                            <div style = "margin-bottom: 10px">                        
-                              <input type="file" name="uploadLogo" class="form-control" id="inputGroupFile02" >
+                              <input type="file" name="cdn" class="form-control" id="inputGroupFile02" >
                            </div>
                            
                            <div class = "fileThumb">
                            
                            </div>
+                       </div>
+                       
+                       <div class="health col-md-6">
+                           <div class="form-group bmd-form-group is-focused">
+                              <label class="bmd-label-floating">보건증</label> 
+                              
                            </div>
                            
+                           <div style = "margin-bottom: 10px">                        
+                              <input type="file" name="health" class="form-control" id="inputGroupFile02" >
+                           </div>
+                           
+                           <div class = "fileThumb">
+                           
+                           </div>
+                        </div>
+                           
                      </div>
+                     
+                     <div class="row">
+                        <div class="hygiene col-md-6">
+                           <div class="form-group bmd-form-group is-focused">
+                              <label class="bmd-label-floating">위생확인증</label> 
+                              
+                           </div>
+                           
+                           <div style = "margin-bottom: 10px">                        
+                              <input type="file" name="hygiene" class="form-control" id="inputGroupFile02" >
+                           </div>
+                           
+                           <div class = "fileThumb">
+                           
+                           </div>
+                        </div>
+                        
+                        <div class="license col-md-6">
+                           <div class="form-group bmd-form-group is-focused">
+                              <label class="bmd-label-floating">사업허가증</label> 
+                              
+                           </div>
+                           
+                           <div style = "margin-bottom: 10px">                        
+                              <input type="file" name="license" class="form-control" id="inputGroupFile02" >
+                           </div>
+                           
+                           <div class = "fileThumb">
+                           
+                           </div>
+                        </div>            
+                     </div>
+                    </div>
+                     
                      
                      <button type="submit" class="cancelBtn btn btn-primary btn-round pull-right">취소</button>
                      <button type="submit" class="modBtn btn btn-danger btn-round pull-right">등록</button>
@@ -130,8 +178,6 @@
       </div>
    </div>
 </div>
-
-
 <script>
 /* manList.sendList(${pageDTO.page} , ${pageDTO.perSheet}).then(res => res.json()).then(result => {
    for (let resultElement of result) {
@@ -148,43 +194,30 @@
    
 }) */
 
-   
-// fileUpload
-document.querySelector("input[name='uploadLogo']").addEventListener("change", function(e){
-   e.preventDefault()
-   console.log(e.target)
-   const fd = new FormData() 
-   const input = document.querySelector("input[name='uploadLogo']")
-   console.dir(input)
-   const files = input.files
-   console.dir(files)
-   for (var i = 0; i < files.length; i++) {
-   fd.append("files", files[i])
-   }
-   console.dir(fd)
-   
-   
-   function sendUpload(){
-      return fetch("/admin/common/manager/upload",{
-         method : 'post',
-         body : fd
-      }).then(res => res.json())
-   }
-   
-   sendUpload().then(result => {
-      for (var i = 0; i < result.length; i++) {
-         let file = result[i]
-         console.log(file.link)
-      document.querySelector(".fileThumb").innerHTML = "<img src='/admin/common/manager/view?link="+file.thumbLink+"' style = 'width: 90px; height: 90px' />" +
-                                           "<button onclick=sendRemove("+JSON.stringify(file)+")'>DEL</button>"
-         
-      }
-   })      
-})
+ 
+document.querySelector(".docUpload").addEventListener("click" , function(e){
+
+	e.target.addEventListener("change", function(e){
+	  	e.preventDefault()
+	    const fd = new FormData() 
+	    const files = e.target.files
+	    fd.append("files", files[0])   
+	    service.sendUpload(fd)    
+	})
+	
+} , false)
+
+
+// registerPost
+
+
+
+
+
+
+
 
 // removeFile
-
-
 
 function sendRemove(param){
    
@@ -197,6 +230,18 @@ function sendRemove(param){
    }).then(res => console.log(res))
 }
 
+//juso
+function goPopup(){
+   // 주소검색을 수행할 팝업 페이지를 호출합니다.
+   // 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrCoordUrl.do)를 호출하게 됩니다.
+   var pop = window.open("/admin/manager/jusoPopup","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+}
+
+
+function jusoCallBack(roadFullAddr){
+      // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+      document.querySelector("#roadFullAddr").value = roadFullAddr;   
+}
 
 
 </script>

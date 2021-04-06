@@ -27,6 +27,27 @@ var service = (function() {
 		}).then(res => res.json())
 	}
 
-        return {deleteNotice:deleteNotice, register:register, upload:upload}
+     function sendUpload(fd){
+      return fetch("/admin/common/manager/doc/upload",{
+         method : 'post',
+         body : fd
+      }).then(res => res.json())
+   }
+   
+   function sendUploadThumb(fd){
+   
+   	sendUpload(fd).then(result => {
+      for (var i = 0; i < result.length; i++) {
+         let file = result[i]
+         console.log(file.link)
+      document.querySelector(".fileThumb").innerHTML = "<img src='/admin/common/manager/view?link="+file.thumbLink+"' style = 'width: 90px; height: 90px' />" +
+                                           "<button onclick=sendRemove("+JSON.stringify(file)+")'>DEL</button>"
+         
+      }
+   })
+   }
+       
+       
+        return {deleteNotice:deleteNotice, register:register, upload:upload , sendUpload:sendUpload, sendUploadThumb:sendUploadThumb}
 
     }())

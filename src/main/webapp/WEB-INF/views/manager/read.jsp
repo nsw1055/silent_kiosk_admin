@@ -67,7 +67,7 @@
 				<p>삭제 하시겠습니까?</p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="delCancel btn btn-secondary"
+				<button type="button" class="delCancel2 btn btn-secondary"
 					data-bs-dismiss="modal">Close</button>
 				<button type="button" class="delDoc btn btn-primary">삭제</button>
 			</div>
@@ -283,6 +283,13 @@ document.querySelector(".delCancel").addEventListener("click" , function(e){
 	$(".modal1").modal("hide")
 } , false)
 
+document.querySelector(".delCancel2").addEventListener("click" , function(e){
+
+	e.preventDefault()
+	
+	$(".modal4").modal("hide")
+} , false)
+
 // approval
  document.querySelector(".approvalBtn").addEventListener("click", function(e){
 	
@@ -379,6 +386,7 @@ document.querySelector(".delCommit2").addEventListener("click" , function(e){
 				$(".modal5").modal("show")	
 			})
 		})
+				
 			 /* function sendDelete(){
 				
 				return fetch("/admin/common/manager/delete", {

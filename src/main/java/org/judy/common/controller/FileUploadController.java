@@ -156,6 +156,64 @@ public class FileUploadController {
 
 	}
 
+	@PostMapping(value = "/manager/doc/upload", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ManagerFileDTO>> postDocUpload(MultipartFile[] files) {
+
+		String path = "C:\\upload\\temp\\admin\\manager";
+		
+		
+		List<ManagerFileDTO> fileList = new ArrayList<>();
+
+		for (MultipartFile multipartFile : files) {
+
+			log.info(multipartFile);
+			log.info(multipartFile.getOriginalFilename());
+
+			UUID uuid = UUID.randomUUID();
+
+			String savePath = getFolder();
+
+			File uploadPath = new File(path, getFolder());
+
+			String fileName = uuid.toString() + "_" + multipartFile.getOriginalFilename();
+
+			String sFileName = "s_" + uuid.toString() + "_" + multipartFile.getOriginalFilename();
+
+			boolean isImage = multipartFile.getContentType().startsWith("image");
+
+			if (uploadPath.exists() == false) {
+				uploadPath.mkdirs();
+			}
+
+			File saveFile = new File(uploadPath, fileName);
+
+			ManagerFileDTO fileDTO = ManagerFileDTO.builder().fileName(multipartFile.getOriginalFilename())
+					.uploadPath(savePath).uuid(uuid.toString()).image(isImage).build();
+
+			try {
+				multipartFile.transferTo(saveFile);
+
+				if (isImage) {
+
+					FileOutputStream fos = new FileOutputStream(new File(uploadPath, sFileName));
+
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 90, 90);
+
+					fos.close();
+				}
+
+				fileList.add(fileDTO);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} // end for
+
+		return new ResponseEntity<List<ManagerFileDTO>>(fileList, HttpStatus.OK);
+
+	}
+	
 	@GetMapping(value = "/manager/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadDoc(String link) {
