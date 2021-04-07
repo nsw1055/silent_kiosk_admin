@@ -47,7 +47,15 @@ var service = (function() {
    })
    }
        
+    function sendRegister(obj){
+		return fetch("/admin/manager/register" , {
+			method : 'post',
+			headers : {"Content-Type":"application/json"},
+			body : JSON.stringify(obj)
+		}).then(res => res.text())
+	}   
        
-        return {deleteNotice:deleteNotice, register:register, upload:upload , sendUpload:sendUpload, sendUploadThumb:sendUploadThumb}
+       
+        return {deleteNotice:deleteNotice, register:register, upload:upload , sendUpload:sendUpload, sendUploadThumb:sendUploadThumb , sendRegister:sendRegister}
 
     }())

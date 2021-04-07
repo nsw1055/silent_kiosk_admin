@@ -51,12 +51,15 @@ public class ManagerMapperTests {
 	@Test
 	public void testInsert() {
 		log.info("insert.....");
-		for (int i = 101; i <= 200; i++) {
+		for (int i = 301; i <= 400; i++) {
 			Manager manager = Manager.builder().mid("user"+i)
 											.mpw("1234")
 											.email("asdf@asdf.asd")
 											.phone("01012345678")
-											.logoImg("/resources/img/noimg.jpg")
+											.cdn("C:\\upload\\temp\\ksdjflks.jpg")
+											.health("C:\\upload\\temp\\awqdfs.jpg")
+											.hygiene("C:\\upload\\temp\\12345lks.jpg")
+											.license("C:\\upload\\temp\\uw325flks.jpg")
 											.build();
 											
 		mapper.registerMan(manager);

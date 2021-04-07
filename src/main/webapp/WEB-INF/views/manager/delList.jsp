@@ -46,11 +46,9 @@
 						<div class="table-responsive">
 							<table class="table">
 								<thead class=" text-primary">
-									<th>LOGO</th>
 									<th>ID</th>
 									<th>Email</th>
 									<th>Phone</th>
-									<th>Sname</th>
 									<th>Enabled</th>
 									<th>Approval</th>
 									<th>RegDate</th>
@@ -59,11 +57,9 @@
 								<tbody class="tableList">
 								<c:forEach items="${list }" var="manager">
 								<tr class="readBtn" data-mid = ${manager.mid }>
-								<td><img src= ${manager.logoImg }/></td>
 								<td>${manager.mid}</td>
 								<td>${manager.email}</td>
 								<td>${manager.phone}</td>
-								<td>${manager.sname}</td>
 								<td>${manager.enabled}</td>
 								<td>${manager.approval}</td>
 								<td>${manager.regdate}</td>

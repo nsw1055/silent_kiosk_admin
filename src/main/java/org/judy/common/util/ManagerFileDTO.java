@@ -23,7 +23,7 @@ public class ManagerFileDTO {
 
 		String fileLinkName = fileName.replace(".", "#");
 
-		String link = uploadPath + "/" + uuid + "_" + fileLinkName;
+		String link = uploadPath + "/" + fileLinkName;
 
 		String encodingLink = "";
 

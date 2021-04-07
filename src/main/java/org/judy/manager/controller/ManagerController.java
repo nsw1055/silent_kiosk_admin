@@ -1,5 +1,14 @@
 package org.judy.manager.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.judy.common.util.PageDTO;
@@ -129,11 +138,78 @@ public class ManagerController {
 	}
 	
 	@PostMapping("/register")
-	public void postRegister() {
+	public ResponseEntity<String> postRegister(@RequestBody ManagerDTO dto) {
 		
-			
+		String path = "C:\\upload\\admin\\manager\\doc\\"+dto.getMid();
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyDoc(dto.getMid(), dto.getCdn());	    
+		copyDoc(dto.getMid(), dto.getHealth());	    
+		copyDoc(dto.getMid(), dto.getHygiene());	    
+		copyDoc(dto.getMid(), dto.getLicense());	
+		
+		
+		
+		managerService.registerMan(dto);
+		
+		return new ResponseEntity<String>("Success" , HttpStatus.OK);
 	}
 	
+	
+	
+	private File encoding(String link, String path) {
+
+		File viewFile = null;
+
+		try {
+			String str = URLDecoder.decode(link, "UTF-8");
+
+			String fileLink = str.replace("#", ".");
+
+			viewFile = new File(path, fileLink);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return viewFile;
+	}
+	
+	private String getFolder() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date date = new Date();
+
+		String str = sdf.format(date);
+
+		return str.replace("-", File.separator);
+
+	}
+	
+	private void copyDoc(String mid, String file) {
+		File tempFile = new File("C:\\upload\\temp\\admin\\manager\\"+getFolder()+"\\"+file);
+		InputStream inputStream;
+		try {
+			inputStream = new FileInputStream(tempFile);
+			log.info("dto.getCdn: "+file);
+			byte[] buffer = new byte[inputStream.available()];
+		    inputStream.read(buffer);
+
+		    File targetFile = new File("C:\\upload\\admin\\manager\\doc\\"+mid+"\\"+file);
+		    OutputStream outStream = new FileOutputStream(targetFile);
+		    outStream.write(buffer);
+		    
+		    outStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		tempFile.delete();
+	}
 	
 	
 }

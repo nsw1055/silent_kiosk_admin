@@ -69,7 +69,13 @@ public class ManagerServiceTests {
 	@Test
 	public void testRegister() {
 		
-		ManagerDTO dto = ManagerDTO.builder().mid("user300").mpw("123123123").phone("010201929").email("sdjflkdsj@gmail.com").logoImg("kdsjfkl").build();
+		ManagerDTO dto = ManagerDTO.builder().mid("user401").mpw("123123123").phone("010201929").email("sdjflkdsj@gmail.com").cdn("C:\\upload\\temp\\ksdjflks.jpg")
+				.health("C:\\upload\\temp\\awqdfs.jpg")
+				.hygiene("C:\\upload\\temp\\12345lks.jpg")
+				.license("C:\\upload\\temp\\uw325flks.jpg")
+				.enabled(true)
+				.approval(true)
+				.build();
 		service.registerMan(dto);
 	}
 	

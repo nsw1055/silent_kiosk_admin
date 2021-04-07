@@ -118,13 +118,7 @@
 					<div class="card-body">
 						<form>
 							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="bmd-label-floating">매장명</label> <input
-											type="text" class="form-control" readonly="readonly"
-											value=${manager.sname }>
-									</div>
-								</div>
+								
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="bmd-label-floating">ID</label> <input
@@ -193,8 +187,8 @@
 						</a>
 					</div>
 					<div class="card-body">
-						<h4 class="card-title">${store.sname }</h4>
-						<p class="card-description">${store.address }</p>
+						<h4 class="card-title">storeName</h4>
+						<p class="card-description">storeAddress</p>
 						<div class="docDiv">
 							<c:forEach items="${store.docFiles }" var="doc">
 								<div class="doctest" style="display: flex; flex-direction: row;">

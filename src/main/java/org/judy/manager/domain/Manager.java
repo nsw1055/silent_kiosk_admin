@@ -24,17 +24,16 @@ public class Manager {
 	
 	String phone;
 	
-	String sname;
-	
 	@Default
 	Boolean enabled = false;
 	@Default
 	Boolean approval = false;
 	
-	String logoImg;
+	String cdn,health,hygiene,license;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	Date regdate, updatedate;
+	
 	
 	
 }

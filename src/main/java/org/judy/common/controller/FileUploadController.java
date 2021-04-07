@@ -1,7 +1,10 @@
 package org.judy.common.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
@@ -157,11 +160,11 @@ public class FileUploadController {
 	}
 
 	@PostMapping(value = "/manager/doc/upload", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<ManagerFileDTO>> postDocUpload(MultipartFile[] files) {
+	public ResponseEntity<List<ManagerFileDTO>> postDocUpload(MultipartFile[] files, String value) {
 
 		String path = "C:\\upload\\temp\\admin\\manager";
 		
-		
+			
 		List<ManagerFileDTO> fileList = new ArrayList<>();
 
 		for (MultipartFile multipartFile : files) {
@@ -175,7 +178,7 @@ public class FileUploadController {
 
 			File uploadPath = new File(path, getFolder());
 
-			String fileName = uuid.toString() + "_" + multipartFile.getOriginalFilename();
+			String fileName = value+"_"+uuid.toString() + "_" + multipartFile.getOriginalFilename();
 
 			String sFileName = "s_" + uuid.toString() + "_" + multipartFile.getOriginalFilename();
 
@@ -187,7 +190,7 @@ public class FileUploadController {
 
 			File saveFile = new File(uploadPath, fileName);
 
-			ManagerFileDTO fileDTO = ManagerFileDTO.builder().fileName(multipartFile.getOriginalFilename())
+			ManagerFileDTO fileDTO = ManagerFileDTO.builder().fileName(fileName)
 					.uploadPath(savePath).uuid(uuid.toString()).image(isImage).build();
 
 			try {
