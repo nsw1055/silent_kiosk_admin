@@ -26,6 +26,34 @@ var service = (function() {
 				body : formdata
 		}).then(res => res.json())
 	}
+	
+	
+	function modify(obj){
+		
+		return fetch("/admin/notice/modify",{
+				method : 'post',
+				headers : {'Content-Type' : 'application/json'},
+				body : JSON.stringify(obj)
+		}).then(res => res.text())
+	}
+	
+	function fileDelete(param){
+	
+		return fetch("/admin/common/notice/delete",{
+			method : 'post',
+			headers : {'Content-Type' : 'application/json'},
+			body : JSON.stringify(param)
+		})
+	}
+	
+	function getFiles(nno){
+	
+		return fetch("/admin/common/notice/getFiles?nno="+nno,{
+			method : 'get'
+		})
+	}
+	
+	
 
      function sendUpload(fd){
       return fetch("/admin/common/manager/doc/upload",{
@@ -56,6 +84,6 @@ var service = (function() {
 	}   
        
        
-        return {deleteNotice:deleteNotice, register:register, upload:upload , sendUpload:sendUpload, sendUploadThumb:sendUploadThumb , sendRegister:sendRegister}
+        return {deleteNotice:deleteNotice, register:register, upload:upload , modify:modify, fileDelete:fileDelete, getFiles:getFiles,sendUpload:sendUpload, sendUploadThumb:sendUploadThumb , sendRegister:sendRegister}
 
     }())

@@ -4,8 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class NoticeFileDTO {
 
 	private String uploadPath;

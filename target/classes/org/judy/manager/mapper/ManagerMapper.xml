@@ -74,8 +74,8 @@
 
 	<insert id="registerMan">
 	<![CDATA[
-  		insert into tbl_manager ( mid , mpw , email , phone , logoimg)
-		values (#{mid} , #{mpw} , #{email} , #{phone} , #{logoImg})
+  		insert into tbl_manager ( mid , mpw , email , phone , cdn , health , hygiene , license)
+		values (#{mid} , #{mpw} , #{email} , #{phone} , #{cdn} , #{health} , #{hygiene} , #{license})
   		]]>
 	</insert>
 	

@@ -16,5 +16,10 @@ public interface NoticeMapper {
 	int getTotal(PageDTO pageDTO);
 	
 	void delete(Integer nno);
+	
+	int insertSelectKey(Notice vo);
+	
+	void update(Notice vo);
+	
 
 }

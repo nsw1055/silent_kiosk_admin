@@ -1,6 +1,9 @@
 package org.judy.notice.dto;
 
 import java.sql.Date;
+import java.util.ArrayList;
+
+import org.judy.common.util.NoticeFileDTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -17,5 +20,6 @@ public class NoticeDTO {
 	private String category;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date regdate, updatedate;
+	private ArrayList<NoticeFileDTO> list;
 
 }

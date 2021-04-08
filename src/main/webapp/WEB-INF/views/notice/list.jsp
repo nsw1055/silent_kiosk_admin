@@ -48,8 +48,8 @@
 							<table class="table">
 								<thead class=" text-primary">
 									<th>Nno</th>
+									<th>Category</th>
 									<th>Title</th>
-									<th>Content</th>
 									<th>Writer</th>
 									<th>regDate</th>
 									<th>updateDate</th>
@@ -58,8 +58,8 @@
 								<c:forEach items="${list}" var="notice" >
 								<tr data-nno="${notice.nno }">
 								<td>${notice.nno }</td>
+								<td>${notice.category }</td>
 								<td>${notice.title }</td>
-								<td>${notice.content }</td>
 								<td>${notice.writer }</td>
 								<td>${notice.regdate }</td>
 								<td>${notice.updatedate }</td>
@@ -202,6 +202,10 @@ document.querySelector(".tList").addEventListener("click", function(e){
 	const nno = e.target.parentNode.getAttribute("data-nno")
 	
 	console.log(nno)
+	
+	if(nno === null){
+		return;
+	}
 	
 	actionForm.innerHTML += "<input type='hidden' name='nno' value='"+ nno +"'>"
 

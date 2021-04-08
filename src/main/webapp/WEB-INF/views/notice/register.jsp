@@ -46,7 +46,6 @@
                      <div class="row">
                       	<div class="col-md-12">
                       		<input style="height:10vh;" type="file" multiple="multiple" name="files">
-                      		<button class="uploadBtn">upload</button>
                       	</div>
                      </div>
                      <div class="row">
@@ -130,19 +129,36 @@
 	 $("#registerModal").modal("show")
 
 	}, false)
-	
 
+	const fileUl = document.querySelector(".fileUl")
+	
+	console.log(fileUl)
+	
 	document.querySelector(".modalRegisterBtn").addEventListener("click", function(e) {
 		
 		const title = document.querySelector("input[name='title']").value
-		
 		const category = document.querySelector("input[name='category']").value
-		
 		const writer = document.querySelector("input[name='writer']").value
-		
 		const content = document.querySelector("textarea[name='content']").value
 		
-		const obj = {title:title, category:category, writer:writer, content:content}
+		const arr = []
+		
+		const fileLis = fileUl.querySelectorAll("li")
+		
+		for(var fileLi of fileLis){
+		
+		const uuid = fileLi.getAttribute('data-uuid')
+		const fileName = fileLi.getAttribute('data-fileName')
+		const uploadPath = fileLi.getAttribute('data-uploadPath')
+		const image = fileLi.getAttribute('data-image')
+		
+		const fileObj = {uuid:uuid, fileName:fileName, uploadPath:uploadPath, image:image}
+		
+		arr.push(fileObj)
+		
+		}
+		
+		const obj = {title:title, category:category, writer:writer, content:content, list:arr}
 		
 		service.register(obj).then(result => document.querySelector(".checkModalBody").innerHTML += "<p>"+result+"<p>");
 		
@@ -161,8 +177,6 @@
 	},false)
 	
 	
-	
-	const fileUl = document.querySelector(".fileUl")
 	
 	document.querySelector("input[name='files']").addEventListener("change", function(e){
 		
@@ -188,10 +202,10 @@
 			if(!file.image){
 				
 					console.log(file.link)			
-					fileUl.innerHTML += "<li><a href='/admin/common/notice/download?link="+file.link+"'><i class='fas fa-file'></i></a>"+file.fileName+"<button onclick='delTempImg()'>삭제</button></li>" 
+					fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'><a href='/admin/common/notice/download?link="+file.link+"'><i class='fas fa-file'></i></a>"+file.fileName+"<button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>" 
 			
 			}else{
-			fileUl.innerHTML += "<li>"+file.fileName+"<img src='/admin/common/notice/view?link="+file.thumbLink+"'/><button onclick=''>삭제</button></li>"
+			fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'>"+file.fileName+"<img src='/admin/common/notice/view?link="+file.thumbLink+"'/><button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>"
 
 			}	
 		}})
@@ -206,11 +220,17 @@
 		
 	},false)
 	
-	function delTempImg(){
+	function delTempImg(event, file){
 		
-		e.preventDefault();
+		event.preventDefault()
+		
+		const fileLi = document.querySelector("#li"+file.uuid)
+		
+		fileLi.remove()
+		
+		
+
 	}
 	
 </script>
-
 <%@ include file="../includes/footer.jsp"%>

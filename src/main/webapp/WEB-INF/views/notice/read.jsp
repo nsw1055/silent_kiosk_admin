@@ -14,11 +14,13 @@
 						<h5><c:out value=" ${notice.regdate }"></c:out></h5>
 					</div>
 					<div class="contentBox card-body noticeContent">
-						<h4><c:out value="${notice.content }"></c:out> </h4>
-		
+				<div class="fileDiv" style="text-align: center;">
+				</div>
+						<div style="white-space:pre;"><h4><c:out value="${notice.content }"></c:out></h4></div> 
 					</div>
 					<div class="btnContainer">
 					<button class="btn btn-primary btn-round deleteBtn" >삭제</button>
+					<button class="btn btn-primary btn-round modifyBtn" >수정</button>
 					</div>	
 				</div>
 			</div>
@@ -104,7 +106,31 @@ document.querySelector(".checkBtn").addEventListener("click", function(){
 		
 	},false)
 	
+document.querySelector(".modifyBtn").addEventListener("click", function(e){
+	
+	actionForm.innerHTML += "<input type='hidden' name='nno' value='${notice.nno}'>"
+	
+	actionForm.setAttribute("action", "/admin/notice/modify")
+	
+	actionForm.submit()
+}, false)
 
+
+service.getFiles(${nno}).then(res=>res.json()).then(files => {
+
+   let str=""
+
+	for(const file of files){
+		
+	if(file.image){
+		str += "<li id='li"+file.uuid+"'>"+file.fileName+"<img style='width:30vw;' src='/admin/common/notice/view?link="+file.link+"'/></li>"
+	}else{
+		str += "<li id='li"+file.uuid+"'><a href='/admin/common/notice/download?link="+file.link+"'><i class='fas fa-file'></i></a>"+file.fileName+"</li>" 
+	}
+}
+   document.querySelector(".fileDiv").innerHTML += str
+   
+   })
 
 
 </script>

@@ -5,25 +5,28 @@
 <mapper namespace="org.judy.notice.mapper.NoticeMapper">
 	<sql id="search">
 		<where>
-		<if test="arr != null">
-		<foreach collection="arr" item="type" separator="or" open="(" close=")">
-				<if test="type=='t'.toString()">
-					title like concat('%',#{keyword},'%')
-				</if>
-				<if test="type=='c'.toString()">
-					content like concat('%',#{keyword},'%')
-				</if>
-				<if test="type == 'y'.toString()">
-					category like concat('%',#{keyword},'%')
-				</if>
-			</foreach>
+			enabled = 1
+			<if test="arr != null">
+				and
+				<foreach collection="arr" item="type" separator="or"
+					open="(" close=")">
+					<if test="type=='t'.toString()">
+						title like concat('%',#{keyword},'%')
+					</if>
+					<if test="type=='c'.toString()">
+						content like concat('%',#{keyword},'%')
+					</if>
+					<if test="type == 'y'.toString()">
+						category like concat('%',#{keyword},'%')
+					</if>
+				</foreach>
 			</if>
-			</where>
+		</where>
 	</sql>
 
 	<select id="getList" resultType="org.judy.notice.domain.Notice">
 		select * from tbl_notice
-			<include refid="search"></include>
+		<include refid="search"></include>
 		order by nno desc limit #{skip}, #{perSheet}
 
 	</select>
@@ -38,13 +41,22 @@
 		<include refid="search"></include>
 	</select>
 
+
 	<insert id="insert">
-		insert into tbl_notice (title,content,writer,category) 
-		values(#{title}, #{content}, #{writer}, #{category})
+		<selectKey resultType="Integer" keyProperty="nno"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tbl_notice (nno,title,content,writer,category)
+		values(#{nno},#{title}, #{content}, #{writer}, #{category})
 	</insert>
 
-	<delete id="delete">
-		delete from tbl_notice where nno = #{nno}
-	</delete>
+	<update id="delete">
+		update tbl_notice set enabled = 0 where nno = #{nno};
+	</update>
+	
+	<update id="update">
+		update tbl_notice set title=#{title}, content=#{content}, category=#{category}, updatedate=now() where nno = #{nno};
+	</update>
 
 </mapper>
