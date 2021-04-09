@@ -1,8 +1,11 @@
 package org.judy.store.dto;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.judy.store.domain.DocumentFile;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +22,9 @@ public class StoreDTO {
 	private Integer sno;
 	private double lat,lng;
 	private String address,category;
+	private String logoImg;
 	
-	private List<DocumentFile> docFiles;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private Date regdate, updatedate;
 	
 }

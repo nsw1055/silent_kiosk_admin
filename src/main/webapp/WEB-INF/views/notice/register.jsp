@@ -202,7 +202,7 @@
 			if(!file.image){
 				
 					console.log(file.link)			
-					fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'><a href='/admin/common/notice/download?link="+file.link+"'><i class='fas fa-file'></i></a>"+file.fileName+"<button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>" 
+					fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'><i class='fas fa-file'></i>"+file.fileName+"<button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>" 
 			
 			}else{
 			fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'>"+file.fileName+"<img src='/admin/common/notice/view?link="+file.thumbLink+"'/><button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>"

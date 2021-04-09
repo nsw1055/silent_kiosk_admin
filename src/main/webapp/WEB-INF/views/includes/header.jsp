@@ -32,6 +32,7 @@ The above copyright notice and this permission notice shall be included in all c
   <link href="../resources/assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../resources/assets/demo/demo.css" rel="stylesheet" />
+ 
   
 </head>
 
@@ -58,6 +59,12 @@ The above copyright notice and this permission notice shall be included in all c
             <a class="nav-link" href="/admin/manager/list">
               <i class="material-icons">content_paste</i>
               <p>회원관리</p>
+            </a>
+          </li>
+          <li class="nav-item  ">
+            <a class="nav-link" href="/admin/store/read?mid=">
+              <i class="material-icons">person</i>
+              <p>마이페이지</p>
             </a>
           </li>
         </ul>

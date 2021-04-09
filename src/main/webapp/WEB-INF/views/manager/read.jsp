@@ -190,7 +190,7 @@
 						<h4 class="card-title">storeName</h4>
 						<p class="card-description">storeAddress</p>
 						<div class="docDiv">
-							<c:forEach items="${store.docFiles }" var="doc">
+							<%-- <c:forEach items="${store.docFiles }" var="doc">
 								<div class="doctest" style="display: flex; flex-direction: row;">
 									<p class="docFile card-description"
 										data-href="${doc.muploadPath }/${doc.muuid }_${doc.mfileName }">${doc.mfileName }</p>
@@ -200,7 +200,7 @@
 										<i class="material-icons" style="margin-bottom: auto;">close</i>
 									</button>
 								</div>
-							</c:forEach>
+							</c:forEach> --%>
 						</div>
 
 

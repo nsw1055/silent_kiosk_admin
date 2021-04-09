@@ -141,7 +141,7 @@
                     </div>
                      
                      
-                     <button type="submit" class="cancelBtn btn btn-primary btn-round pull-right">취소</button>
+                     <button class="cancelBtn btn btn-primary btn-round pull-right">취소</button>
                      <button type="submit" class="regBtn btn btn-danger btn-round pull-right">등록</button>
                      
                      
@@ -203,7 +203,10 @@ document.querySelector(".docUpload").addEventListener("click" , function(e){
 } , false)
 
 
-
+document.querySelector(".cancelBtn").addEventListener("click" , function(e) {
+	e.preventDefault()
+	location.href = "/admin/manager/list"
+})
 
 // registerPost
 
@@ -215,12 +218,13 @@ document.querySelector(".regBtn").addEventListener("click" , function(e) {
 	
 	 for (let i of input.length) {
 		obj[form.elements[i].name] = form.elements[i].value
-	}
+	} 
 	
 	obj.cdn = document.querySelector("input[name='cdn']").dataset.filename
 	obj.health = document.querySelector("input[name='health']").dataset.filename
 	obj.hygiene = document.querySelector("input[name='hygiene']").dataset.filename
 	obj.license = document.querySelector("input[name='license']").dataset.filename
+	
 	
 	service.sendRegister(obj).then(result => {$(".regModal").modal("show")}) 
 	
