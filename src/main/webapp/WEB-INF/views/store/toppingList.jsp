@@ -4,6 +4,107 @@
 <%@ include file="../includes/header.jsp"%>
 
 
+<div class="modModal modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+			</div>
+			<form action="/admin/store/menuModify" class="actionForm"
+				method="post">
+				<div class="modal-body">
+					<div class="card card-stats">
+						<div class="card-header card-header-warning card-header-icon">
+							<div class="card-icon">
+								<i class="material-icons">content_copy</i>
+							</div>
+
+							<div class="form-group">
+								<input type="hidden" class="form-control" name='tno' value="">
+							</div>
+
+							<div class="form-group">
+								<label class="bmd-label-floating"></label> <input type="text"
+									class="form-control" name='tname' value="">
+							</div>
+							<div class="form-group">
+								<label class="bmd-label-floating"></label> <input type="text"
+									class="form-control" name='tprice' value="">
+							</div>
+							<div class="form-group">
+								<label class="bmd-label-floating"></label> <input type="text"
+									class="form-control" name='timg' value="">
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="modCommit btn btn-primary">확인</button>
+					<button type="button" class="modClose btn btn-danger">취소</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="commitModal modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+			</div>
+			<div class="modal-body">
+				<p>수정되었습니다</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="modConfirm btn btn-primary">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="delModal modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>메뉴를 삭제 하시겠습니까?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="delCancel btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+				<button type="button" class="delAgree btn btn-primary">삭제</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="delModalCon modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+			</div>
+			<div class="modal-body">
+				<p>삭제하였습니다.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="delCommit btn btn-primary">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -17,53 +118,69 @@
 					</div>
 
 					<div class="card-body">
-					 <ul class="navCat nav nav-pills nav-fill">
-                            <li class="nav-item"><a class="catNav nav-link " data-value="1">메인메뉴</a></li>
-                            <li class="nav-item"><a class="catNav nav-link " data-value="2">사이드메뉴</a></li>
-                            <li class="nav-item"><a class="catNav nav-link " data-value="3">음료</a></li>
-                            <li class="nav-item"><a class="navTopp nav-link active" data-value="topp">토핑</a></li>
-                        </ul>
-					
+
+						<ul class="navCat nav nav-pills nav-fill">
+							<li class="nav-item"><a class="catNav nav-link "
+								data-value="1">메인메뉴</a></li>
+							<li class="nav-item"><a class="catNav nav-link "
+								data-value="2">사이드메뉴</a></li>
+							<li class="nav-item"><a class="catNav nav-link "
+								data-value="3">음료</a></li>
+							<li class="nav-item"><a class="navTopp nav-link active"
+								data-value="topp">토핑</a></li>
+						</ul>
+
 						<div class="row">
-						<c:forEach items="${topping }" var ="topping">
-						
-            <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <h3 class="card-title">${topping.TName }  </h3>
-                  <p class="card-category">${topping.TPrice }</p>
-                   <p class="card-category">${topping.TImg }</p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                  </div>
-                </div>
-              </div>
-          </div>
-          </c:forEach>
+							<c:forEach items="${topping }" var="topping">
+
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<div class="menuInfo card card-stats">
+										<div class="card-header card-header-warning card-header-icon">
+											<div class="card-icon">
+												<i class="material-icons">content_copy</i>
+											</div>
+											<h5 class="tname card-title">${topping.tname }</h5>
+											<p class="tprice card-category">${topping.tprice }</p>
+											<p class="timg card-category">${topping.timg }</p>
+
+										</div>
+										<div class="card-footer">
+											<div class="menuBtn stats" data-mno="${topping.tno }">
+												<button type="submit"
+													class="modBtn btn btn-primary pull-right"
+													style="padding: 5px;">수정</button>
+												<button type="submit"
+													class="delBtn btn btn-danger pull-right"
+													style="padding: 5px;">삭제</button>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
 
 
+						</div>
 					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
 	</div>
-</div>
-<form class="actionForm" action="/admin/store/menuList" method="get">
-        <input type="hidden" name="sno" value="10">
-        <input type="hidden" name="cno" value="">
 
-    </form>
+	<form class="actionForm2" action="/admin/store/menuList" method="get">
+		<input type="hidden" name="sno" value="10"> <input
+			type="hidden" name="cno" value="">
 
-<script type="text/javascript" src="/resources/service.js"></script>
+	</form>
 
-<script>
+
+	<script type="text/javascript" src="../resources/service.js"></script>
+
+	<script>
 const actionForm = document.querySelector(".actionForm")
-
+const actionForm2 = document.querySelector(".actionForm2")
+//category
 document.querySelector(".navCat").addEventListener("click", function(e){
 
     e.preventDefault()
@@ -74,15 +191,92 @@ document.querySelector(".navCat").addEventListener("click", function(e){
     
     if (cno == "topp"){
     	
-    	actionForm.action ="/admin/store/toppingList"
+    	actionForm2.action ="/admin/store/toppingList"
     	
     }
 
- 	actionForm.submit()
+ 	actionForm2.submit()
 
 }, false)
+
+
+
+//toppingModify
+	
+	document.querySelectorAll(".menuInfo").forEach(event => {
+		event.addEventListener("click", function(e){
+			
+			const tno = e.currentTarget.querySelector(".menuBtn").getAttribute("data-mno")
+			const tname = e.currentTarget.querySelector(".tname").innerHTML
+			const tprice = e.currentTarget.querySelector(".tprice").innerHTML
+			const timg = e.currentTarget.querySelector(".timg").innerHTML
+			
+			if(e.target == e.currentTarget.querySelector(".modBtn")){
+				
+				document.querySelector("input[name='tno']").value = tno
+				document.querySelector("input[name='tname']").value = tname
+				document.querySelector("input[name='tprice']").value = tprice
+				document.querySelector("input[name='timg']").value = timg
+				
+				$(".modModal").modal("show")
+			}else if(e.target == e.currentTarget.querySelector(".delBtn")){
+				$(".delModal").modal("show")
+				
+				document.querySelector(".delAgree").addEventListener("click" , function(e){
+            
+            fetch("/admin/store/toppingDelete" , {
+               method : 'post' , 
+               headers : {"Content-Type" : "application/json"} ,
+               body : JSON.stringify(tno)
+            }).then(res => res.text()).then(result => {
+            	$(".delModal").modal("hide")
+            	$(".delModalCon").modal("show")
+               console.log("삭제")
+         } , false)
+			})
+			
+			
+	}
+		
+	})
+	})
+	
+
+
+	 document.querySelector(".modCommit").addEventListener("click" , function(e){
+		e.preventDefault()
+		
+		const tname = document.querySelector("input[name='tname']").value
+		const tprice = document.querySelector("input[name='tprice']").value
+		const timg = document.querySelector("input[name='timg']").value
+		const tno = document.querySelector("input[name='tno']").value
+	
+		const toppingDTO = {tno:tno , tname:tname , tprice : tprice , timg:timg}
+		console.log(tprice)
+		console.log(timg)
+		console.log(JSON.stringify(toppingDTO))
+		fetch("/admin/store/toppingModify" , {
+			method : 'post',
+			headers : {"Content-Type" : "application/json;"} ,
+			body : JSON.stringify(toppingDTO)
+		}).then(res => res.text()).then(result => {
+			$(".modModal").modal("hide")
+			$(".commitModal").modal("show")})
+		
+	} , false)
+	
+	document.querySelector(".modConfirm").addEventListener("click" , function(e){
+		location.reload()
+	} , false)
+	   document.querySelector(".delCancel").addEventListener("click" , function(e){
+		   $(".delModal").modal("hide")
+   } , false)
+      
+   document.querySelector(".delCommit").addEventListener("click" , function(e){
+	   location.reload()
+   } , false)
 
 </script>
 
 
-<%@ include file="../includes/footer.jsp"%>
+	<%@ include file="../includes/footer.jsp"%>

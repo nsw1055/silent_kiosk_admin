@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class Topping {
 
 	private Integer tno,sno;
-	private String tPrice,tImg,tName;
+	private String tprice,timg,tname;
 }

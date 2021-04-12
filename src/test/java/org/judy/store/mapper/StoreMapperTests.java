@@ -36,24 +36,29 @@ public class StoreMapperTests {
 	
 	@Test
 	public void testGetMenu() {
-		log.info(mapper.getMenu(10, 1));
+		log.info(mapper.getMenu(10,1));
+	}
+	
+	@Test
+	public void testGetOneMenu() {
+		log.info(mapper.getOneMenu(1));
 	}
 	
 	@Test
 	public void testInsertMenu() {
-		Menu menu = Menu.builder().sno(10).menuName("냉까스").content("신메뉴").mPrice("8000").mImg("냉까스사진").category("돈까스").build();
+		Menu menu = Menu.builder().sno(10).menuName("냉까스").content("신메뉴").mprice("8000").mimg("냉까스사진").category("돈까스").build();
 		mapper.insertMenu(menu);
 	}
 	
 	@Test
 	public void testDelMenu() {
 		mapper.delMenu(11);
-		log.info(mapper.getMenu(10, 1));
+		log.info(mapper.getMenu(10,1));
 	}
 	
 	@Test
 	public void testUpdateMenu() {
-		Menu menu = Menu.builder().mno(12).menuName("냉까스").content("신메뉴").mPrice("9000").mImg("냉까스사진").category("돈까스").build();
+		Menu menu = Menu.builder().mno(12).menuName("냉까스").content("신메뉴").mprice("9000").mimg("냉까스사진").category("돈까스").build();
 		mapper.updateMenu(menu);
 	
 	}
@@ -66,8 +71,13 @@ public class StoreMapperTests {
 	}
 	
 	@Test
+	public void testGetOneTopping() {
+		log.info(mapper.getOneTopping(8));
+	}
+	
+	@Test
 	public void testInsertTop() {
-		Topping topping = Topping.builder().sno(10).tName("짬뽕국물").tPrice("100").tImg("짬뽕사진").build();
+		Topping topping = Topping.builder().sno(10).tname("짬뽕국물").tprice("100").timg("짬뽕사진").build();
 		mapper.insertTop(topping);
 	}
 	
@@ -79,7 +89,7 @@ public class StoreMapperTests {
 	
 	@Test
 	public void testUpdateTop() {
-		Topping topping = Topping.builder().tno(14).tName("오뎅국물").tPrice("100").tImg("오뎅사진").build();
+		Topping topping = Topping.builder().tno(14).tname("오뎅국물").tprice("100").timg("오뎅사진").build();
 		mapper.updateTop(topping);
 	}
 }

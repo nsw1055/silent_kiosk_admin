@@ -19,6 +19,8 @@ public interface StoreService {
 	// MENU
 	List<MenuDTO> getMenu(Integer sno, Integer cno);
 	
+	MenuDTO getOneMenu(Integer mno);
+	
 	void insertMenu(MenuDTO menuDTO);
 	
 	void delMenu(Integer mno);
@@ -27,6 +29,8 @@ public interface StoreService {
 	
 	// TOPPING
 	List<ToppingDTO> getTopping(Integer sno);
+	
+	ToppingDTO getOneTopping(Integer tno);
 	
 	void insertTop(ToppingDTO toppingDTO);
 	
@@ -71,9 +75,9 @@ public interface StoreService {
 				.mno(dto.getMno())
 				.sno(dto.getSno())
 				.menuName(dto.getMenuName())
-				.mPrice(dto.getMPrice())
+				.mprice(dto.getMprice())
 				.content(dto.getContent())
-				.mImg(dto.getMImg())
+				.mimg(dto.getMimg())
 				.category(dto.getCategory())
 				.build();
 		return menu;
@@ -83,9 +87,9 @@ public interface StoreService {
 				.mno(menu.getMno())
 				.sno(menu.getSno())
 				.menuName(menu.getMenuName())
-				.mPrice(menu.getMPrice())
+				.mprice(menu.getMprice())
 				.content(menu.getContent())
-				.mImg(menu.getMImg())
+				.mimg(menu.getMimg())
 				.category(menu.getCategory())
 				.build();
 		return dto;
@@ -95,9 +99,9 @@ public interface StoreService {
 		Topping topping = Topping.builder()
 				.tno(dto.getTno())
 				.sno(dto.getSno())
-				.tPrice(dto.getTPrice())
-				.tImg(dto.getTImg())
-				.tName(dto.getTName())
+				.tprice(dto.getTprice())
+				.timg(dto.getTimg())
+				.tname(dto.getTname())
 				.build();
 		return topping;
 	}
@@ -106,9 +110,9 @@ public interface StoreService {
 		ToppingDTO dto = ToppingDTO.builder()
 				.tno(topping.getTno())
 				.sno(topping.getSno())
-				.tPrice(topping.getTPrice())
-				.tImg(topping.getTImg())
-				.tName(topping.getTName())
+				.tprice(topping.getTprice())
+				.timg(topping.getTimg())
+				.tname(topping.getTname())
 				.build();
 		return dto;
 	}

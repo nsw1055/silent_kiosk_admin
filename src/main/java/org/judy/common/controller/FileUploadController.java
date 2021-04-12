@@ -168,9 +168,9 @@ public class FileUploadController {
 
 			String fileName = uuid.toString() + "_" + multipartFile.getOriginalFilename();
 
-			String sFileName = "s_" + uuid.toString() + "_" + multipartFile.getOriginalFilename();
+			//String sFileName = "s_" + uuid.toString() + "_" + multipartFile.getOriginalFilename();
 
-			boolean isImage = multipartFile.getContentType().startsWith("image");
+			//boolean isImage = multipartFile.getContentType().startsWith("image");
 
 			if (uploadPath.exists() == false) {
 				uploadPath.mkdirs();
@@ -179,19 +179,20 @@ public class FileUploadController {
 			File saveFile = new File(uploadPath, fileName);
 
 			ManagerFileDTO fileDTO = ManagerFileDTO.builder().fileName(multipartFile.getOriginalFilename())
-					.uploadPath(savePath).uuid(uuid.toString()).image(isImage).build();
+					.uploadPath(savePath).uuid(uuid.toString()).build();
 
 			try {
 				multipartFile.transferTo(saveFile);
 
-				if (isImage) {
-
-					FileOutputStream fos = new FileOutputStream(new File(uploadPath, sFileName));
-
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 90, 90);
-
-					fos.close();
-				}
+				/*
+				 * if (isImage) {
+				 * 
+				 * FileOutputStream fos = new FileOutputStream(new File(uploadPath, sFileName));
+				 * 
+				 * Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 90, 90);
+				 * 
+				 * fos.close(); }
+				 */
 
 				fileList.add(fileDTO);
 
@@ -226,7 +227,7 @@ public class FileUploadController {
 
 			String fileName = value+"_"+uuid.toString() + "_" + multipartFile.getOriginalFilename();
 
-			String sFileName = "s_" + uuid.toString() + "_" + multipartFile.getOriginalFilename();
+			//String sFileName = "s_" + uuid.toString() + "_" + multipartFile.getOriginalFilename();
 
 			boolean isImage = multipartFile.getContentType().startsWith("image");
 
@@ -242,14 +243,15 @@ public class FileUploadController {
 			try {
 				multipartFile.transferTo(saveFile);
 
-				if (isImage) {
-
-					FileOutputStream fos = new FileOutputStream(new File(uploadPath, sFileName));
-
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 90, 90);
-
-					fos.close();
-				}
+				/*
+				 * if (isImage) {
+				 * 
+				 * FileOutputStream fos = new FileOutputStream(new File(uploadPath, sFileName));
+				 * 
+				 * Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 90, 90);
+				 * 
+				 * fos.close(); }
+				 */
 
 				fileList.add(fileDTO);
 

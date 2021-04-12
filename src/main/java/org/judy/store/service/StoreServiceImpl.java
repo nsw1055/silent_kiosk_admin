@@ -45,6 +45,11 @@ public class StoreServiceImpl implements StoreService {
 		}).collect(Collectors.toList());
 	
 	}
+	
+	@Override
+	public MenuDTO getOneMenu(Integer mno) {
+		return toDtoMenu(mapper.getOneMenu(mno));
+	}
 
 	@Override
 	public void insertMenu(MenuDTO menuDTO) {
@@ -72,6 +77,11 @@ public class StoreServiceImpl implements StoreService {
 			return toDtoTop(topping);
 		}).collect(Collectors.toList());
 	}
+	
+	@Override
+	public ToppingDTO getOneTopping(Integer tno) {
+		return toDtoTop(mapper.getOneTopping(tno));
+	}
 
 	@Override
 	public void insertTop(ToppingDTO toppingDTO) {
@@ -92,6 +102,10 @@ public class StoreServiceImpl implements StoreService {
 		mapper.updateTop(topping);
 		
 	}
+
+	
+
+	
 
 	
 	

@@ -42,8 +42,13 @@ public class StoreServiceTests {
 	}
 	
 	@Test
+	public void testGetOneMenu() {
+		log.info(service.getOneMenu(1)); 
+	}
+	
+	@Test
 	public void testInsertMenu() {
-		MenuDTO menuDTO = MenuDTO.builder().sno(10).menuName("생선까스").content("신메뉴").mPrice("9000").mImg("생선까스사진").category("돈까스").build();
+		MenuDTO menuDTO = MenuDTO.builder().sno(10).menuName("생선까스").content("신메뉴").mprice("9000").mimg("생선까스사진").category("돈까스").build();
 		service.insertMenu(menuDTO);
 	}
 	
@@ -54,7 +59,7 @@ public class StoreServiceTests {
 	
 	@Test
 	public void testUpdateMenu() {
-		MenuDTO menuDTO = MenuDTO.builder().mno(12).menuName("냉까스").content("신메뉴").mPrice("8000").mImg("냉까스사진").category("돈까스").build();
+		MenuDTO menuDTO = MenuDTO.builder().mno(12).menuName("냉까스").content("신메뉴").mprice("8000").mimg("냉까스사진").category("돈까스").build();
 		service.updateMenu(menuDTO);
 	}
 	
@@ -65,8 +70,13 @@ public class StoreServiceTests {
 	}
 	
 	@Test
+	public void testGetOneTopping() {
+		log.info(service.getOneTopping(8));
+	}
+	
+	@Test
 	public void testInsertTop() {
-		ToppingDTO toppingDTO = ToppingDTO.builder().sno(10).tName("오뎅국물").tPrice("10000").tImg("오뎅사진").build();
+		ToppingDTO toppingDTO = ToppingDTO.builder().sno(10).tname("오뎅국물").tprice("10000").timg("오뎅사진").build();
 		service.insertTop(toppingDTO);
 	}
 	
@@ -77,7 +87,7 @@ public class StoreServiceTests {
 	
 	@Test
 	public void testUpdateTopping() {
-		ToppingDTO toppingDTO = ToppingDTO.builder().tno(14).tName("짬뽕국물").tPrice("10000").tImg("짬뽕사진").build();
+		ToppingDTO toppingDTO = ToppingDTO.builder().tno(14).tname("짬뽕국물").tprice("10000").timg("짬뽕사진").build();
 		service.updateTop(toppingDTO);
 	}
 }

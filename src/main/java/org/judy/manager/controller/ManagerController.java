@@ -193,6 +193,7 @@ public class ManagerController {
 	
 	private void copyDoc(String mid, String file) {
 		File tempFile = new File("C:\\upload\\temp\\admin\\manager\\"+getFolder()+"\\"+file);
+		log.info(tempFile);
 		InputStream inputStream;
 		try {
 			inputStream = new FileInputStream(tempFile);
@@ -204,11 +205,12 @@ public class ManagerController {
 		    OutputStream outStream = new FileOutputStream(targetFile);
 		    outStream.write(buffer);
 		    
+		    inputStream.close();
 		    outStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		tempFile.delete();
+			tempFile.delete();
 	}
 	
 	

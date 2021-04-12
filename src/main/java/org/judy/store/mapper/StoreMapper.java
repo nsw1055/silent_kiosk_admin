@@ -20,6 +20,10 @@ public interface StoreMapper {
 	
 	public List<Menu> getMenu(@Param("sno") Integer sno, @Param("cno") Integer cno);
 	
+	public Topping getOneTopping(Integer tno);
+	
+	public Menu getOneMenu(Integer mno);
+	
 	public void insertMenu(Menu menu);
 	
 	public void delMenu(Integer mno);

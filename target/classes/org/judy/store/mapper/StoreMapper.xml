@@ -40,9 +40,15 @@
 		]]>
 	</select>
 	
+	<select id="getOneMenu" resultType="org.judy.store.domain.Menu">
+		<![CDATA[
+		select * from tbl_store_menu where mno = #{mno}
+		]]>
+	</select>
+	
 	<insert id="insertMenu">
 		<![CDATA[
-  		insert into tbl_store_menu (sno , menuName ,content , mPrice , mImg , category	) values (#{sno} ,#{menuName} , #{content} , #{mPrice} , #{mImg} , #{category})
+  		insert into tbl_store_menu (sno , menuName ,content , mprice , mimg , category	) values (#{sno} ,#{menuName} , #{content} , #{mprice} , #{mimg} , #{category})
   		]]>
 	</insert>
 	
@@ -54,7 +60,7 @@
 	
 	<update id="updateMenu">
 		<![CDATA[
-  		update tbl_store_menu set menuName= #{menuName}, content = #{content} , mPrice=#{mPrice}, mImg = #{mImg}, category = #{category} where mno = #{mno}
+  		update tbl_store_menu set menuName= #{menuName}, content = #{content} , mprice=#{mprice}, mimg = #{mimg}, category = #{category} where mno = #{mno}
   		]]>
 	</update>
 	
@@ -63,6 +69,12 @@
 	<select id="getTopping" resultType="org.judy.store.domain.Topping">
 		<![CDATA[
 		select * from tbl_store_topping where sno = #{sno}
+		]]>
+	</select>
+	
+	<select id="getOneTopping" resultType="org.judy.store.domain.Topping">
+		<![CDATA[
+		select * from tbl_store_topping where tno = #{tno}
 		]]>
 	</select>
 	
@@ -80,7 +92,7 @@
 	
 	<update id="updateTop">
 		<![CDATA[
-  		update tbl_store_topping set tPrice= #{tPrice}, tImg = #{tImg} , tName = #{tName}  where tno = #{tno}
+  		update tbl_store_topping set tprice= #{tprice}, timg = #{timg} , tname = #{tname}  where tno = #{tno}
   		]]>
 	</update>
 
