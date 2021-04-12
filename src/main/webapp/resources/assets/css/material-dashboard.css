@@ -4322,12 +4322,13 @@ tbody.collapse.show {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
     color: #ffffff;
-    background-color: #2196f3;
+    background-color: #ee6d39;
 }
 
 .nav-fill .nav-item {
     flex: 1 1 auto;
     text-align: center;
+    border: 1px #eee solid;
 }
 
 .nav-justified .nav-item {

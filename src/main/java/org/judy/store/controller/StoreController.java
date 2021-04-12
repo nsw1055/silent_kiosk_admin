@@ -26,9 +26,9 @@ public class StoreController {
 	}
 	
 	@GetMapping("/menuList")
-	public void getMenu(Integer sno, Model model) {
+	public void getMenu(Integer sno, Integer cno, Model model) {
 		
-		model.addAttribute("menu", storeService.getMenu(sno)); 
+		model.addAttribute("menu", storeService.getMenu(sno, cno));
 		
 	}
 	

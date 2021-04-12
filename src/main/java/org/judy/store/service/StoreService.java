@@ -17,7 +17,7 @@ public interface StoreService {
 	void deleteDoc(String muuid);
 	
 	// MENU
-	List<MenuDTO> getMenu(Integer sno);
+	List<MenuDTO> getMenu(Integer sno, Integer cno);
 	
 	void insertMenu(MenuDTO menuDTO);
 	

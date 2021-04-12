@@ -36,7 +36,7 @@ public class StoreMapperTests {
 	
 	@Test
 	public void testGetMenu() {
-		log.info(mapper.getMenu(10));
+		log.info(mapper.getMenu(10, 1));
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class StoreMapperTests {
 	@Test
 	public void testDelMenu() {
 		mapper.delMenu(11);
-		log.info(mapper.getMenu(10));
+		log.info(mapper.getMenu(10, 1));
 	}
 	
 	@Test

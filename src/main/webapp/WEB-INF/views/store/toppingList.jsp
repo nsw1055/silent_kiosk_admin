@@ -17,6 +17,13 @@
 					</div>
 
 					<div class="card-body">
+					 <ul class="navCat nav nav-pills nav-fill">
+                            <li class="nav-item"><a class="catNav nav-link " data-value="1">메인메뉴</a></li>
+                            <li class="nav-item"><a class="catNav nav-link " data-value="2">사이드메뉴</a></li>
+                            <li class="nav-item"><a class="catNav nav-link " data-value="3">음료</a></li>
+                            <li class="nav-item"><a class="navTopp nav-link active" data-value="topp">토핑</a></li>
+                        </ul>
+					
 						<div class="row">
 						<c:forEach items="${topping }" var ="topping">
 						
@@ -46,12 +53,34 @@
 		</div>
 	</div>
 </div>
+<form class="actionForm" action="/admin/store/menuList" method="get">
+        <input type="hidden" name="sno" value="10">
+        <input type="hidden" name="cno" value="">
 
+    </form>
 
 <script type="text/javascript" src="/resources/service.js"></script>
 
 <script>
+const actionForm = document.querySelector(".actionForm")
 
+document.querySelector(".navCat").addEventListener("click", function(e){
+
+    e.preventDefault()
+
+    cno = e.target.dataset.value
+
+    document.querySelector("input[name='cno']").value = cno
+    
+    if (cno == "topp"){
+    	
+    	actionForm.action ="/admin/store/toppingList"
+    	
+    }
+
+ 	actionForm.submit()
+
+}, false)
 
 </script>
 

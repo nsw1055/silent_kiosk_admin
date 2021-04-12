@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MenuDTO {
 
-	private Integer mno,sno;
+	private Integer mno,sno,cno;
 	private String menuName, content, mImg, category;
 	private String mPrice;
 	

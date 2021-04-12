@@ -36,7 +36,7 @@
 	
 	<select id="getMenu" resultType="org.judy.store.domain.Menu">
 		<![CDATA[
-		select * from tbl_store_menu where sno = #{sno}
+		select * from tbl_store_menu where sno = #{sno} and cno = #{cno}
 		]]>
 	</select>
 	

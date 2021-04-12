@@ -38,7 +38,7 @@ public class StoreServiceTests {
 	
 	@Test
 	public void testGetMenu() {
-		log.info(service.getMenu(10)); 
+		log.info(service.getMenu(10,1)); 
 	}
 	
 	@Test

@@ -39,8 +39,8 @@ public class StoreServiceImpl implements StoreService {
 	// MENU
 	
 	@Override
-	public List<MenuDTO> getMenu(Integer sno) {
-		return mapper.getMenu(sno).stream().map(menu -> {
+	public List<MenuDTO> getMenu(Integer sno, Integer cno) {
+		return mapper.getMenu(sno, cno).stream().map(menu -> {
 			return toDtoMenu(menu);
 		}).collect(Collectors.toList());
 	

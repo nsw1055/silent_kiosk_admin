@@ -16,10 +16,72 @@
   		]]>
 	</select>
 
+	<insert id="insertStore">
+		<selectKey resultType="Integer" keyProperty="sno"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		<![CDATA[
+  		insert into tbl_store (sno ,mid , sname , lat , lng , address , category,logoImg) values (#{sno} ,#{mid} , #{sname} , #{lat} , #{lng} , #{address} , #{category},#{logoImg})
+  		]]>
+	</insert>
+
 	<delete id="deleteDoc">
 		<![CDATA[
   		delete from tbl_document where muuid= #{muuid}
   		]]>
 	</delete>
+	
+	<!-- MENU -->
+	
+	<select id="getMenu" resultType="org.judy.store.domain.Menu">
+		<![CDATA[
+		select * from tbl_store_menu where sno = #{sno} and cno = #{cno}
+		]]>
+	</select>
+	
+	<insert id="insertMenu">
+		<![CDATA[
+  		insert into tbl_store_menu (sno , menuName ,content , mPrice , mImg , category	) values (#{sno} ,#{menuName} , #{content} , #{mPrice} , #{mImg} , #{category})
+  		]]>
+	</insert>
+	
+	<delete id="delMenu">
+		<![CDATA[
+  		delete from tbl_store_menu where mno= #{mno}
+  		]]>
+	</delete>
+	
+	<update id="updateMenu">
+		<![CDATA[
+  		update tbl_store_menu set menuName= #{menuName}, content = #{content} , mPrice=#{mPrice}, mImg = #{mImg}, category = #{category} where mno = #{mno}
+  		]]>
+	</update>
+	
+	<!-- TOPPING -->
+	
+	<select id="getTopping" resultType="org.judy.store.domain.Topping">
+		<![CDATA[
+		select * from tbl_store_topping where sno = #{sno}
+		]]>
+	</select>
+	
+	<insert id="insertTop">
+		<![CDATA[
+  		insert into tbl_store_topping (sno , tName , tPrice , tImg 	) values (#{sno} ,#{tName} , #{tPrice} , #{tImg})
+  		]]>
+	</insert>
+
+	<delete id="delTop">
+		<![CDATA[
+  		delete from tbl_store_topping where tno= #{tno}
+  		]]>
+	</delete>
+	
+	<update id="updateTop">
+		<![CDATA[
+  		update tbl_store_topping set tPrice= #{tPrice}, tImg = #{tImg} , tName = #{tName}  where tno = #{tno}
+  		]]>
+	</update>
 
 </mapper>

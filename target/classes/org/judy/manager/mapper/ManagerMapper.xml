@@ -29,8 +29,7 @@
 
 	<select id="getManagerList" resultType="org.judy.manager.domain.Manager">
 		<![CDATA[
-  		select * from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid 
-  		where enabled = 1
+  		select * from tbl_manager where enabled = 1
   		]]> 
   		<include refid="search"/>
   		
@@ -42,8 +41,7 @@
 	
 		<select id="delManagerList" resultType="org.judy.manager.domain.Manager">
 		<![CDATA[
-  		select * from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid 
-  		where enabled = 0
+  		select * from tbl_manager where enabled = 0
   		]]> 
   		<include refid="search"/>
   		
@@ -54,8 +52,7 @@
 	    
 	    <select id="appManagerList" resultType="org.judy.manager.domain.Manager">
 		<![CDATA[
-  		select * from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid 
-  		where approval = 0
+  		select * from tbl_manager where approval = 0
   		]]> 
   		<include refid="search"/>
   		
@@ -66,9 +63,7 @@
 	
 	<select id="selectOne" resultType="org.judy.manager.domain.Manager">
 		<![CDATA[
-  		select * from tbl_manager tm
-		left join tbl_store ts on tm.mid = ts.mid 
-		where tm.mid = #{mid}
+  		select * from tbl_manager where mid = #{mid}
   		]]>
 	</select>
 

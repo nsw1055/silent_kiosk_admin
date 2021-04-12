@@ -2,6 +2,7 @@ package org.judy.store.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.judy.store.domain.Menu;
 import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
@@ -17,7 +18,7 @@ public interface StoreMapper {
 	
 	// MENU
 	
-	public List<Menu> getMenu(Integer sno);
+	public List<Menu> getMenu(@Param("sno") Integer sno, @Param("cno") Integer cno);
 	
 	public void insertMenu(Menu menu);
 	
