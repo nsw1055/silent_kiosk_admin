@@ -16,8 +16,12 @@ public interface StoreService {
 	
 	void deleteDoc(String muuid);
 	
+	Integer insertStore(StoreDTO storeDTO);
+	
 	// MENU
 	List<MenuDTO> getMenu(Integer sno, Integer cno);
+	
+	String menuSname(Integer sno);
 	
 	MenuDTO getOneMenu(Integer mno);
 	
@@ -41,6 +45,7 @@ public interface StoreService {
 	default StoreDTO toDTO(Store store) {
 		StoreDTO dto = StoreDTO.builder()
 								.mid(store.getMid())
+								.sno(store.getSno())
 								.sname(store.getSname())
 								.lat(store.getLat())
 								.lng(store.getLng())
@@ -56,6 +61,7 @@ public interface StoreService {
 	default Store toDomain(StoreDTO dto) {
 		Store store = Store.builder()
 				.mid(dto.getMid())
+				.sno(dto.getSno())
 				.sname(dto.getSname())
 				.lat(dto.getLat())
 				.lng(dto.getLng())
@@ -74,11 +80,11 @@ public interface StoreService {
 		Menu menu = Menu.builder()
 				.mno(dto.getMno())
 				.sno(dto.getSno())
+				.cno(dto.getCno())
 				.menuName(dto.getMenuName())
 				.mprice(dto.getMprice())
 				.content(dto.getContent())
 				.mimg(dto.getMimg())
-				.category(dto.getCategory())
 				.build();
 		return menu;
 	}
@@ -86,11 +92,11 @@ public interface StoreService {
 		MenuDTO dto = MenuDTO.builder()
 				.mno(menu.getMno())
 				.sno(menu.getSno())
+				.cno(menu.getCno())
 				.menuName(menu.getMenuName())
 				.mprice(menu.getMprice())
 				.content(menu.getContent())
 				.mimg(menu.getMimg())
-				.category(menu.getCategory())
 				.build();
 		return dto;
 	}

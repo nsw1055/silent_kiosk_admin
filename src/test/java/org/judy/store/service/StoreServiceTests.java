@@ -5,6 +5,7 @@ import org.judy.manager.config.ManagerConfig;
 import org.judy.store.config.StoreConfig;
 import org.judy.store.domain.Topping;
 import org.judy.store.dto.MenuDTO;
+import org.judy.store.dto.StoreDTO;
 import org.judy.store.dto.ToppingDTO;
 import org.judy.time.config.TimeConfig;
 import org.junit.Test;
@@ -34,6 +35,12 @@ public class StoreServiceTests {
 		service.deleteDoc("08051d27-c76b-481a-a943-b406c939d270");
 	}
 	
+	@Test
+	public void testInsert() {
+		StoreDTO storeDTO = StoreDTO.builder().mid("testjs").address("서울시").category("일식").lat(123.123).lng(123.123).sname("테스트용").logoImg("C://").build();
+		service.insertStore(storeDTO);
+	}
+	
 	// MENU
 	
 	@Test
@@ -48,7 +55,7 @@ public class StoreServiceTests {
 	
 	@Test
 	public void testInsertMenu() {
-		MenuDTO menuDTO = MenuDTO.builder().sno(10).menuName("생선까스").content("신메뉴").mprice("9000").mimg("생선까스사진").category("돈까스").build();
+		MenuDTO menuDTO = MenuDTO.builder().sno(10).menuName("생선까스").content("신메뉴").mprice("9000").mimg("생선까스사진").cno(2).build();
 		service.insertMenu(menuDTO);
 	}
 	
@@ -59,7 +66,7 @@ public class StoreServiceTests {
 	
 	@Test
 	public void testUpdateMenu() {
-		MenuDTO menuDTO = MenuDTO.builder().mno(12).menuName("냉까스").content("신메뉴").mprice("8000").mimg("냉까스사진").category("돈까스").build();
+		MenuDTO menuDTO = MenuDTO.builder().mno(12).menuName("냉까스").content("신메뉴").mprice("8000").mimg("냉까스사진").cno(2).build();
 		service.updateMenu(menuDTO);
 	}
 	

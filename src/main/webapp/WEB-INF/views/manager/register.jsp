@@ -226,7 +226,7 @@ document.querySelector(".regBtn").addEventListener("click" , function(e) {
 	obj.license = document.querySelector("input[name='license']").dataset.filename
 	
 	
-	service.sendRegister(obj).then(result => {$(".regModal").modal("show")}) 
+	service.sendRegister(obj, "/admin/manager/register").then(result => {$(".regModal").modal("show")}) 
 	
 } , false)
 

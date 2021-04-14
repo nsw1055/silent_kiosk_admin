@@ -1,7 +1,16 @@
 package org.judy.store.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.judy.manager.service.ManagerService;
 import org.judy.store.dto.MenuDTO;
+import org.judy.store.dto.StoreDTO;
 import org.judy.store.dto.ToppingDTO;
 import org.judy.store.service.StoreService;
 import org.springframework.http.HttpStatus;
@@ -26,8 +35,51 @@ public class StoreController {
 	
 	private final StoreService storeService;
 	
+	@GetMapping("/Sample")
+	public void sample() {
+	      
+	}
+	   
+	@PostMapping("/jusoPopup")
+	public String postJuso(){
+	   
+	   return "/store/jusoPopup";
+	}
+	   
+	@GetMapping("/jusoPopup")
+	public void juso() {
+	      
+	}
+	  
 	@GetMapping("/read")
-	public void getStore() {
+	public void getStore(String mid , Model model) {
+		model.addAttribute("store" , storeService.getStore(mid));
+		model.addAttribute("manager" , managerService.selectOne(mid));
+	}
+	
+	@GetMapping("/register")
+	public void getRegister(String mid , Model model) {
+		model.addAttribute("mid" , mid);
+		
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<String> PostRegister(@RequestBody StoreDTO storeDTO) {
+		
+		Integer sno = storeService.insertStore(storeDTO);
+		
+		String path = "C:\\upload\\admin\\manager\\logoImg\\"+sno;
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyLogo(sno, storeDTO.getLogoImg());
+		
+
+		return new ResponseEntity<String>("success" , HttpStatus.OK);
 		
 	}
 	
@@ -35,14 +87,16 @@ public class StoreController {
 	public void getMenu(Integer sno, Integer cno, Model model) {
 		
 		model.addAttribute("menu", storeService.getMenu(sno, cno));
+		model.addAttribute("sname", storeService.menuSname(sno));
 		
 	}
 	
-	@GetMapping("/toppingList")
-	public void getTopping(Integer sno, Model model) {
+	
+	@PostMapping("/menuRegister")
+	public ResponseEntity<String> postMenuRegister(@RequestBody MenuDTO menuDTO) {
+		storeService.insertMenu(menuDTO);
 		
-		model.addAttribute("topping", storeService.getTopping(sno)); 
-		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	
 	@GetMapping("/menuModify")
@@ -66,6 +120,21 @@ public class StoreController {
 	      return new ResponseEntity<String>("success" , HttpStatus.OK);
 	   }
 	
+	@GetMapping("/toppingList")
+	public void getTopping(Integer sno, Model model) {
+		
+		model.addAttribute("topping", storeService.getTopping(sno)); 
+		model.addAttribute("sname", storeService.menuSname(sno));
+		
+	}
+	
+	@PostMapping("/toppingRegister")
+	public ResponseEntity<String> postToppingRegister(@RequestBody ToppingDTO toppingDTO) {
+		storeService.insertTop(toppingDTO);
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+	
 	@GetMapping("/toppingModify")
 	public void getToppingModify(Integer tno , Model model) {
 		
@@ -87,4 +156,40 @@ public class StoreController {
 	      storeService.delTop(tno);
 	      return new ResponseEntity<String>("success" , HttpStatus.OK);
 	   }
+	
+	
+	private String getFolder() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date date = new Date();
+
+		String str = sdf.format(date);
+
+		return str.replace("-", File.separator);
+
+	}
+	
+	private void copyLogo(Integer sno, String file) {
+		File tempFile = new File("C:\\upload\\temp\\admin\\manager\\"+getFolder()+"\\"+file);
+		log.info(tempFile);
+		InputStream inputStream;
+		try {
+			inputStream = new FileInputStream(tempFile);
+			log.info("dto.getCdn: "+file);
+			byte[] buffer = new byte[inputStream.available()];
+		    inputStream.read(buffer);
+
+		    File targetFile = new File("C:\\upload\\admin\\manager\\logoImg\\"+sno+"\\"+file);
+		    OutputStream outStream = new FileOutputStream(targetFile);
+		    outStream.write(buffer);
+		    
+		    inputStream.close();
+		    outStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			tempFile.delete();
+	}
+	
 }

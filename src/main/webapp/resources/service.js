@@ -75,8 +75,8 @@ var service = (function() {
    })
    }
        
-    function sendRegister(obj){
-		return fetch("/admin/manager/register" , {
+    function sendRegister(obj, path){
+		return fetch(path , {
 			method : 'post',
 			headers : {"Content-Type":"application/json"},
 			body : JSON.stringify(obj)

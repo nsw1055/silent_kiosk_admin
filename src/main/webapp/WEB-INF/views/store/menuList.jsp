@@ -9,6 +9,7 @@ String cno = request.getParameter("cno");
 String sno = request.getParameter("sno");
 %>
 
+
 <div class="modModal modal" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -23,26 +24,34 @@ String sno = request.getParameter("sno");
 							<div class="card-icon">
 								<i class="material-icons">content_copy</i>
 							</div>
-
+							
+							<div class="selectPerSheet form-group" style ="z-index: 10000;">
+								<select class="catSelect custom-select">
+									<option value="1">메인메뉴</option>
+									<option value="2">사이드메뉴</option>
+									<option value="3">음료</option>
+								</select>
+							</div>
+							
 							<div class="form-group">
 								<input type="hidden" class="form-control" name='mno' value="">
 							</div>
 
-							<div class="form-group">
-								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='menuName' value="">
+							<div class="form-group is-filled">
+								<input type="text"
+									class="form-control" name='menuName' value="" placeholder="메뉴이름">
 							</div>
-							<div class="form-group">
-								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='content' value="">
+							<div class="form-group is-filled">
+								 <input type="text"
+									class="form-control" name='content' value="" placeholder="메뉴설명">
 							</div>
-							<div class="form-group">
-								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='mprice' value="">
+							<div class="form-group is-filled">
+								 <input type="text"
+									class="form-control" name='mprice' value="" placeholder="가격">
 							</div>
-							<div class="form-group">
-								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='mimg' value="">
+							<div class="form-group is-filled">
+								 <input type="text"
+									class="form-control" name='mimg' value="" placeholder="이미지">
 							</div>
 						</div>
 
@@ -66,7 +75,7 @@ String sno = request.getParameter("sno");
 				<h5 class="modal-title">Modal title</h5>
 			</div>
 			<div class="modal-body">
-				<p>수정되었습니다</p>
+				<p>처리되었습니다</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="modConfirm btn btn-primary">확인</button>
@@ -112,8 +121,6 @@ String sno = request.getParameter("sno");
 </div>
 
 
-
-
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -121,7 +128,7 @@ String sno = request.getParameter("sno");
 				<div class="card">
 					<div class="cardHeaderStyle card-header card-header-primary">
 						<div>
-							<h4 class="card-title ">Simple Table</h4>
+							<h4 class="card-title ">${sname }</h4>
 							<p class="card-category">Here is a subtitle for this table</p>
 						</div>
 					</div>
@@ -158,17 +165,37 @@ String sno = request.getParameter("sno");
 											<div class="menuBtn stats" data-mno="${menu.mno }">
 												<button type="submit"
 													class="modBtn btn btn-primary pull-right"
-													style="padding: 5px;">수정</button>
+													style="padding: 5px;" value="/admin/store/menuModify">수정</button>
 												<button type="submit"
 													class="delBtn btn btn-danger pull-right"
 													style="padding: 5px;">삭제</button>
+												<c:if test= "${menu.cno == 1}">
+												<button type="submit"
+													class="btn btn-info pull-right"
+													style="padding: 5px;">토핑</button>
+													</c:if>
 
 											</div>
 										</div>
 									</div>
 								</div>
 							</c:forEach>
+							<div class="col-lg-3 col-md-6 col-sm-6">
+									<div class="card card-stats">
+										<div class="card-header card-header-warning card-header-icon">
+											
 
+										</div>
+										<div class="card-footer">
+											<div class="stats" >
+												<button type="submit"
+													class="regBtn btn btn-primary pull-right"
+													style="" value="/admin/store/menuRegister">등록</button>
+											</div>
+										</div>
+									</div>
+								</div>
+			
 
 						</div>
 					</div>
@@ -226,6 +253,19 @@ String sno = request.getParameter("sno");
         }, false)
 	
 	
+// MenuRegister        
+        
+        document.querySelector(".regBtn").addEventListener("click", function(e){
+        	actionForm.setAttribute("action" , document.querySelector(".regBtn").value)
+        	document.querySelector("input[name='mno']").value = ""
+			document.querySelector("input[name='menuName']").value = ""
+			document.querySelector("input[name='content']").value = ""
+			document.querySelector("input[name='mprice']").value = ""
+			document.querySelector("input[name='mimg']").value = ""
+        	
+			$(".modModal").modal("show")
+        })
+        
 // MenuModify
 	
 	document.querySelectorAll(".menuInfo").forEach(event => {
@@ -238,6 +278,9 @@ String sno = request.getParameter("sno");
 			const mimg = e.currentTarget.querySelector(".menuImg").innerHTML
 			
 			if(e.target == e.currentTarget.querySelector(".modBtn")){
+				
+				console.log(actionForm)
+				actionForm.setAttribute("action" , document.querySelector(".modBtn").value)
 				
 				document.querySelector("input[name='mno']").value = mno
 				document.querySelector("input[name='menuName']").value = menuName
@@ -261,9 +304,7 @@ String sno = request.getParameter("sno");
                console.log("삭제")
          } , false)
 			})
-			
-			
-	}
+			}
 		
 	})
 	})
@@ -276,12 +317,15 @@ String sno = request.getParameter("sno");
 		const mprice = document.querySelector("input[name='mprice']").value
 		const mimg = document.querySelector("input[name='mimg']").value
 		const mno = document.querySelector("input[name='mno']").value
-	
-		const menuDTO = {mno:mno , menuName:menuName , content:content , mprice : mprice , mimg:mimg , category:"일식"}
+		const sno = document.querySelector("input[name='sno']").value
+		const category = document.querySelector(".catSelect").value
+		document.querySelector("input[name='cno']").value = category
+		const menuDTO = {mno:mno, sno:sno , menuName:menuName , content:content , mprice : mprice , mimg:mimg , cno:category}
 		console.log(mprice)
 		console.log(mimg)
 		console.log(JSON.stringify(menuDTO))
-		fetch("/admin/store/menuModify" , {
+		const path = actionForm.getAttribute("action")
+		fetch(path , {
 			method : 'post',
 			headers : {"Content-Type" : "application/json;"} ,
 			body : JSON.stringify(menuDTO)
@@ -301,6 +345,13 @@ String sno = request.getParameter("sno");
    document.querySelector(".delCommit").addEventListener("click" , function(e){
 	   location.reload()
    } , false)
+   
+   document.querySelector(".modClose").addEventListener("click" , function(e){
+	   $(".modModal").modal("hide")
+   })
+   
+
+
 	
 	</script>
 

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.judy.store.domain.Menu;
 import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
+import org.judy.store.dto.MenuDTO;
 
 public interface StoreMapper {
 
@@ -20,7 +21,7 @@ public interface StoreMapper {
 	
 	public List<Menu> getMenu(@Param("sno") Integer sno, @Param("cno") Integer cno);
 	
-	public Topping getOneTopping(Integer tno);
+	public String menuSname(Integer sno);
 	
 	public Menu getOneMenu(Integer mno);
 	
@@ -33,6 +34,8 @@ public interface StoreMapper {
 	// TOPPING
 	
 	public List<Topping> getTopping(Integer sno);
+	
+	public Topping getOneTopping(Integer tno);
 	
 	public void insertTop(Topping topping);
 	

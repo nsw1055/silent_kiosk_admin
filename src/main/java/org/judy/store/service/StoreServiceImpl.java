@@ -1,10 +1,10 @@
 package org.judy.store.service;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.judy.store.domain.Menu;
+import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
 import org.judy.store.dto.MenuDTO;
 import org.judy.store.dto.StoreDTO;
@@ -35,6 +35,16 @@ public class StoreServiceImpl implements StoreService {
 	public void deleteDoc(String muuid) {
 		mapper.deleteDoc(muuid);	
 	}
+	
+
+	@Override
+	public Integer insertStore(StoreDTO storeDTO) {
+		Store store = toDomain(storeDTO);
+		
+		mapper.insertStore(store);
+		
+		return store.getSno();
+	}
 
 	// MENU
 	
@@ -45,6 +55,13 @@ public class StoreServiceImpl implements StoreService {
 		}).collect(Collectors.toList());
 	
 	}
+
+	@Override
+	public String menuSname(Integer sno) {
+		
+		return mapper.menuSname(sno);
+	}
+	
 	
 	@Override
 	public MenuDTO getOneMenu(Integer mno) {
@@ -102,6 +119,8 @@ public class StoreServiceImpl implements StoreService {
 		mapper.updateTop(topping);
 		
 	}
+
+
 
 	
 

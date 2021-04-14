@@ -11,6 +11,7 @@ Coded by Creative Tim
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,11 +34,12 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../resources/assets/demo/demo.css" rel="stylesheet" />
  
-  
+
 </head>
 
 <body class="">
   <div class="wrapper ">
+  
     <div class="sidebar" data-color="orange" data-background-color="white">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -46,6 +48,7 @@ The above copyright notice and this permission notice shall be included in all c
     -->
       <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
           Creative Tim
+          
         </a></div>
       <div class="sidebar-wrapper">
         <ul class="nav">

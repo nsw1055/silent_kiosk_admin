@@ -25,8 +25,8 @@
 							<div class="selectType">
 								<select class="selectTypeVal custom-select">
 									<option ${"m" == pageDTO.type ? "selected" : "" } value="m">ID</option>
-									<option ${"s" == pageDTO.type ? "selected" : "" } value="s">매장명</option>
-									<option ${"c" == pageDTO.type ? "selected" : "" } value="c">내용</option>
+									<option ${"s" == pageDTO.type ? "selected" : "" } value="s">email</option>
+									<option ${"c" == pageDTO.type ? "selected" : "" } value="c">phone</option>
 								</select>
 							</div>
 

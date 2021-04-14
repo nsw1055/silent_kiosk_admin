@@ -46,7 +46,7 @@ public class StoreMapperTests {
 	
 	@Test
 	public void testInsertMenu() {
-		Menu menu = Menu.builder().sno(10).menuName("냉까스").content("신메뉴").mprice("8000").mimg("냉까스사진").category("돈까스").build();
+		Menu menu = Menu.builder().sno(10).menuName("냉까스").content("신메뉴").mprice("8000").mimg("냉까스사진").cno(2).build();
 		mapper.insertMenu(menu);
 	}
 	
@@ -58,7 +58,7 @@ public class StoreMapperTests {
 	
 	@Test
 	public void testUpdateMenu() {
-		Menu menu = Menu.builder().mno(12).menuName("냉까스").content("신메뉴").mprice("9000").mimg("냉까스사진").category("돈까스").build();
+		Menu menu = Menu.builder().mno(12).menuName("냉까스").content("신메뉴").mprice("9000").mimg("냉까스사진").cno(2).build();
 		mapper.updateMenu(menu);
 	
 	}

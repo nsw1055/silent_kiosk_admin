@@ -17,12 +17,11 @@
 	</select>
 
 	<insert id="insertStore">
-		<selectKey resultType="Integer" keyProperty="sno"
-			order="AFTER">
+		<selectKey resultType="Integer" keyProperty="sno" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		<![CDATA[
-  		insert into tbl_store (sno ,mid , sname , lat , lng , address , category,logoImg) values (#{sno} ,#{mid} , #{sname} , #{lat} , #{lng} , #{address} , #{category},#{logoImg})
+  		insert into tbl_store (sno, mid , sname , lat , lng , address , category,logoImg) values (#{sno}, #{mid} , #{sname} , #{lat} , #{lng} , #{address} , #{category},#{logoImg})
   		]]>
 	</insert>
 
@@ -33,6 +32,11 @@
 	</delete>
 	
 	<!-- MENU -->
+	
+	<select id="menuSname" resultType="string">
+	select sname from tbl_store
+	where sno = #{sno}
+	</select>
 	
 	<select id="getMenu" resultType="org.judy.store.domain.Menu">
 		<![CDATA[
@@ -48,7 +52,7 @@
 	
 	<insert id="insertMenu">
 		<![CDATA[
-  		insert into tbl_store_menu (sno , menuName ,content , mprice , mimg , category	) values (#{sno} ,#{menuName} , #{content} , #{mprice} , #{mimg} , #{category})
+  		insert into tbl_store_menu (sno , menuName ,content , mprice , mimg , cno	) values (#{sno} ,#{menuName} , #{content} , #{mprice} , #{mimg} , #{cno})
   		]]>
 	</insert>
 	
@@ -80,7 +84,7 @@
 	
 	<insert id="insertTop">
 		<![CDATA[
-  		insert into tbl_store_topping (sno , tName , tPrice , tImg 	) values (#{sno} ,#{tName} , #{tPrice} , #{tImg})
+  		insert into tbl_store_topping (sno , tname , tprice , timg 	) values (#{sno} ,#{tname} , #{tprice} , #{timg})
   		]]>
 	</insert>
 

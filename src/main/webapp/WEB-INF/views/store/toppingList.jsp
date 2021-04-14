@@ -2,7 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../includes/header.jsp"%>
-
+<%
+request.setCharacterEncoding("UTF-8");
+String sno = request.getParameter("sno");
+%>
 
 <div class="modModal modal" tabindex="-1">
 	<div class="modal-dialog">
@@ -20,20 +23,20 @@
 							</div>
 
 							<div class="form-group">
-								<input type="hidden" class="form-control" name='tno' value="">
+								<input type="hidden" class="form-control" name='tno' value="" >
 							</div>
 
 							<div class="form-group">
 								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='tname' value="">
+									class="form-control" name='tname' value="" placeholder="토핑이름">
 							</div>
 							<div class="form-group">
 								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='tprice' value="">
+									class="form-control" name='tprice' value="" placeholder="가격">
 							</div>
 							<div class="form-group">
 								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='timg' value="">
+									class="form-control" name='timg' value="" placeholder="이미지">
 							</div>
 						</div>
 
@@ -112,7 +115,7 @@
 				<div class="card">
 					<div class="cardHeaderStyle card-header card-header-primary">
 						<div>
-							<h4 class="card-title ">Simple Table</h4>
+							<h4 class="card-title ">${sname }</h4>
 							<p class="card-category">Here is a subtitle for this table</p>
 						</div>
 					</div>
@@ -148,16 +151,35 @@
 											<div class="menuBtn stats" data-mno="${topping.tno }">
 												<button type="submit"
 													class="modBtn btn btn-primary pull-right"
-													style="padding: 5px;">수정</button>
+													style="padding: 5px;" value="/admin/store/toppingModify">수정</button>
 												<button type="submit"
 													class="delBtn btn btn-danger pull-right"
 													style="padding: 5px;">삭제</button>
-
+												
 											</div>
 										</div>
 									</div>
 								</div>
 							</c:forEach>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<div class="card card-stats">
+										<div class="card-header card-header-warning card-header-icon">
+											
+											<h5 class="card-title"> </h5>
+											<p class="card-category"> </p>
+											<p class="card-category"> </p>
+											<p class="card-category"> </p>
+
+										</div>
+										<div class="card-footer">
+											<div class="stats" >
+												<button type="submit"
+													class="regBtn btn btn-primary pull-right"
+													style="" value="/admin/store/toppingRegister">등록</button>
+											</div>
+										</div>
+									</div>
+								</div>
 
 
 						</div>
@@ -169,7 +191,7 @@
 	</div>
 
 	<form class="actionForm2" action="/admin/store/menuList" method="get">
-		<input type="hidden" name="sno" value="10"> <input
+		<input type="hidden" name="sno" value="<%= sno %>"> <input
 			type="hidden" name="cno" value="">
 
 	</form>
@@ -200,6 +222,17 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 }, false)
 
 
+// toppingRegister
+	document.querySelector(".regBtn").addEventListener("click", function(e){
+        	actionForm.setAttribute("action" , document.querySelector(".regBtn").value)
+        	
+        	document.querySelector("input[name='tno']").value = ""
+			document.querySelector("input[name='tname']").value = ""
+			document.querySelector("input[name='tprice']").value = ""
+			document.querySelector("input[name='timg']").value = ""
+        	
+			$(".modModal").modal("show")
+        })
 
 //toppingModify
 	
@@ -212,6 +245,8 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 			const timg = e.currentTarget.querySelector(".timg").innerHTML
 			
 			if(e.target == e.currentTarget.querySelector(".modBtn")){
+				
+				actionForm.setAttribute("action" , document.querySelector(".modBtn").value)
 				
 				document.querySelector("input[name='tno']").value = tno
 				document.querySelector("input[name='tname']").value = tname
@@ -250,12 +285,16 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 		const tprice = document.querySelector("input[name='tprice']").value
 		const timg = document.querySelector("input[name='timg']").value
 		const tno = document.querySelector("input[name='tno']").value
+		const sno = document.querySelector("input[name='sno']").value
 	
-		const toppingDTO = {tno:tno , tname:tname , tprice : tprice , timg:timg}
+		const toppingDTO = {tno:tno ,sno:sno, tname:tname , tprice : tprice , timg:timg}
 		console.log(tprice)
 		console.log(timg)
 		console.log(JSON.stringify(toppingDTO))
-		fetch("/admin/store/toppingModify" , {
+		
+		const path = actionForm.getAttribute("action")
+		
+		fetch( path , {
 			method : 'post',
 			headers : {"Content-Type" : "application/json;"} ,
 			body : JSON.stringify(toppingDTO)
@@ -275,7 +314,11 @@ document.querySelector(".navCat").addEventListener("click", function(e){
    document.querySelector(".delCommit").addEventListener("click" , function(e){
 	   location.reload()
    } , false)
-
+// modClose
+    document.querySelector(".modClose").addEventListener("click" , function(e){
+	   $(".modModal").modal("hide")
+   })
+   
 </script>
 
 
