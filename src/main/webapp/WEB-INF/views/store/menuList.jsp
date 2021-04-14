@@ -21,8 +21,8 @@ String sno = request.getParameter("sno");
 				<div class="modal-body">
 					<div class="card card-stats">
 						<div class="card-header card-header-warning card-header-icon">
-							<div class="card-icon">
-								<i class="material-icons">content_copy</i>
+							<div class="card-icon imgDiv ">
+								<img class='menu-img modal-img  ' src='/admin/resources/assets/img/image.png'>
 							</div>
 							
 							<div class="selectPerSheet form-group" style ="z-index: 10000;">
@@ -49,10 +49,13 @@ String sno = request.getParameter("sno");
 								 <input type="text"
 									class="form-control" name='mprice' value="" placeholder="가격">
 							</div>
-							<div class="form-group is-filled">
-								 <input type="text"
-									class="form-control" name='mimg' value="" placeholder="이미지">
+							<div class="form-group">
+								
 							</div>
+								 <div style = "margin-bottom: 10px">                        
+                              <input type="file" name="mimg" data-fileName="" class="form-control" id="inputGroupFile02" >
+                           </div>
+							
 						</div>
 
 					</div>
@@ -152,8 +155,8 @@ String sno = request.getParameter("sno");
 								<div class="col-lg-3 col-md-6 col-sm-6">
 									<div class="menuInfo card card-stats">
 										<div class="card-header card-header-warning card-header-icon">
-											<div class="card-icon">
-												<i class="material-icons">content_copy</i>
+											<div class="imgDiv card-icon" style= "padding: 5px;">
+												<img class ="menu-img" src="/admin/common/menu/view?link=<%=sno %>/${menu.mno }/${menu.mimg}" />
 											</div>
 											<h5 class="menuName card-title">${menu.menuName }</h5>
 											<p class="menuContent card-category">${menu.content }</p>
@@ -219,6 +222,7 @@ String sno = request.getParameter("sno");
 	const actionForm = document.querySelector(".actionForm")
 	const actionForm2 = document.querySelector(".actionForm2")
     const cnoAct = document.querySelector("input[name='cno']").value
+    const sno = document.querySelector("input[name='sno']").value
     //category
         window.onload = function(){
 
@@ -252,6 +256,24 @@ String sno = request.getParameter("sno");
 
         }, false)
 	
+//fileUpload
+document.querySelector("input[name='mimg']").addEventListener("change" , function(e){
+
+	  	e.preventDefault()
+	    const fd = new FormData() 
+	    const files = e.target.files
+	    fd.append("files", files[0])
+	    fd.append("value", e.target.name)
+	    service.sendUpload(fd).then(result => {
+	    	console.dir(result[0])
+	    	e.target.setAttribute("data-fileName" , result[0].fileName)
+	    }) 
+	    service.sendUploadThumb(fd)
+	    
+	   
+	   
+} , false)        
+        
 	
 // MenuRegister        
         
@@ -261,8 +283,9 @@ String sno = request.getParameter("sno");
 			document.querySelector("input[name='menuName']").value = ""
 			document.querySelector("input[name='content']").value = ""
 			document.querySelector("input[name='mprice']").value = ""
-			document.querySelector("input[name='mimg']").value = ""
         	
+			document.querySelector(".modal-img").setAttribute("src" , "/admin/resources/assets/img/image.png")
+			
 			$(".modModal").modal("show")
         })
         
@@ -282,11 +305,14 @@ String sno = request.getParameter("sno");
 				console.log(actionForm)
 				actionForm.setAttribute("action" , document.querySelector(".modBtn").value)
 				
+				
 				document.querySelector("input[name='mno']").value = mno
 				document.querySelector("input[name='menuName']").value = menuName
 				document.querySelector("input[name='content']").value = content
 				document.querySelector("input[name='mprice']").value = mprice
-				document.querySelector("input[name='mimg']").value = mimg
+				document.querySelector("input[name='mimg']").dataset.filename = mimg
+				
+				document.querySelector(".modal-img").setAttribute("src" , "/admin/common/menu/view?link="+sno+"/"+mno+"/"+mimg+"")
 				
 				$(".modModal").modal("show")
 			}else if(e.target == e.currentTarget.querySelector(".delBtn")){
@@ -315,9 +341,9 @@ String sno = request.getParameter("sno");
 		const menuName = document.querySelector("input[name='menuName']").value
 		const content = document.querySelector("input[name='content']").value
 		const mprice = document.querySelector("input[name='mprice']").value
-		const mimg = document.querySelector("input[name='mimg']").value
+		const mimg = document.querySelector("input[name='mimg']").dataset.filename
 		const mno = document.querySelector("input[name='mno']").value
-		const sno = document.querySelector("input[name='sno']").value
+		
 		const category = document.querySelector(".catSelect").value
 		document.querySelector("input[name='cno']").value = category
 		const menuDTO = {mno:mno, sno:sno , menuName:menuName , content:content , mprice : mprice , mimg:mimg , cno:category}
@@ -338,7 +364,7 @@ String sno = request.getParameter("sno");
 	document.querySelector(".modConfirm").addEventListener("click" , function(e){
 		location.reload()
 	} , false)
-	   document.querySelector(".delCancel").addEventListener("click" , function(e){
+	document.querySelector(".delCancel").addEventListener("click" , function(e){
 		   $(".delModal").modal("hide")
    } , false)
       
@@ -347,6 +373,7 @@ String sno = request.getParameter("sno");
    } , false)
    
    document.querySelector(".modClose").addEventListener("click" , function(e){
+	   document.querySelector("input[name='mimg']").value = ""
 	   $(".modModal").modal("hide")
    })
    

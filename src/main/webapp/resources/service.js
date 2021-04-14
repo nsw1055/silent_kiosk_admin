@@ -68,9 +68,7 @@ var service = (function() {
       for (var i = 0; i < result.length; i++) {
          let file = result[i]
          console.log(file.link)
-      document.querySelector(".fileThumb").innerHTML = "<img src='/admin/common/manager/view?link="+file.thumbLink+"' style = 'width: 90px; height: 90px' />" +
-                                           "<button onclick=sendRemove("+JSON.stringify(file)+")'>DEL</button>"
-         
+         document.querySelector(".modal-img").setAttribute("src" , "/admin/common/manager/view?link="+file.link+"")         
       }
    })
    }

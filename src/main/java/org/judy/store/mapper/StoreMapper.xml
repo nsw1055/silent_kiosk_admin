@@ -10,6 +10,12 @@
   		]]>
 	</select>
 
+	<select id="getStoreOne" resultType="org.judy.store.domain.Store">
+		<![CDATA[
+  		select * from tbl_store where sno = #{sno}
+  		]]>
+	</select>
+
 	<select id="findByMid" resultType="org.judy.store.domain.DocumentFile">
 		<![CDATA[
   		select * from tbl_document where mid = #{mid}
@@ -25,6 +31,16 @@
   		]]>
 	</insert>
 
+	<update id="updateStore">
+	update tbl_store set sname= #{sname}, lat = #{lat} , lng=#{lng}, address = #{address}, category = #{category}, logoImg = #{logoImg} where sno = #{sno} 
+	</update>
+	
+	<delete id="delStore">
+		<![CDATA[
+  		delete from tbl_store where sno= #{sno}
+  		]]>
+	</delete>
+
 	<delete id="deleteDoc">
 		<![CDATA[
   		delete from tbl_document where muuid= #{muuid}
@@ -34,8 +50,10 @@
 	<!-- MENU -->
 	
 	<select id="menuSname" resultType="string">
+	<![CDATA[
 	select sname from tbl_store
 	where sno = #{sno}
+	]]>
 	</select>
 	
 	<select id="getMenu" resultType="org.judy.store.domain.Menu">
@@ -51,8 +69,11 @@
 	</select>
 	
 	<insert id="insertMenu">
+		<selectKey resultType="Integer" keyProperty="mno" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		<![CDATA[
-  		insert into tbl_store_menu (sno , menuName ,content , mprice , mimg , cno	) values (#{sno} ,#{menuName} , #{content} , #{mprice} , #{mimg} , #{cno})
+  		insert into tbl_store_menu (mno , sno , menuName ,content , mprice , mimg , cno	) values (#{mno} , #{sno} ,#{menuName} , #{content} , #{mprice} , #{mimg} , #{cno})
   		]]>
 	</insert>
 	
@@ -64,7 +85,7 @@
 	
 	<update id="updateMenu">
 		<![CDATA[
-  		update tbl_store_menu set menuName= #{menuName}, content = #{content} , mprice=#{mprice}, mimg = #{mimg}, category = #{category} where mno = #{mno}
+  		update tbl_store_menu set menuName= #{menuName}, content = #{content} , mprice=#{mprice}, mimg = #{mimg}, cno = #{cno} where mno = #{mno}
   		]]>
 	</update>
 	
@@ -83,8 +104,11 @@
 	</select>
 	
 	<insert id="insertTop">
+		<selectKey resultType="Integer" keyProperty="tno" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		<![CDATA[
-  		insert into tbl_store_topping (sno , tname , tprice , timg 	) values (#{sno} ,#{tname} , #{tprice} , #{timg})
+  		insert into tbl_store_topping (tno ,sno , tname , tprice , timg 	) values (#{tno} ,#{sno} ,#{tname} , #{tprice} , #{timg})
   		]]>
 	</insert>
 
@@ -99,5 +123,7 @@
   		update tbl_store_topping set tprice= #{tprice}, timg = #{timg} , tname = #{tname}  where tno = #{tno}
   		]]>
 	</update>
+	
+	
 
 </mapper>

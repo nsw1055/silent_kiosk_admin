@@ -23,12 +23,22 @@ public class StoreServiceImpl implements StoreService {
 	private final StoreMapper mapper;
 	
 	@Override
-	public StoreDTO getStore(String mid) {
+	public List<StoreDTO> getStore(String mid) {
 		// TODO Auto-generated method stub
-		StoreDTO dto = toDTO(mapper.getStore(mid));
-		
-		log.info("getStore........");
-		return dto;
+		return mapper.getStore(mid).stream().map(store -> {
+			return toDTO(store);
+		}).collect(Collectors.toList());
+	}
+	
+	@Override
+	public StoreDTO getStoreOne(Integer sno) {
+		// TODO Auto-generated method stub
+		return toDTO(mapper.getStoreOne(sno));
+	}
+	
+	@Override
+	public void delStore(Integer sno) {
+		mapper.delStore(sno);
 	}
 
 	@Override
@@ -36,7 +46,13 @@ public class StoreServiceImpl implements StoreService {
 		mapper.deleteDoc(muuid);	
 	}
 	
-
+	@Override
+	public void updateStore(StoreDTO storeDTO) {
+		Store store = toDomain(storeDTO);
+		mapper.updateStore(store);
+		
+	}	
+	
 	@Override
 	public Integer insertStore(StoreDTO storeDTO) {
 		Store store = toDomain(storeDTO);
@@ -69,9 +85,11 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public void insertMenu(MenuDTO menuDTO) {
+	public Integer insertMenu(MenuDTO menuDTO) {
 		Menu menu = toDomMenu(menuDTO);
 		mapper.insertMenu(menu);
+		
+		return menu.getMno();
 	}
 
 	@Override
@@ -101,9 +119,11 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public void insertTop(ToppingDTO toppingDTO) {
+	public Integer insertTop(ToppingDTO toppingDTO) {
 		Topping topping = toDomTop(toppingDTO);
 		mapper.insertTop(topping);
+		
+		return topping.getTno();
 		
 	}
 
@@ -119,6 +139,12 @@ public class StoreServiceImpl implements StoreService {
 		mapper.updateTop(topping);
 		
 	}
+
+
+
+
+
+	
 
 
 

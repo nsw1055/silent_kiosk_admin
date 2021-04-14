@@ -82,6 +82,41 @@ public class StoreController {
 		return new ResponseEntity<String>("success" , HttpStatus.OK);
 		
 	}
+
+	@GetMapping("/modify")
+	public void getModify(String mid, Integer sno , Model model) {
+		model.addAttribute("mid" , mid);
+		model.addAttribute("store", storeService.getStoreOne(sno));
+		
+	}
+	
+	@PostMapping("/modify")
+	public ResponseEntity<String> postModify(@RequestBody StoreDTO storeDTO) {
+		
+		storeService.updateStore(storeDTO);
+		
+		String path = "C:\\upload\\admin\\manager\\logoImg\\"+storeDTO.getSno();
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyLogo(storeDTO.getSno(), storeDTO.getLogoImg());
+		
+
+		return new ResponseEntity<String>("success" , HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<String> postDelete(@RequestBody Integer sno){
+		
+		storeService.delStore(sno);
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
 	
 	@GetMapping("/menuList")
 	public void getMenu(Integer sno, Integer cno, Model model) {
@@ -94,7 +129,19 @@ public class StoreController {
 	
 	@PostMapping("/menuRegister")
 	public ResponseEntity<String> postMenuRegister(@RequestBody MenuDTO menuDTO) {
-		storeService.insertMenu(menuDTO);
+		
+		Integer mno = storeService.insertMenu(menuDTO);
+		
+		String path = "C:\\upload\\admin\\manager\\MImg\\"+menuDTO.getSno()+"\\"+mno;
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyImg(menuDTO.getSno(), mno, menuDTO.getMimg() , "MImg");
+		
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
@@ -110,6 +157,16 @@ public class StoreController {
 	public ResponseEntity<String> postMenuModify(@RequestBody MenuDTO menuDTO) {
 		log.info("update.............");
 		storeService.updateMenu(menuDTO);
+		
+		String path = "C:\\upload\\admin\\manager\\MImg\\"+menuDTO.getSno()+"\\"+menuDTO.getMno();
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyImg(menuDTO.getSno(), menuDTO.getMno(), menuDTO.getMimg() , "MImg");
 		
 		return new ResponseEntity<String>("success" , HttpStatus.OK);
 	}
@@ -130,7 +187,20 @@ public class StoreController {
 	
 	@PostMapping("/toppingRegister")
 	public ResponseEntity<String> postToppingRegister(@RequestBody ToppingDTO toppingDTO) {
-		storeService.insertTop(toppingDTO);
+		
+		Integer tno = storeService.insertTop(toppingDTO);
+		
+		String path = "C:\\upload\\admin\\manager\\tImg\\"+toppingDTO.getSno()+"\\"+tno;
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyImg(toppingDTO.getSno(), tno, toppingDTO.getTimg() , "tImg");
+		
+		
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
@@ -140,6 +210,7 @@ public class StoreController {
 		
 		model.addAttribute("topping" , storeService.getOneTopping(tno));
 		
+		
 	}
 	
 	@PostMapping("/toppingModify")
@@ -147,6 +218,16 @@ public class StoreController {
 		log.info("update.............");
 		
 		storeService.updateTop(toppingDTO);
+		
+		String path = "C:\\upload\\admin\\manager\\tImg\\"+toppingDTO.getSno()+"\\"+toppingDTO.getTno();
+		
+		File uploadPath = new File(path);
+		
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		copyImg(toppingDTO.getSno(), toppingDTO.getTno(), toppingDTO.getTimg() , "tImg");
 		
 		return new ResponseEntity<String>("success" , HttpStatus.OK);
 	}
@@ -181,6 +262,28 @@ public class StoreController {
 		    inputStream.read(buffer);
 
 		    File targetFile = new File("C:\\upload\\admin\\manager\\logoImg\\"+sno+"\\"+file);
+		    OutputStream outStream = new FileOutputStream(targetFile);
+		    outStream.write(buffer);
+		    
+		    inputStream.close();
+		    outStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			tempFile.delete();
+	}
+	
+	private void copyImg(Integer sno, Integer num, String file , String midPath) {
+		File tempFile = new File("C:\\upload\\temp\\admin\\manager\\"+getFolder()+"\\"+file);
+		log.info(tempFile);
+		InputStream inputStream;
+		try {
+			inputStream = new FileInputStream(tempFile);
+			log.info("dto.getCdn: "+file);
+			byte[] buffer = new byte[inputStream.available()];
+		    inputStream.read(buffer);
+
+		    File targetFile = new File("C:\\upload\\admin\\manager\\"+midPath+"\\"+sno+"\\"+num+"\\"+file);
 		    OutputStream outStream = new FileOutputStream(targetFile);
 		    outStream.write(buffer);
 		    

@@ -18,8 +18,8 @@ String sno = request.getParameter("sno");
 				<div class="modal-body">
 					<div class="card card-stats">
 						<div class="card-header card-header-warning card-header-icon">
-							<div class="card-icon">
-								<i class="material-icons">content_copy</i>
+							<div class="card-icon imgDiv ">
+								<img class='menu-img modal-img  ' src='/admin/resources/assets/img/image.png'>
 							</div>
 
 							<div class="form-group">
@@ -35,9 +35,11 @@ String sno = request.getParameter("sno");
 									class="form-control" name='tprice' value="" placeholder="가격">
 							</div>
 							<div class="form-group">
-								<label class="bmd-label-floating"></label> <input type="text"
-									class="form-control" name='timg' value="" placeholder="이미지">
+								
 							</div>
+							 <div style = "margin-bottom: 10px">                        
+                           		   <input type="file" name="timg" data-fileName="" class="form-control" id="inputGroupFile02" >
+                          		 </div>
 						</div>
 
 					</div>
@@ -139,8 +141,8 @@ String sno = request.getParameter("sno");
 								<div class="col-lg-3 col-md-6 col-sm-6">
 									<div class="menuInfo card card-stats">
 										<div class="card-header card-header-warning card-header-icon">
-											<div class="card-icon">
-												<i class="material-icons">content_copy</i>
+											<div class="card-icon imgDiv ">
+												<img class ="menu-img" src="/admin/common/topping/view?link=<%=sno %>/${topping.tno }/${topping.timg}" />
 											</div>
 											<h5 class="tname card-title">${topping.tname }</h5>
 											<p class="tprice card-category">${topping.tprice }</p>
@@ -202,6 +204,7 @@ String sno = request.getParameter("sno");
 	<script>
 const actionForm = document.querySelector(".actionForm")
 const actionForm2 = document.querySelector(".actionForm2")
+const sno = document.querySelector("input[name='sno']").value
 //category
 document.querySelector(".navCat").addEventListener("click", function(e){
 
@@ -221,6 +224,23 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 
 }, false)
 
+//fileUpload
+document.querySelector("input[name='timg']").addEventListener("change" , function(e){
+
+	  	e.preventDefault()
+	    const fd = new FormData() 
+	    const files = e.target.files
+	    fd.append("files", files[0])
+	    fd.append("value", e.target.name)
+	    service.sendUpload(fd).then(result => {
+	    	console.dir(result[0])
+	    	e.target.setAttribute("data-fileName" , result[0].fileName)
+	    }) 
+	   
+	    service.sendUploadThumb(fd)
+	    
+} , false)  
+
 
 // toppingRegister
 	document.querySelector(".regBtn").addEventListener("click", function(e){
@@ -230,7 +250,7 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 			document.querySelector("input[name='tname']").value = ""
 			document.querySelector("input[name='tprice']").value = ""
 			document.querySelector("input[name='timg']").value = ""
-        	
+			document.querySelector(".modal-img").setAttribute("src" , "/admin/resources/assets/img/image.png")
 			$(".modModal").modal("show")
         })
 
@@ -243,6 +263,7 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 			const tname = e.currentTarget.querySelector(".tname").innerHTML
 			const tprice = e.currentTarget.querySelector(".tprice").innerHTML
 			const timg = e.currentTarget.querySelector(".timg").innerHTML
+		
 			
 			if(e.target == e.currentTarget.querySelector(".modBtn")){
 				
@@ -251,7 +272,9 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 				document.querySelector("input[name='tno']").value = tno
 				document.querySelector("input[name='tname']").value = tname
 				document.querySelector("input[name='tprice']").value = tprice
-				document.querySelector("input[name='timg']").value = timg
+				document.querySelector("input[name='timg']").dataset.filename = timg
+				
+				document.querySelector(".modal-img").setAttribute("src" , "/admin/common/topping/view?link="+sno+"/"+tno+"/"+timg+"")
 				
 				$(".modModal").modal("show")
 			}else if(e.target == e.currentTarget.querySelector(".delBtn")){
@@ -283,10 +306,9 @@ document.querySelector(".navCat").addEventListener("click", function(e){
 		
 		const tname = document.querySelector("input[name='tname']").value
 		const tprice = document.querySelector("input[name='tprice']").value
-		const timg = document.querySelector("input[name='timg']").value
+		const timg = document.querySelector("input[name='timg']").dataset.filename
 		const tno = document.querySelector("input[name='tno']").value
-		const sno = document.querySelector("input[name='sno']").value
-	
+	console.dir(document.querySelector("input[name='timg']"))
 		const toppingDTO = {tno:tno ,sno:sno, tname:tname , tprice : tprice , timg:timg}
 		console.log(tprice)
 		console.log(timg)
@@ -316,6 +338,7 @@ document.querySelector(".navCat").addEventListener("click", function(e){
    } , false)
 // modClose
     document.querySelector(".modClose").addEventListener("click" , function(e){
+    	document.querySelector("input[name='timg']").value = ""
 	   $(".modModal").modal("hide")
    })
    

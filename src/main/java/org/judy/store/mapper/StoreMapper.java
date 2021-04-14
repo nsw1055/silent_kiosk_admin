@@ -10,8 +10,13 @@ import org.judy.store.dto.MenuDTO;
 
 public interface StoreMapper {
 
-	public Store getStore(String mid);
+	public List<Store> getStore(String mid);
 	
+	public Store getStoreOne(Integer sno);
+	
+	public void updateStore(Store store);
+	
+	public void delStore(Integer sno);
 	
 	public void deleteDoc(String muuid);
 	

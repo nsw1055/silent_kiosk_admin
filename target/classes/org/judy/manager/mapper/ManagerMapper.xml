@@ -14,14 +14,14 @@
   		
   		<if test="item == 'm'.toString()">
   		<![CDATA[
-  			tm.mid like concat ('%' , #{keyword} , '%')
+  			mid like concat ('%' , #{keyword} , '%')
   			]]> 
   		</if>
   		<if test="item == 's'.toString()">
-  			ts.sname like concat ('%' , #{keyword} , '%')
+  			email like concat ('%' , #{keyword} , '%')
   		</if>
   		<if test="item == 'c'.toString()">
-  			tm.mid like concat ('%' , #{keyword} , '%')
+  			phone like concat ('%' , #{keyword} , '%')
   		</if>
   		</foreach>
   		</if>
@@ -76,7 +76,7 @@
 	
 	<select id="totalMan" resultType="int">
 	<![CDATA[
-  		select count(*) from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid
+  		select count(*) from tbl_manager 
   		where enabled = 1
   		]]>  		
   		<include refid="search"/>

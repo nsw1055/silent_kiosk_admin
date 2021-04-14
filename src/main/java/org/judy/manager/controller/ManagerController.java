@@ -106,7 +106,7 @@ public class ManagerController {
 	public void getRead(String mid,  Model model) {
 		
 		ManagerDTO managerDTO = managerService.selectOne(mid);
-		StoreDTO storeDTO = storeService.getStore(mid);
+		List<StoreDTO> storeDTO = storeService.getStore(mid);
 		
 		log.info("getList...............");
 		

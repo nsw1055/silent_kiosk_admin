@@ -12,11 +12,17 @@ import org.judy.store.dto.ToppingDTO;
 
 public interface StoreService {
 	
-	StoreDTO getStore(String mid);
+	List<StoreDTO> getStore(String mid);
 	
 	void deleteDoc(String muuid);
 	
 	Integer insertStore(StoreDTO storeDTO);
+	
+	StoreDTO getStoreOne(Integer sno);
+	
+	void delStore(Integer sno);
+	
+	void updateStore(StoreDTO storeDTO);
 	
 	// MENU
 	List<MenuDTO> getMenu(Integer sno, Integer cno);
@@ -25,7 +31,7 @@ public interface StoreService {
 	
 	MenuDTO getOneMenu(Integer mno);
 	
-	void insertMenu(MenuDTO menuDTO);
+	Integer insertMenu(MenuDTO menuDTO);
 	
 	void delMenu(Integer mno);
 	
@@ -36,7 +42,7 @@ public interface StoreService {
 	
 	ToppingDTO getOneTopping(Integer tno);
 	
-	void insertTop(ToppingDTO toppingDTO);
+	Integer insertTop(ToppingDTO toppingDTO);
 	
 	void delTop(Integer tno);
 	

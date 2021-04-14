@@ -11,7 +11,7 @@
 				<h5 class="modal-title">Modal title</h5>
 			</div>
 			<div class="modal-body">
-				<p>회원 가입이 완료되었습니다.</p>
+				<p>수정이 완료되었습니다.</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="regCommit btn btn-primary">확인</button>
@@ -32,13 +32,13 @@
 						</a>
 					</div>
 					<div class="card-body" style="text-align: left;">
-					 <form class="regStore" action="/admin/store/register" method="post" accept-charset="UTF-8"> 
+					 <form class="regStore" action="/admin/store/modify" method="post" accept-charset="UTF-8"> 
 						<div class="row" style="text-align: center;">
 							<div class="col-md-4">
 							</div>
 							<div class="col-md-4">
 							<label class="bmd-label-floating">매장명</label> <input
-										type="text" class="form-control" name='sname' />
+										type="text" class="form-control" name='sname'  value="${store.sname}" />
 							</div>
 							<div class="col-md-4">
 							</div>
@@ -53,7 +53,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="bmd-label-floating">CATEGORY</label> <input
-										type="text" class="form-control" name='category'>
+										type="text" class="form-control" name='category' value="${store.category}">
 								</div>
 							</div>
 						</div>
@@ -74,22 +74,29 @@
 								<div class="addr form-group">
 									<label class="bmd-label-floating">Address</label> <input
 										type="text" onClick="goPopup();" class="form-control"
-										id="roadFullAddr" name="address">
+										id="roadFullAddr" name="address" value="${store.address}">
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="hidden" name="lat" class="lat form-control">
+									<input type="hidden" name="lat" class="lat form-control" value="${store.lat}">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="hidden" name="lng" class="lng form-control">
+									<input type="hidden" name="lng" class="lng form-control" value="${store.lng}">
 								</div>
 							</div>
 						</div>
+						
+						<div class="col-md-6">
+								<div class="form-group">
+									<label class="bmd-label-floating">MID</label> <input
+										type="hidden" class="form-control" name='sno' value="${store.sno}" readonly="readonly"/>
+								</div>
+							</div>
 						<a class="regBtn btn btn-primary btn-round">등록</a>
 						</form>
 					</div>
@@ -124,7 +131,7 @@ document.querySelector("input[name='logoImg']").addEventListener("change" , func
 	 
 
 
-	// registerPost
+	// modifyPost
 	 document.querySelector(".regBtn").addEventListener("click" , function(e) {
 	 e.preventDefault()
 	 const obj = {}
@@ -138,7 +145,7 @@ document.querySelector("input[name='logoImg']").addEventListener("change" , func
 	 console.log(obj)
 	
 	
-	 service.sendRegister(obj, "/admin/store/register").then(result => {$(".regModal").modal("show")}) 
+	 service.sendRegister(obj, "/admin/store/modify").then(result => {$(".regModal").modal("show")}) 
 	
 	 } , false) 
 

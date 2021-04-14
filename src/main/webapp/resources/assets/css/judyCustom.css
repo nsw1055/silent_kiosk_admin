@@ -53,4 +53,14 @@ box-shadow: 25px 21px 46px -30px rgba(0,0,0,0.57);
 	margin-right: auto;
 }
 
-
+.menu-img{
+	width: 100px;
+	height: 100px;
+	object-fit: contain;
+	padding: -10px
+}
+.imgLogo{
+	width: 130px;
+    height: 130px;
+    object-fit: cover;
+}

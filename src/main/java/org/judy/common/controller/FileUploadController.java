@@ -123,29 +123,32 @@ public class FileUploadController {
 	public ResponseEntity<byte[]> view(String link) {
 
 		String path = "C:\\upload\\temp\\admin\\manager";
-		ResponseEntity<byte[]> result = null;
+		
+		return imgView(link, path);
+	}
+	
+	@GetMapping("/menu/view")
+	public ResponseEntity<byte[]> menuView(String link) {
+		log.info("link: "+link);
+		String path = "C:\\upload\\admin\\manager\\MImg\\";
 
-		String realPath = "";
+		return imgView(link, path);
+	}
+	
+	@GetMapping("/topping/view")
+	public ResponseEntity<byte[]> toppingView(String link) {
+		log.info("link: "+link);
+		String path = "C:\\upload\\admin\\manager\\tImg\\";
 
-		try {
-
-			File targetFile = encoding(link, path);
-
-			log.info("--------------------------------------");
-			log.info(targetFile);
-			log.info("--------------------------------------");
-
-			HttpHeaders header = new HttpHeaders();
-
-			header.add("Content-Type", Files.probeContentType(targetFile.toPath()));
-
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(targetFile), header, HttpStatus.OK);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return result;
+		return imgView(link, path);
+	}
+	
+	@GetMapping("/logo/view")
+	public ResponseEntity<byte[]> logoView(String link) {
+		log.info("link: "+link);
+		String path = "C:\\upload\\admin\\manager\\logoImg\\";
+		
+		return imgView(link, path);
 	}
 
 	@PostMapping(value = "/manager/upload", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -453,4 +456,30 @@ public class FileUploadController {
 		return viewFile;
 	}
 
+	private ResponseEntity<byte[]> imgView(String link, String path){
+		ResponseEntity<byte[]> result = null;
+
+		String realPath = "";
+
+		try {
+
+			File targetFile = encoding(link, path);
+
+			log.info("--------------------------------------");
+			log.info(targetFile);
+			log.info("--------------------------------------");
+
+			HttpHeaders header = new HttpHeaders();
+
+			header.add("Content-Type", Files.probeContentType(targetFile.toPath()));
+
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(targetFile), header, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+		
+	}
 }
