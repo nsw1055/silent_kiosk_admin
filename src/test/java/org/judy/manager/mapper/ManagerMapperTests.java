@@ -82,4 +82,5 @@ public class ManagerMapperTests {
 		mapper.approval("user147");
 		log.info(mapper.selectOne("user147"));
 	}
+	
 }

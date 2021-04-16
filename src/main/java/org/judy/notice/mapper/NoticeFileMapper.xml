@@ -4,16 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.judy.notice.mapper.NoticeFileMapper">
 	<insert id="insertFile">
+		<![CDATA[
 		insert into tbl_notice_file (uuid, uploadpath, filename, nno, image)
         values (#{uuid}, #{uploadPath}, #{fileName}, #{nno}, #{image})
+        ]]>
 	</insert>
 	
 	<delete id="deleteFile">
+		<![CDATA[
 		delete from tbl_notice_file where nno = #{nno}
+		]]>
 	</delete>
 	
 	
 	<select id="getFile" resultType="org.judy.common.util.NoticeFileDTO">
+		<![CDATA[
 		select * from tbl_notice_file where nno = #{nno}
+		]]>
 	</select>
 </mapper>

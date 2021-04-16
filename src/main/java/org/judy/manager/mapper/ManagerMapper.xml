@@ -95,6 +95,12 @@
 	]]>
 	</update>
 	
+	<update id="updateMan">
+		<![CDATA[
+  		update tbl_manager set phone= #{phone}, email = #{email} where mid = #{mid}
+  		]]>
+	</update>
+	
 
 	
 	

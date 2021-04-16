@@ -25,4 +25,6 @@ public interface ManagerMapper {
 	
 	public void approval(String mid);
 	
+	public void updateMan(Manager manager);
+	
 }

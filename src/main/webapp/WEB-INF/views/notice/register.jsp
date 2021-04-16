@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../includes/header.jsp"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <div class="content">
         <div class="container-fluid">
@@ -23,13 +24,16 @@
                       <div class="col-md-3">
                         <div class="form-group bmd-form-group">
                           <label class="bmd-label-floating">작성자</label>
-                          <input type="text" name="writer" class="form-control">
+                          <input type="text" name="writer" value='<sec:authentication property="principal.username"/>' class="form-control" readonly="readonly">
                         </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">카테고리</label>
-                          <input type="text" name="category" class="form-control">
+                           <select style='width:px;' class="selectCate custom-select">
+                          <option value="안내">안내</option>
+                          <option value="긴급">긴급</option>
+                          <option value="이벤트">이벤트</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -52,9 +56,14 @@
                      <ul class="fileUl">
                      </ul>
                       </div>
-                       <div class="btnContainer">
+                       <hr/>
+							<div class="btnContainer">
+						   		 <div class="checkbox" style="display: flex; flex-direction: row;">
+		                     	  <h5>공지사항 고정</h5>
+		                     	  <input style="margin-left: 10px; margin-top: 5px;" type="checkbox" class="checkShowed" name="showed" ${notice.showed==true?"checked":"" }>
+		                     	  </div>
 						<button class="btn btn-primary btn-round registerBtn">등록</button>
-						<button class="btn btn-primary btn-round listBtn">목록으로</button>
+						<button class="btn btn-primary btn-round listBtn">등록 취소</button>
 					</div>
                   </form>
                 </div>
@@ -103,13 +112,12 @@
 			<div class="modal-body checkModalBody">
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary checkBtn">확인</button>
+				<button type="button" onclick='location.href="/admin/notice/list"' class="btn btn-primary checkBtn">확인</button>
 			</div>
 		</div>
 	</div>
 </div>
-
-
+	
 <form action="/admin/notice/list" class="actionForm">
 	<input type="hidden" name="page" value="${pageDTO.page }"> 
 	<input type="hidden" name="perSheet" value="${pageDTO.perSheet }"> 
@@ -120,24 +128,41 @@
 
 <script src="/admin/resources/service.js"></script>
 <script>
+
+	const csrfTokenValue = "${_csrf.token}"
+
 	const actionForm = document.querySelector(".actionForm")
+	
+	const sCate = document.querySelector(".selectCate")
+	
+	var cate = "안내";
+	
+		sCate.addEventListener("change", function(){
+			
+			const cateIdx = sCate.selectedIndex
+			
+			cate = sCate[cateIdx].value
+			
+		},false)
 
 	document.querySelector(".registerBtn").addEventListener("click", function(e) {
 
-	e.preventDefault();
+		e.preventDefault();
 		
-	 $("#registerModal").modal("show")
-
-	}, false)
+	 	$("#registerModal").modal("show")
+	 	
+	},false)
+	 	
 
 	const fileUl = document.querySelector(".fileUl")
 	
-	console.log(fileUl)
+	function modalHide() {
+			$("#checkModal").modal("hide")
+		}
 	
 	document.querySelector(".modalRegisterBtn").addEventListener("click", function(e) {
 		
 		const title = document.querySelector("input[name='title']").value
-		const category = document.querySelector("input[name='category']").value
 		const writer = document.querySelector("input[name='writer']").value
 		const content = document.querySelector("textarea[name='content']").value
 		
@@ -158,24 +183,44 @@
 		
 		}
 		
-		const obj = {title:title, category:category, writer:writer, content:content, list:arr}
+		const checkShowed = document.querySelector(".checkShowed")
+
 		
-		service.register(obj).then(result => document.querySelector(".checkModalBody").innerHTML += "<p>"+result+"<p>");
+		const obj = {title:title, category:cate, writer:writer, content:content, showed:checkShowed.checked, list:arr}
 		
-		 $("#registerModal").modal("hide")
+		service.register(obj,csrfTokenValue).then(result => 
+		{
+			console.dir(result)
+		if(result[0]){
+			
+			document.querySelector(".checkModalBody").innerHTML = "<p>"+result[0].defaultMessage+"</p>"
+			
+			$("#registerModal").modal("hide")
+			
+			 $("#checkModal").modal("show")
+			
+			document.querySelector(".checkBtn").setAttribute("onclick", "modalHide()")
+			
+		}else{
+			
+		document.querySelector(".checkModalBody").innerHTML = "<p>등록완료</p>"
+		
+		document.querySelector(".checkBtn").setAttribute("onclick", 'location.href="/admin/notice/list"')
+		
+		$("#registerModal").modal("hide")
 		
 		$("#checkModal").modal("show")
+		}
+		})
 		
 	}, false)
 	
 	
-	
-	document.querySelector(".checkBtn").addEventListener("click", function(e){
+/* 	document.querySelector(".checkBtn").addEventListener("click", function(e){
 		
 		location.href="/admin/notice/list"
 		
-	},false)
-	
+	},false) */
 	
 	
 	document.querySelector("input[name='files']").addEventListener("change", function(e){
@@ -192,7 +237,7 @@
 			
 		}
 		
-		service.upload(formdata).then(jsonObj => 
+		service.upload(formdata,csrfTokenValue).then(jsonObj => 
 		
 		 { console.log(jsonObj)
 			for(var i = 0 ; i< jsonObj.length; i++){
@@ -205,7 +250,7 @@
 					fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'><i class='fas fa-file'></i>"+file.fileName+"<button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>" 
 			
 			}else{
-			fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'>"+file.fileName+"<img src='/admin/common/notice/view?link="+file.thumbLink+"'/><button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>"
+			fileUl.innerHTML += "<li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'>"+file.fileName+"<img src='/admin/common/notice/preview?link="+file.thumbLink+"'/><button onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li>"
 
 			}	
 		}})
@@ -228,8 +273,6 @@
 		
 		fileLi.remove()
 		
-		
-
 	}
 	
 </script>

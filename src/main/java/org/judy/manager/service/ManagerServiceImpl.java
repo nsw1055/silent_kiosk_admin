@@ -84,6 +84,13 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 
+	@Override
+	public void updateMan(ManagerDTO managerDTO) {
+		Manager manager = toDomain(managerDTO);
+		mapper.updateMan(manager);
+}
+
+
 	
 
 

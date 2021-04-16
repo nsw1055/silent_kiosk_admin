@@ -6,6 +6,7 @@ import org.judy.store.domain.Menu;
 import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
 import org.judy.store.dto.MenuDTO;
+import org.judy.store.dto.MenuToppingDTO;
 import org.judy.store.dto.StoreDTO;
 import org.judy.store.dto.ToppingDTO;
 
@@ -38,6 +39,11 @@ public interface StoreService {
 	void updateMenu(MenuDTO menuDTO);
 	
 	// TOPPING
+	
+	List<ToppingDTO> selectedTop(Integer mno);
+	
+	List<ToppingDTO> unSelectTop(MenuDTO menuDTO);
+	
 	List<ToppingDTO> getTopping(Integer sno);
 	
 	ToppingDTO getOneTopping(Integer tno);
@@ -47,6 +53,11 @@ public interface StoreService {
 	void delTop(Integer tno);
 	
 	void updateTop(ToppingDTO toppingDTO);
+	
+	// MenuTopping
+	
+	void exceptTop(MenuToppingDTO menuToppingDTO);
+	void addTop(MenuToppingDTO menuToppingDTO);
 
 	default StoreDTO toDTO(Store store) {
 		StoreDTO dto = StoreDTO.builder()

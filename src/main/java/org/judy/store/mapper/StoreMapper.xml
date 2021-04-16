@@ -30,6 +30,12 @@
   		insert into tbl_store (sno, mid , sname , lat , lng , address , category,logoImg) values (#{sno}, #{mid} , #{sname} , #{lat} , #{lng} , #{address} , #{category},#{logoImg})
   		]]>
 	</insert>
+	
+	<insert id="insertStoreImg">
+	<![CDATA[
+	insert into tbl_store_img (suuid, sno, suploadPath, sfileName) values(#{suuid},#{sno},#{suploadPath},#{sfileName})
+	]]>
+	</insert>
 
 	<update id="updateStore">
 	update tbl_store set sname= #{sname}, lat = #{lat} , lng=#{lng}, address = #{address}, category = #{category}, logoImg = #{logoImg} where sno = #{sno} 
@@ -123,6 +129,35 @@
   		update tbl_store_topping set tprice= #{tprice}, timg = #{timg} , tname = #{tname}  where tno = #{tno}
   		]]>
 	</update>
+	
+	<select id="selectedTop" resultType="org.judy.store.domain.Topping">
+		<![CDATA[
+		select tst.sno, tst.tno , tst.tPrice , tst.tImg , tst.tName from tbl_menu_topping tmt
+		left join tbl_store_topping tst on tmt.tno = tst.tno
+		where tmt.mno = #{mno}
+		]]>
+	</select>
+	
+	<select id ="unSelectTop" resultType="org.judy.store.domain.Topping">
+		<![CDATA[
+		select distinct tst.tno , tst.tPrice , tst.tImg , tst.tName from tbl_store_topping tst
+		where sno = #{sno} and (tst.tno , tst.tPrice , tst.tImg , tst.tName ) NOT IN (select tst.tno , tst.tPrice , tst.tImg , tst.tName from tbl_menu_topping tmt
+		left join tbl_store_topping tst on tmt.tno = tst.tno
+		where tmt.mno = #{mno})
+	]]>
+	</select>
+	
+	<delete id="exceptTop">
+		<![CDATA[
+		delete from tbl_menu_topping where tno = #{tno} and mno = #{mno}
+		]]>
+	</delete>
+	
+	<insert id="addTop">
+		<![CDATA[
+		insert into tbl_menu_topping (mno , tno) values (#{mno} , #{tno})
+		]]>
+	</insert>
 	
 	
 

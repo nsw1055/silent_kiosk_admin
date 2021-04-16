@@ -1,123 +1,136 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../includes/header.jsp"%>
 <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title">공지사항 등록</h4>
-                </div>
-                <div class="card-body">
-                  <form>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">제목</label>
-                          <input type="text" name="title" class="form-control" value="${notice.title}">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">작성자</label>
-                          <input type="text" name="writer" class="form-control" value="${notice.writer}" readonly="readonly">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">카테고리</label>
-                          <input type="text" name="category" class="form-control" value="${notice.category}">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>내용</label>
-                          <div class="form-group bmd-form-group">
-                            <textarea class="form-control" name="content" rows="20"><c:out value="${notice.content}" /></textarea>
-                          </div>
-                        </div>
-                      </div>
-                     </div>
-                     <div class="row">
-                         <div class="col-md-12">
-                            <input style="height:10vh;" type="file" multiple="multiple" name="files">
-                         </div>
-                     </div>
-                     <div class="row">
-                     <ul class="fileUl">
-                     </ul>
-                      </div>
-                       <div class="btnContainer">
-                  <button class="btn btn-primary btn-round modifyBtn">수정</button>
-                  <button class="btn btn-primary btn-round listBtn">목록으로</button>
-               </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-profile">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary">
+						<h4 class="card-title">공지사항 등록</h4>
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group bmd-form-group">
+										<label class="bmd-label-floating">제목</label> <input
+											type="text" name="title" class="form-control"
+											value="${notice.title}">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group bmd-form-group">
+										<label class="bmd-label-floating">작성자</label> <input
+											type="text" name="writer" class="form-control"
+											value="${notice.writer}" readonly="readonly">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group bmd-form-group">
+										 <select  style='width:px;' class="selectCate custom-select">
+				                     		<option ${notice.category == "안내"? "selected" :"" } value="안내">안내</option>
+				                      	 	<option ${notice.category == "긴급"? "selected" :"" } value="긴급">긴급</option>
+				                        	<option ${notice.category == "이벤트"? "selected" :"" } value="이벤트">이벤트</option>
+			                         	 </select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>내용</label>
+										<div class="form-group bmd-form-group">
+											<textarea class="form-control" name="content" rows="20"><c:out
+													value="${notice.content}" /></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<input style="height: 10vh;" type="file" multiple="multiple"
+										name="files">
+								</div>
+							</div>
+							<div class="row">
+								<ul class="fileUl">
+								</ul>
+							</div>
+							<hr/>
+							<div class="btnContainer">
+						   		 <div class="checkbox" style="display: flex; flex-direction: row;">
+		                     	  <h5>공지사항 고정</h5>
+		                     	  <input style="margin-left: 10px; margin-top: 5px;" type="checkbox" class="checkShowed" name="showed" ${notice.showed==true?"checked":"" }>
+		                     	  </div>
+								<button class="btn btn-primary btn-round modifyBtn">수정</button>
+								<button class="btn btn-primary btn-round cancelBtn">수정 취소</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card card-profile"></div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <div class="modal" id="modifyModal" tabindex="-1" role="dialog">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">수정 확인</h5>
-            <button type="button" class="close" data-dismiss="modal"
-               aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <p>수정하시겠습니까?</p>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-primary modalModifyBtn">수정</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-         </div>
-      </div>
-   </div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">수정 확인</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>수정하시겠습니까?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary modalModifyBtn">수정</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="modal" id="checkModal" tabindex="-1" role="dialog">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">등록 확인</h5>
-            <button type="button" class="close" data-dismiss="modal"
-               aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body checkModalBody">
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-primary checkBtn">확인</button>
-         </div>
-      </div>
-   </div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">등록 확인</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body checkModalBody"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary checkBtn">확인</button>
+			</div>
+		</div>
+	</div>
 </div>
 
-<form action="/admin/notice/list" class="actionForm">
-   <input type="hidden" name="page" value="${pageDTO.page }"> 
-   <input type="hidden" name="perSheet" value="${pageDTO.perSheet }"> 
-   <input type="hidden" name="type" value="${pageDTO.type }"> 
-   <input type="hidden" name="keyword" value="${pageDTO.keyword }">
+<form action="/admin/notice/read" class="actionForm">
+	<input type="hidden" name="page" value="${pageDTO.page }"> 
+	<input type="hidden" name="perSheet" value="${pageDTO.perSheet }">
+	<input type="hidden" name="type" value="${pageDTO.type }">
+	<input type="hidden" name="keyword" value="${pageDTO.keyword }">
 </form>
 
 
 <script src="/admin/resources/service.js"></script>
 <script>
+
+   const csrfTokenValue = "${_csrf.token}";
+
    const actionForm = document.querySelector(".actionForm")
 
    document.querySelector(".modifyBtn").addEventListener("click", function(e) {
@@ -129,28 +142,46 @@
    }, false)
    
    const arr = []
+
+   var category = "${notice.category}"
    
    document.querySelector(".modalModifyBtn").addEventListener("click", function(e) {
 	   
       const title = document.querySelector("input[name='title']").value
       
-      const category = document.querySelector("input[name='category']").value
-      
       const writer = document.querySelector("input[name='writer']").value
       
       const content = document.querySelector("textarea[name='content']").value
       
-      const obj = {nno:${notice.nno}, title:title, category:category, writer:writer, content:content , list:arr}
+  	  const checkShowed = document.querySelector(".checkShowed")
       
-      service.modify(obj).then(result => document.querySelector(".checkModalBody").innerHTML += "<h3>"+result+"</h3>")
+      const obj = {nno:${notice.nno}, title:title, category:category, writer:writer, content:content, showed:checkShowed.checked, list:arr}
+      
+      service.modify(obj,csrfTokenValue).then(result => document.querySelector(".checkModalBody").innerHTML += "<h3>"+result+"</h3>")
       
       $("#checkModal").modal("show")
       
    }, false)
    
+   const sCate =  document.querySelector(".selectCate")
+   
+  sCate.addEventListener("change",function(){
+	   
+	   const cateIdx = sCate.selectedIndex
+	   
+	   category = sCate[cateIdx].value
+	   
+   },false)
+   
    document.querySelector(".checkBtn").addEventListener("click", function(e){
+	   
+	  e.preventDefault()
       
-      location.href="/admin/notice/list"
+      actionForm.innerHTML += "<input type='hidden' name='nno' value='${notice.nno }'>"
+      
+      actionForm.setAttribute("action", "/admin/notice/read")
+      
+      actionForm.submit()
       
    },false)
    
@@ -171,7 +202,7 @@
          
       }
       
-      service.upload(formdata).then(jsonObj => 
+      service.upload(formdata,csrfTokenValue).then(jsonObj => 
       
        { console.log(jsonObj)
          for(var i = 0 ; i< jsonObj.length; i++){
@@ -188,16 +219,18 @@
                fileUl.innerHTML += "<li id='li"+file.uuid+"'><i class='fas fa-file'></i></a>"+file.fileName+"<button onclick='delTempImg(event, JSON.stringify("+file+"))'>삭제</button></li>" 
          
          }else{
-         fileUl.innerHTML += "<li id='li"+file.uuid+"'>"+file.fileName+"<img src='/admin/common/notice/view?link="+file.thumbLink+"'/><button onclick='delTempImg(event, "+JSON.stringify(file)+")'>삭제</button></li>"
+         fileUl.innerHTML += "<li id='li"+file.uuid+"'>"+file.fileName+"<img src='/admin/common/notice/preview?link="+file.thumbLink+"'/><button onclick='delTempImg(event, "+JSON.stringify(file)+")'>삭제</button></li>"
 
          }   
       }})
       
    }, false)
    
-   document.querySelector(".listBtn").addEventListener("click", function(e){
+   document.querySelector(".cancelBtn").addEventListener("click", function(e){
       
       e.preventDefault();
+      
+      actionForm.innerHTML += "<input type='hidden' name='nno' value='${notice.nno }'>"
       
       actionForm.submit();
       

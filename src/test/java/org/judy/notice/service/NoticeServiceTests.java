@@ -34,9 +34,15 @@ public class NoticeServiceTests {
 	}
 	
 	@Test
+	public void testTopList() {
+		log.info(service.topList());
+	}
+	
+	@Test
 	public void testOne() {
 		
-		log.info(service.getOne(20));
+		NoticeDTO dto = service.getOne(20);
+		
 	}
 	
 	@Test
@@ -64,6 +70,11 @@ public class NoticeServiceTests {
 	@Test
 	public void testDelete() {
 		service.delete(376);
+	}
+	
+	@Test
+	public void testThumb() {
+		log.info(service.getThumb(612));
 	}
 	
 }

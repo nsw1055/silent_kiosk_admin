@@ -1,6 +1,6 @@
 package org.judy.notice.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
@@ -21,8 +21,9 @@ public class Notice {
 	private String title;
 	private String content;
 	private String writer;
-	private Boolean show;
+	private Boolean showed;
 	private String category;
+	private boolean img;
+	private boolean file;
 	private Date regdate, updatedate;
-	
 }

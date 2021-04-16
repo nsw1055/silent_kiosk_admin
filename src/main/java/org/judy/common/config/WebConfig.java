@@ -14,7 +14,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		// TODO Auto-generated method stub
-		return new Class[] { CommonConfig.class, TimeConfig.class, NoticeConfig.class, ManagerConfig.class, StoreConfig.class };
+		return new Class[] { CommonConfig.class, TimeConfig.class, NoticeConfig.class, ManagerConfig.class, StoreConfig.class, SecurityConfig.class };
 	}
 
 	@Override

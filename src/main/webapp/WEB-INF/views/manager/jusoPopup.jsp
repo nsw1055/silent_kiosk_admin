@@ -31,6 +31,7 @@ function init(){
       document.form.returnUrl.value = url;
       document.form.resultType.value = resultType;
       document.form.action="https://www.juso.go.kr/addrlink/addrCoordUrl.do"; //인터넷망
+      
       document.form.submit();
    }else{
       opener.jusoCallBack("<%=roadFullAddr%>");

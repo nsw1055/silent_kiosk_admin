@@ -24,6 +24,8 @@ public interface ManagerService {
 	
 	void registerMan(ManagerDTO managerDTO);
 	
+	void updateMan(ManagerDTO managerDTO);
+	
 	default ManagerDTO toDTO(Manager manager) {
 		ManagerDTO dto = ManagerDTO.builder()
 								.mid(manager.getMid())

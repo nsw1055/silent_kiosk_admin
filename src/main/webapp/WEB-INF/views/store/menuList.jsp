@@ -124,6 +124,33 @@ String sno = request.getParameter("sno");
 </div>
 
 
+<div class="toppingModal modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Modal title</h5>
+			</div>
+			<div class="modal-body" >
+			<input type="hidden" name = mnoModal value =""/>
+				<p>선택된 토핑 목록</p>
+				<div class = "select-topping">
+				</div>
+				
+			</div>
+			<div class="modal-body">
+				<p>선택 안된 토핑 목록</p>
+				<div class = "unSelect-topping">
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="toppingCommit btn btn-primary">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -174,7 +201,7 @@ String sno = request.getParameter("sno");
 													style="padding: 5px;">삭제</button>
 												<c:if test= "${menu.cno == 1}">
 												<button type="submit"
-													class="btn btn-info pull-right"
+													class="topBtn btn btn-info pull-right"
 													style="padding: 5px;">토핑</button>
 													</c:if>
 
@@ -223,6 +250,7 @@ String sno = request.getParameter("sno");
 	const actionForm2 = document.querySelector(".actionForm2")
     const cnoAct = document.querySelector("input[name='cno']").value
     const sno = document.querySelector("input[name='sno']").value
+    const csrfTokenValue = "${_csrf.token}"
     //category
         window.onload = function(){
 
@@ -264,11 +292,11 @@ document.querySelector("input[name='mimg']").addEventListener("change" , functio
 	    const files = e.target.files
 	    fd.append("files", files[0])
 	    fd.append("value", e.target.name)
-	    service.sendUpload(fd).then(result => {
+	    service.sendUpload(fd,csrfTokenValue).then(result => {
 	    	console.dir(result[0])
 	    	e.target.setAttribute("data-fileName" , result[0].fileName)
 	    }) 
-	    service.sendUploadThumb(fd)
+	    service.sendUploadThumb(fd,csrfTokenValue)
 	    
 	   
 	   
@@ -294,6 +322,7 @@ document.querySelector("input[name='mimg']").addEventListener("change" , functio
 	document.querySelectorAll(".menuInfo").forEach(event => {
 		event.addEventListener("click", function(e){
 			
+			const arr = []
 			const mno = e.currentTarget.querySelector(".menuBtn").getAttribute("data-mno")
 			const menuName = e.currentTarget.querySelector(".menuName").innerHTML
 			const content = e.currentTarget.querySelector(".menuContent").innerHTML
@@ -319,21 +348,77 @@ document.querySelector("input[name='mimg']").addEventListener("change" , functio
 				$(".delModal").modal("show")
 				
 				document.querySelector(".delAgree").addEventListener("click" , function(e){
-            
-            fetch("/admin/store/menuDelete" , {
-               method : 'post' , 
-               headers : {"Content-Type" : "application/json"} ,
-               body : JSON.stringify(mno)
-            }).then(res => res.text()).then(result => {
+            const path = "/admin/store/menuDelete"
+            service.sendRegister(mno,path, csrfTokenValue).then(result => {
             	$(".delModal").modal("hide")
             	$(".delModalCon").modal("show")
                console.log("삭제")
          } , false)
 			})
+			} else if(e.target == e.currentTarget.querySelector(".topBtn")){
+				document.querySelector("input[name='mnoModal']").value = mno
+				
+				const path1 = "/admin/store/selectedTop?mno="+ mno
+				
+				service.getAjax(path1).then(res => res.json()).then(result => result.forEach(topping => {
+					document.querySelector(".select-topping").innerHTML += "<a href='' class='btn btn-round btn-primary' data-tno="+topping.tno+">"+topping.tname+"</a>"
+				}))
+				
+				const path2 = "/admin/store/unSelectTop?mno="+ mno+"&sno="+sno
+				
+				service.getAjax(path2).then(res => res.json()).then(result => result.forEach(topping => {
+					document.querySelector(".unSelect-topping").innerHTML += "<a href='' class='btn btn-round' data-tno="+topping.tno+">"+topping.tname+"</a>"
+				}))
+				
+				
+				$(".toppingModal").modal("show")
 			}
 		
+		})
 	})
+	
+	// toppingCommit
+	document.querySelector(".toppingCommit").addEventListener("click" , function(e){
+		
+		e.preventDefault()
+		$(".toppingModal").modal("hide")
+		document.querySelector(".select-topping").innerHTML = ""
+		document.querySelector(".unSelect-topping").innerHTML = ""
+	} , false)
+	
+	
+	document.querySelector(".select-topping").addEventListener("click", function(e){
+		e.preventDefault()
+		const tno =e.target.dataset.tno
+		const mno = document.querySelector("input[name='mnoModal']").value
+		const tname = e.target.innerText
+		const value = {mno:mno, tno:tno} 
+		const path = "/admin/store/exceptTopping"
+		
+		service.sendRegister(path,value,csrfTokenValue).then(result => console.log(result))
+		
+		e.target.remove()
+		document.querySelector(".unSelect-topping").innerHTML += "<a href='' class='btn btn-round' data-tno="+tno+">"+tname+"</a>"
+
 	})
+	
+	
+	document.querySelector(".unSelect-topping").addEventListener("click", function(e){
+		e.preventDefault()
+		const tno =e.target.dataset.tno
+		const mno = document.querySelector("input[name='mnoModal']").value
+		const tname = e.target.innerText
+		
+		const value = {mno:mno, tno:tno} 
+		
+		const path = "/admin/store/addTopping"
+		
+		service.sendRegister(path,value,csrfTokenValue).then(result => console.log(result))
+		
+		e.target.remove()
+		document.querySelector(".select-topping").innerHTML += "<a href='' class='btn btn-round btn-primary' data-tno="+tno+">"+tname+"</a>"
+	})
+	
 	
 	 document.querySelector(".modCommit").addEventListener("click" , function(e){
 		e.preventDefault()
@@ -351,11 +436,7 @@ document.querySelector("input[name='mimg']").addEventListener("change" , functio
 		console.log(mimg)
 		console.log(JSON.stringify(menuDTO))
 		const path = actionForm.getAttribute("action")
-		fetch(path , {
-			method : 'post',
-			headers : {"Content-Type" : "application/json;"} ,
-			body : JSON.stringify(menuDTO)
-		}).then(res => res.text()).then(result => {
+		service.sendRegister(menuDTO, path, csrfTokenValue).then(result => {
 			$(".modModal").modal("hide")
 			$(".commitModal").modal("show")})
 		
@@ -364,7 +445,7 @@ document.querySelector("input[name='mimg']").addEventListener("change" , functio
 	document.querySelector(".modConfirm").addEventListener("click" , function(e){
 		location.reload()
 	} , false)
-	document.querySelector(".delCancel").addEventListener("click" , function(e){
+	   document.querySelector(".delCancel").addEventListener("click" , function(e){
 		   $(".delModal").modal("hide")
    } , false)
       

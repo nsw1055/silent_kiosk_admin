@@ -205,6 +205,8 @@ String sno = request.getParameter("sno");
 const actionForm = document.querySelector(".actionForm")
 const actionForm2 = document.querySelector(".actionForm2")
 const sno = document.querySelector("input[name='sno']").value
+const csrfTokenValue = "${_csrf.token}";
+
 //category
 document.querySelector(".navCat").addEventListener("click", function(e){
 
@@ -232,12 +234,12 @@ document.querySelector("input[name='timg']").addEventListener("change" , functio
 	    const files = e.target.files
 	    fd.append("files", files[0])
 	    fd.append("value", e.target.name)
-	    service.sendUpload(fd).then(result => {
+	    service.sendUpload(fd,csrfTokenValue).then(result => {
 	    	console.dir(result[0])
 	    	e.target.setAttribute("data-fileName" , result[0].fileName)
 	    }) 
 	   
-	    service.sendUploadThumb(fd)
+	    service.sendUploadThumb(fd,csrfTokenValue)
 	    
 } , false)  
 
@@ -281,12 +283,8 @@ document.querySelector("input[name='timg']").addEventListener("change" , functio
 				$(".delModal").modal("show")
 				
 				document.querySelector(".delAgree").addEventListener("click" , function(e){
-            
-            fetch("/admin/store/toppingDelete" , {
-               method : 'post' , 
-               headers : {"Content-Type" : "application/json"} ,
-               body : JSON.stringify(tno)
-            }).then(res => res.text()).then(result => {
+            const path = "/admin/store/toppingDelete" 
+           service.sendRegister(tno,path,csrfTokenValue).then(result => {
             	$(".delModal").modal("hide")
             	$(".delModalCon").modal("show")
                console.log("삭제")
@@ -316,11 +314,7 @@ document.querySelector("input[name='timg']").addEventListener("change" , functio
 		
 		const path = actionForm.getAttribute("action")
 		
-		fetch( path , {
-			method : 'post',
-			headers : {"Content-Type" : "application/json;"} ,
-			body : JSON.stringify(toppingDTO)
-		}).then(res => res.text()).then(result => {
+		service.sendRegister(toppingDTO, path, csrfTokenValue).then(result => {
 			$(".modModal").modal("hide")
 			$(".commitModal").modal("show")})
 		

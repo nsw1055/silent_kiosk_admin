@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ManagerFileDTO {
 
-	private String fileName;
 	private String uploadPath;
 	private String uuid;
+	private String fileName;
 	private Boolean image;
 
 	public String getLink() {

@@ -3,10 +3,11 @@ package org.judy.store.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.judy.common.util.ManagerFileDTO;
 import org.judy.store.domain.Menu;
+import org.judy.store.domain.MenuTopping;
 import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
-import org.judy.store.dto.MenuDTO;
 
 public interface StoreMapper {
 
@@ -21,6 +22,8 @@ public interface StoreMapper {
 	public void deleteDoc(String muuid);
 	
 	public void insertStore(Store store);
+	
+	public void insertStoreImg(ManagerFileDTO dto);
 	
 	// MENU
 	
@@ -38,6 +41,8 @@ public interface StoreMapper {
 	
 	// TOPPING
 	
+	public List<Topping> selectedTop(Integer mno);
+	
 	public List<Topping> getTopping(Integer sno);
 	
 	public Topping getOneTopping(Integer tno);
@@ -47,4 +52,11 @@ public interface StoreMapper {
 	public void delTop(Integer tno);
 	
 	public void updateTop(Topping topping);
+	
+	// MenuTopping
+	public void exceptTop(MenuTopping menuTopping);
+	
+	public List<Topping> unSelectTop(Menu menu);
+	
+	public void addTop(MenuTopping menuTopping);
 }

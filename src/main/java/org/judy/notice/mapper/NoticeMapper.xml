@@ -11,13 +11,19 @@
 				<foreach collection="arr" item="type" separator="or"
 					open="(" close=")">
 					<if test="type=='t'.toString()">
+						<![CDATA[
 						title like concat('%',#{keyword},'%')
+						]]>
 					</if>
 					<if test="type=='c'.toString()">
+						<![CDATA[
 						content like concat('%',#{keyword},'%')
+						]]>
 					</if>
 					<if test="type == 'y'.toString()">
+						<![CDATA[
 						category like concat('%',#{keyword},'%')
+						]]>
 					</if>
 				</foreach>
 			</if>
@@ -25,19 +31,32 @@
 	</sql>
 
 	<select id="getList" resultType="org.judy.notice.domain.Notice">
+		<![CDATA[
 		select * from tbl_notice
+		]]>
 		<include refid="search"></include>
+		<![CDATA[
 		order by nno desc limit #{skip}, #{perSheet}
-
+		]]>
+	</select>
+	
+	<select id="topList" resultType="org.judy.notice.domain.Notice">
+		<![CDATA[
+		select * from tbl_notice where showed = 1 order by nno desc
+		]]>
 	</select>
 
 	<select id="getOne" resultType="org.judy.notice.domain.Notice">
+		<![CDATA[
 		select * from tbl_notice where
 		nno=#{nno}
+		]]>
 	</select>
 
 	<select id="getTotal" resultType="int">
+		<![CDATA[
 		select count(nno) from tbl_notice
+		]]>
 		<include refid="search"></include>
 	</select>
 
@@ -45,18 +64,36 @@
 	<insert id="insert">
 		<selectKey resultType="Integer" keyProperty="nno"
 			order="AFTER">
+			<![CDATA[
 			SELECT LAST_INSERT_ID()
+			]]>
 		</selectKey>
-		insert into tbl_notice (nno,title,content,writer,category)
-		values(#{nno},#{title}, #{content}, #{writer}, #{category})
+		<![CDATA[
+		insert into tbl_notice (nno,title,content,writer,showed, category,img,file)
+		values(#{nno},#{title},#{content},#{writer},#{showed},#{category},#{img},#{file})
+		]]>
 	</insert>
 
 	<update id="delete">
+		<![CDATA[
 		update tbl_notice set enabled = 0 where nno = #{nno};
+		]]>
 	</update>
 	
 	<update id="update">
-		update tbl_notice set title=#{title}, content=#{content}, category=#{category}, updatedate=now() where nno = #{nno};
+		<![CDATA[
+		update tbl_notice set title=#{title}, content=#{content}, category=#{category}, img=#{img}, file=#{file}, showed=#{showed}, updatedate=now() where nno = #{nno};
+		]]>
 	</update>
+	
+	<select id="getThumb" resultType="org.judy.common.util.NoticeFileDTO">
+	 	<![CDATA[
+		select tbl_notice.nno, fileName, uploadPath, uuid, image
+		from tbl_notice left join tbl_notice_file tnf on tbl_notice.nno = tnf.nno
+		where tbl_notice.nno = #{nno} and tnf.image = 1
+		group by tbl_notice.nno
+		order by tbl_notice.nno desc
+		]]>
+	</select>
 
 </mapper>

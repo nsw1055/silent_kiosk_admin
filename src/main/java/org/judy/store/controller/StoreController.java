@@ -7,14 +7,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.judy.manager.service.ManagerService;
 import org.judy.store.dto.MenuDTO;
+import org.judy.store.dto.MenuToppingDTO;
 import org.judy.store.dto.StoreDTO;
 import org.judy.store.dto.ToppingDTO;
 import org.judy.store.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,22 +55,25 @@ public class StoreController {
 	}
 	  
 	@GetMapping("/read")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
 	public void getStore(String mid , Model model) {
 		model.addAttribute("store" , storeService.getStore(mid));
 		model.addAttribute("manager" , managerService.selectOne(mid));
 	}
 	
 	@GetMapping("/register")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
 	public void getRegister(String mid , Model model) {
 		model.addAttribute("mid" , mid);
 		
 	}
 	
 	@PostMapping("/register")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
 	public ResponseEntity<String> PostRegister(@RequestBody StoreDTO storeDTO) {
 		
 		Integer sno = storeService.insertStore(storeDTO);
-		
+			
 		String path = "C:\\upload\\admin\\manager\\logoImg\\"+sno;
 		
 		File uploadPath = new File(path);
@@ -84,6 +90,7 @@ public class StoreController {
 	}
 
 	@GetMapping("/modify")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
 	public void getModify(String mid, Integer sno , Model model) {
 		model.addAttribute("mid" , mid);
 		model.addAttribute("store", storeService.getStoreOne(sno));
@@ -91,6 +98,7 @@ public class StoreController {
 	}
 	
 	@PostMapping("/modify")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #storeDTO.mid')")
 	public ResponseEntity<String> postModify(@RequestBody StoreDTO storeDTO) {
 		
 		storeService.updateStore(storeDTO);
@@ -111,6 +119,7 @@ public class StoreController {
 	}
 	
 	@PostMapping("/delete")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
 	public ResponseEntity<String> postDelete(@RequestBody Integer sno){
 		
 		storeService.delStore(sno);
@@ -119,11 +128,11 @@ public class StoreController {
 	}
 	
 	@GetMapping("/menuList")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
 	public void getMenu(Integer sno, Integer cno, Model model) {
 		
 		model.addAttribute("menu", storeService.getMenu(sno, cno));
-		model.addAttribute("sname", storeService.menuSname(sno));
-		
+		model.addAttribute("sname", storeService.menuSname(sno));	
 	}
 	
 	
@@ -131,6 +140,7 @@ public class StoreController {
 	public ResponseEntity<String> postMenuRegister(@RequestBody MenuDTO menuDTO) {
 		
 		Integer mno = storeService.insertMenu(menuDTO);
+		
 		
 		String path = "C:\\upload\\admin\\manager\\MImg\\"+menuDTO.getSno()+"\\"+mno;
 		
@@ -237,6 +247,35 @@ public class StoreController {
 	      storeService.delTop(tno);
 	      return new ResponseEntity<String>("success" , HttpStatus.OK);
 	   }
+	
+	@GetMapping("/selectedTop")
+	public ResponseEntity<List<ToppingDTO>> getSelectedTop(Integer mno){
+		
+		return new ResponseEntity<List<ToppingDTO>>(storeService.selectedTop(mno) , HttpStatus.OK);
+	}
+	
+	@GetMapping("/unSelectTop")
+	public ResponseEntity<List<ToppingDTO>> getUnSelectTop(Integer mno, Integer sno){
+		MenuDTO menuDTO = MenuDTO.builder().sno(sno).mno(mno).build();
+		
+		return new ResponseEntity<List<ToppingDTO>>(storeService.unSelectTop(menuDTO) , HttpStatus.OK);
+	}
+	
+	@PostMapping("/exceptTopping")
+	public ResponseEntity<String> postExceptTop(@RequestBody MenuToppingDTO menuToppingDTO){
+		
+		storeService.exceptTop(menuToppingDTO);
+		
+		return new ResponseEntity<String>("success" , HttpStatus.OK);
+	}
+	
+	@PostMapping("/addTopping")
+	public ResponseEntity<String> postAddTop(@RequestBody MenuToppingDTO menuToppingDTO){
+		
+		storeService.addTop(menuToppingDTO);
+		
+		return new ResponseEntity<String>("success" , HttpStatus.OK);
+	}
 	
 	
 	private String getFolder() {

@@ -30,6 +30,11 @@ public class NoticeMapperTests {
 	}
 	
 	@Test
+	public void topList() {
+		log.info(mapper.topList());
+	}
+	
+	@Test
 	public void getOneTest() {
 		log.info(mapper.getOne(20));	
 	}
@@ -62,5 +67,11 @@ public class NoticeMapperTests {
 	public void deleteTest() {
 		
 		mapper.delete(505);
+	}
+	
+	@Test
+	public void getThumbTest() {
+		
+		log.info(mapper.getThumb(612));
 	}
 }

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.judy.store.domain.Menu;
+import org.judy.store.domain.MenuTopping;
 import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
 import org.judy.store.dto.MenuDTO;
+import org.judy.store.dto.MenuToppingDTO;
 import org.judy.store.dto.StoreDTO;
 import org.judy.store.dto.ToppingDTO;
 import org.judy.store.mapper.StoreMapper;
@@ -137,6 +139,34 @@ public class StoreServiceImpl implements StoreService {
 	public void updateTop(ToppingDTO toppingDTO) {
 		Topping topping = toDomTop(toppingDTO);
 		mapper.updateTop(topping);
+		
+	}
+
+	@Override
+	public List<ToppingDTO> selectedTop(Integer mno) {
+		return mapper.selectedTop(mno).stream().map(topping -> {
+			return toDtoTop(topping);
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public void exceptTop(MenuToppingDTO menuToppingDTO) {
+		MenuTopping menuTopping = MenuTopping.builder().mno(menuToppingDTO.getMno()).tno(menuToppingDTO.getTno()).build();
+		mapper.exceptTop(menuTopping);
+	}
+
+	@Override
+	public List<ToppingDTO> unSelectTop(MenuDTO menuDTO) {
+		Menu menu = Menu.builder().sno(menuDTO.getSno()).mno(menuDTO.getMno()).build();
+		return mapper.unSelectTop(menu).stream().map(topping -> {
+			return toDtoTop(topping);
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public void addTop(MenuToppingDTO menuToppingDTO) {
+		MenuTopping menuTopping = MenuTopping.builder().mno(menuToppingDTO.getMno()).tno(menuToppingDTO.getTno()).build();
+		mapper.addTop(menuTopping);
 		
 	}
 

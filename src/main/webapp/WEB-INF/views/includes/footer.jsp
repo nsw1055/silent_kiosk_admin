@@ -45,8 +45,7 @@
   <script src="../resources/assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../resources/assets/demo/demo.js"></script>
-
- <!--  <script>															    
+ <!--  <script>
   /* 사이드바 선택 페이지 강조 */
     $(document).ready(function() {
       $().ready(function() {
