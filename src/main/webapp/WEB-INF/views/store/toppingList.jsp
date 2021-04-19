@@ -146,8 +146,7 @@ String sno = request.getParameter("sno");
 											</div>
 											<h5 class="tname card-title">${topping.tname }</h5>
 											<p class="tprice card-category">${topping.tprice }</p>
-											<p class="timg card-category">${topping.timg }</p>
-
+											<input type="hidden" class="timg" value=${topping.timg }/>
 										</div>
 										<div class="card-footer">
 											<div class="menuBtn stats" data-mno="${topping.tno }">
@@ -236,7 +235,7 @@ document.querySelector("input[name='timg']").addEventListener("change" , functio
 	    fd.append("value", e.target.name)
 	    service.sendUpload(fd,csrfTokenValue).then(result => {
 	    	console.dir(result[0])
-	    	e.target.setAttribute("data-fileName" , result[0].fileName)
+	    	e.target.setAttribute("data-fileName" , result[0].sfileName)
 	    }) 
 	   
 	    service.sendUploadThumb(fd,csrfTokenValue)

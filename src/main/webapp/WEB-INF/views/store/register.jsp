@@ -119,6 +119,7 @@
 <script>
 const csrfTokenValue = "${_csrf.token}"
 const mid = document.querySelector("input[name='mid']").value
+const arr = []
 
 //fileUploadLogoImg
 document.querySelector("input[name='logoImg']").addEventListener("change" , function(e){
@@ -128,12 +129,12 @@ document.querySelector("input[name='logoImg']").addEventListener("change" , func
 	    const files = e.target.files
 	    fd.append("files", files[0])
 	    fd.append("value", e.target.name)
-	    service.sendUpload(fd,csrfTokenValue).then(result => {
+	    service.sendUpload(fd, csrfTokenValue).then(result => {
 	    	console.dir(result[0])
-	    	e.target.setAttribute("data-fileName" , result[0].fileName)
+	    	e.target.setAttribute("data-fileName" , result[0].sfileName)
 	    }) 
 	    
-	    service.sendUploadThumb(fd,csrfTokenValue)
+	    service.sendUploadThumb(fd, csrfTokenValue)
 	   
 } , false)
 
@@ -156,14 +157,16 @@ document.querySelector("input[name='logoImg']").addEventListener("change" , func
 			
 		}
 		
-		service.storeUpload(formdata,csrfTokenValue).then(jsonObj => 
+		service.storeUpload(formdata, csrfTokenValue).then(jsonObj => 
 		
 		 { console.log(jsonObj)
 			for(var i = 0 ; i< jsonObj.length; i++){
 			
 			var file = jsonObj[i];
+			
+			arr.push(file)
 				
-			storeThumb.innerHTML += "<div class='col-md-2 delFile"+file.uuid+"'> <ul><li id='li"+file.uuid+"' data-uuid='"+file.uuid+"' data-fileName='"+file.fileName+"' data-uploadPath='"+file.uploadPath+"' data-image='"+file.image+"'>"+file.fileName+"<img src='/admin/common/store/view?link="+file.thumbLink+"'/><button class='btn btn-round btn-danger' style = 'padding: 5px;' onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li></ul> </div>"
+			storeThumb.innerHTML += "<div class='col-md-2 delFile"+file.suuid+"'> <ul><li id='li"+file.suuid+"' data-uuid='"+file.suuid+"' data-fileName='"+file.sfileName+"' data-uploadPath='"+file.suploadPath+"' data-image='"+file.simage+"'>"+file.sfileName+"<img src='/admin/common/store/view?link="+file.thumbLink+"'/><button class='btn btn-round btn-danger' style = 'padding: 5px;' onclick='delTempImg(event,"+JSON.stringify(file)+")'>삭제</button></li></ul> </div>"
 
 		}})
 		
@@ -191,6 +194,7 @@ document.querySelector("input[name='logoImg']").addEventListener("change" , func
 	 obj[form.elements[i].name] = form.elements[i].value
 	 }
 	 obj.logoImg = document.querySelector("input[name='logoImg']").dataset.filename
+	 obj.fileDTO = arr
 	 console.log(obj)
 	
 	

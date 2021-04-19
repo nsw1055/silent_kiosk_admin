@@ -1,5 +1,19 @@
 var service = (function() {
 	
+
+	
+	function sendJson(path, obj, csrfTokenValue){
+	
+		return fetch(path,{
+				method : 'post',
+				headers : {'Content-Type' : 'application/json',
+							'X-CSRF-TOKEN': csrfTokenValue},
+				body : JSON.stringify(obj)
+		}).then(res => res.json())
+	
+	}
+	
+	
 	function deleteNotice(nno, csrfTokenValue, writer){
 		
 		return fetch("/admin/notice/delete", {
@@ -9,17 +23,8 @@ var service = (function() {
 				body : "nno="+nno+"&writer="+writer+""
 		}).then(res => res.text())
 	}
+			
 	
-	function register(obj, csrfTokenValue){
-	
-		return fetch("/admin/notice/register",{
-				method : 'post',
-				headers : {'Content-Type' : 'application/json',
-							'X-CSRF-TOKEN': csrfTokenValue},
-				body : JSON.stringify(obj)
-		}).then(res => res.json())
-	
-	}
 	
 	function upload(formdata,csrfTokenValue){
 	
@@ -31,16 +36,7 @@ var service = (function() {
 	}
 	
 	
-	function modify(obj,csrfTokenValue){
-		
-		return fetch("/admin/notice/modify",{
-				method : 'post',
-				headers : {'Content-Type' : 'application/json',
-							'X-CSRF-TOKEN': csrfTokenValue},
-				body : JSON.stringify(obj)
-		}).then(res => res.text())
-	}
-	
+
 	function fileDelete(param,csrfTokenValue){
 	
 		return fetch("/admin/common/notice/delete",{
@@ -51,14 +47,6 @@ var service = (function() {
 		})
 	}
 	
-	function getFiles(nno){
-	
-		return fetch("/admin/common/notice/getFiles?nno="+nno,{
-			method : 'get'
-		})
-	}
-	
-	
     function sendUpload(fd,csrfTokenValue){
       return fetch("/admin/common/manager/doc/upload",{
          method : 'post',
@@ -67,9 +55,9 @@ var service = (function() {
       }).then(res => res.json())
    }
    
-   function sendUploadThumb(fd){
+   function sendUploadThumb(fd, csrfTokenValue){
    
-   	sendUpload(fd).then(result => {
+   	sendUpload(fd, csrfTokenValue).then(result => {
       for (var i = 0; i < result.length; i++) {
          let file = result[i]
          console.log(file.link)
@@ -104,6 +92,6 @@ var service = (function() {
 		}
 	
        
-        return {getAjax:getAjax, storeUpload:storeUpload, deleteNotice:deleteNotice, register:register, upload:upload , modify:modify, fileDelete:fileDelete, getFiles:getFiles,sendUpload:sendUpload, sendUploadThumb:sendUploadThumb , sendRegister:sendRegister}
+        return {sendJson:sendJson, getAjax:getAjax, storeUpload:storeUpload, deleteNotice:deleteNotice, upload:upload, fileDelete:fileDelete,sendUpload:sendUpload, sendUploadThumb:sendUploadThumb , sendRegister:sendRegister}
 
     }())

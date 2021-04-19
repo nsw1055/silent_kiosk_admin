@@ -181,7 +181,7 @@ public class ManagerController {
 	
 	private String getFolder() {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
 		Date date = new Date();
 

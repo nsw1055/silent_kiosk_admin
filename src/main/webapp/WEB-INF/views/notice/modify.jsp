@@ -29,11 +29,14 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group bmd-form-group">
-										 <select  style='width:px;' class="selectCate custom-select">
-				                     		<option ${notice.category == "안내"? "selected" :"" } value="안내">안내</option>
-				                      	 	<option ${notice.category == "긴급"? "selected" :"" } value="긴급">긴급</option>
-				                        	<option ${notice.category == "이벤트"? "selected" :"" } value="이벤트">이벤트</option>
-			                         	 </select>
+										<select style='width: px;' class="selectCate custom-select">
+											<option ${notice.category == "안내"? "selected" :"" }
+												value="안내">안내</option>
+											<option ${notice.category == "긴급"? "selected" :"" }
+												value="긴급">긴급</option>
+											<option ${notice.category == "이벤트"? "selected" :"" }
+												value="이벤트">이벤트</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -58,14 +61,18 @@
 								<ul class="fileUl">
 								</ul>
 							</div>
-							<hr/>
+							<hr />
 							<div class="btnContainer">
-						   		 <div class="checkbox" style="display: flex; flex-direction: row;">
-		                     	  <h5>공지사항 고정</h5>
-		                     	  <input style="margin-left: 10px; margin-top: 5px;" type="checkbox" class="checkShowed" name="showed" ${notice.showed==true?"checked":"" }>
-		                     	  </div>
+								<div class="checkbox"
+									style="display: flex; flex-direction: row;">
+									<h5>공지사항 고정</h5>
+									<input style="margin-left: 10px; margin-top: 5px;"
+										type="checkbox" class="checkShowed" name="showed"
+										${notice.showed==true?"checked":"" }>
+								</div>
 								<button class="btn btn-primary btn-round modifyBtn">수정</button>
-								<button class="btn btn-primary btn-round cancelBtn">수정 취소</button>
+								<button class="btn btn-primary btn-round cancelBtn">수정
+									취소</button>
 							</div>
 						</form>
 					</div>
@@ -112,14 +119,15 @@
 			</div>
 			<div class="modal-body checkModalBody"></div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary checkBtn">확인</button>
+				<button type="button" class="btn btn-primary checkBtn" >확인</button>
 			</div>
 		</div>
 	</div>
 </div>
 
+
 <form action="/admin/notice/read" class="actionForm">
-	<input type="hidden" name="page" value="${pageDTO.page }"> 
+	<input type="hidden" name="page" value="${pageDTO.page }">
 	<input type="hidden" name="perSheet" value="${pageDTO.perSheet }">
 	<input type="hidden" name="type" value="${pageDTO.type }">
 	<input type="hidden" name="keyword" value="${pageDTO.keyword }">
@@ -129,9 +137,23 @@
 <script src="/admin/resources/service.js"></script>
 <script>
 
+
    const csrfTokenValue = "${_csrf.token}";
 
    const actionForm = document.querySelector(".actionForm")
+   
+   function modalHide() {
+			$("#checkModal").modal("hide")
+	}
+   
+   function modifySuccess(){
+	   
+	  		 actionForm.innerHTML += "<input type='hidden' name='nno' value='${notice.nno}'>"
+		      
+		     actionForm.setAttribute("action", "/admin/notice/read")
+		      
+		     actionForm.submit()
+   }
 
    document.querySelector(".modifyBtn").addEventListener("click", function(e) {
 
@@ -157,9 +179,31 @@
       
       const obj = {nno:${notice.nno}, title:title, category:category, writer:writer, content:content, showed:checkShowed.checked, list:arr}
       
-      service.modify(obj,csrfTokenValue).then(result => document.querySelector(".checkModalBody").innerHTML += "<h3>"+result+"</h3>")
-      
-      $("#checkModal").modal("show")
+      service.sendJson("/admin/notice/modify",obj,csrfTokenValue).then(result => 
+      {
+  			console.dir(result)
+  			
+  		if(result[0]){
+  			
+  			document.querySelector(".checkModalBody").innerHTML = "<p>"+result[0].defaultMessage+"</p>"
+  			
+  			$("#modifyModal").modal("hide")
+  			
+  			$("#checkModal").modal("show")
+  			
+  			document.querySelector(".checkBtn").setAttribute("onclick", "modalHide()")
+  			
+  		}else{
+  			
+	  		document.querySelector(".checkModalBody").innerHTML = "<p>수정완료</p>"
+	  		
+	  		document.querySelector(".checkBtn").setAttribute("onclick", "modifySuccess()")
+	  		
+	  		$("#modifyModal").modal("hide")
+	  		
+	  		$("#checkModal").modal("show")
+	  	}
+	  })
       
    }, false)
    
@@ -173,7 +217,7 @@
 	   
    },false)
    
-   document.querySelector(".checkBtn").addEventListener("click", function(e){
+/*    document.querySelector(".checkBtn").addEventListener("click", function(e){
 	   
 	  e.preventDefault()
       
@@ -183,7 +227,7 @@
       
       actionForm.submit()
       
-   },false)
+   },false) */
    
    
    const fileUl = document.querySelector(".fileUl")
@@ -249,7 +293,7 @@
 
    } 
    
-service.getFiles(${nno}).then(res => res.json()).then(files => {
+service.getAjax("/admin/common/notice/getFiles?nno=${notice.nno}").then(res => res.json()).then(files => {
 	  
 	   var str = ""
 	   

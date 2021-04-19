@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ManagerFileDTO {
 
-	private String uploadPath;
-	private String uuid;
-	private String fileName;
-	private Boolean image;
+	private String suploadPath;
+	private String suuid;
+	private String sfileName;
+	private Integer sno;
 
 	public String getLink() {
 
-		String fileLinkName = fileName.replace(".", "#");
+		String fileLinkName = sfileName.replace(".", "#");
 
-		String link = uploadPath + "/" + fileLinkName;
+		String link = suploadPath + "/" + fileLinkName;
 
 		String encodingLink = "";
 
@@ -38,11 +38,9 @@ public class ManagerFileDTO {
 
 	public String getThumbLink() {
 
-		if (image) {
+			String fileLinkName = sfileName.replace(".", "#");
 
-			String fileLinkName = fileName.replace(".", "#");
-
-			String thumbLink = uploadPath + "/s_" + uuid + "_" + fileLinkName;
+			String thumbLink = suploadPath + "/s_" + suuid + "_" + fileLinkName;
 
 			String encodingThumbLink = "";
 
@@ -53,8 +51,6 @@ public class ManagerFileDTO {
 			}
 
 			return encodingThumbLink;
-		}
 		
-		return null;
 	}
 }

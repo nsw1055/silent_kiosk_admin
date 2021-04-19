@@ -3,6 +3,7 @@ package org.judy.store.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.judy.common.util.ManagerFileDTO;
 import org.judy.store.domain.Menu;
 import org.judy.store.domain.MenuTopping;
 import org.judy.store.domain.Store;
@@ -13,6 +14,7 @@ import org.judy.store.dto.StoreDTO;
 import org.judy.store.dto.ToppingDTO;
 import org.judy.store.mapper.StoreMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -49,20 +51,37 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
+	@Transactional
 	public void updateStore(StoreDTO storeDTO) {
-		Store store = toDomain(storeDTO);
-		mapper.updateStore(store);
 		
+		mapper.deleteStoreImg(storeDTO.getSno());
+		Store store = toDomain(storeDTO);
+			
+		storeDTO.getFileDTO().forEach(file ->{
+			file.setSno(store.getSno());
+			mapper.insertStoreImg(file);
+		});	
+		mapper.updateStore(store);	
 	}	
 	
 	@Override
+	@Transactional
 	public Integer insertStore(StoreDTO storeDTO) {
 		Store store = toDomain(storeDTO);
 		
 		mapper.insertStore(store);
-		
+		storeDTO.getFileDTO().forEach(file ->{
+			file.setSno(store.getSno());
+			mapper.insertStoreImg(file);
+		});		
 		return store.getSno();
 	}
+	
+	@Override
+	public List<ManagerFileDTO> getStoreImg(Integer sno) {
+		return mapper.getStoreImage(sno);
+	}
+	
 
 	// MENU
 	
@@ -169,19 +188,5 @@ public class StoreServiceImpl implements StoreService {
 		mapper.addTop(menuTopping);
 		
 	}
-
-
-
-
-
-	
-
-
-
-	
-
-	
-
-	
 	
 }

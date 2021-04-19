@@ -6,7 +6,7 @@
 
 	<select id="getStore" resultType="org.judy.store.domain.Store">
 		<![CDATA[
-  		select * from tbl_store where mid = #{mid}
+  		select * from tbl_store where mid = #{mid} and enable = 1
   		]]>
 	</select>
 
@@ -36,16 +36,30 @@
 	insert into tbl_store_img (suuid, sno, suploadPath, sfileName) values(#{suuid},#{sno},#{suploadPath},#{sfileName})
 	]]>
 	</insert>
-
-	<update id="updateStore">
-	update tbl_store set sname= #{sname}, lat = #{lat} , lng=#{lng}, address = #{address}, category = #{category}, logoImg = #{logoImg} where sno = #{sno} 
-	</update>
 	
-	<delete id="delStore">
+	<delete id="deleteStoreImg">
 		<![CDATA[
-  		delete from tbl_store where sno= #{sno}
+  		delete from tbl_store_img where sno= #{sno}
   		]]>
 	</delete>
+	
+	<select id ="getStoreImage" resultType="org.judy.common.util.ManagerFileDTO">
+	<![CDATA[
+	select * from tbl_store_img where sno = #{sno}
+	]]>	
+	</select>
+
+	<update id="updateStore">
+	<![CDATA[
+	update tbl_store set sname= #{sname}, lat = #{lat} , lng=#{lng}, address = #{address}, category = #{category}, logoImg = #{logoImg} where sno = #{sno} 
+	]]>
+	</update>
+	
+	<update id="delStore">
+		<![CDATA[
+  		update tbl_store set enable = 0 where sno = #{sno}
+  		]]>
+	</update>
 
 	<delete id="deleteDoc">
 		<![CDATA[

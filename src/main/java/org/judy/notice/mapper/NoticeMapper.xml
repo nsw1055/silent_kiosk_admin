@@ -42,7 +42,7 @@
 	
 	<select id="topList" resultType="org.judy.notice.domain.Notice">
 		<![CDATA[
-		select * from tbl_notice where showed = 1 order by nno desc
+		select * from tbl_notice where showed = 1 and enabled = 1 order by nno desc
 		]]>
 	</select>
 

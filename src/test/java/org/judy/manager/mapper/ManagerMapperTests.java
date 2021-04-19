@@ -45,7 +45,7 @@ public class ManagerMapperTests {
 	
 	@Test
 	public void testSelectOne() {
-		log.info(mapper.selectOne("user147"));
+		log.info(mapper.selectOne("user7"));
 	}
 	
 	@Test

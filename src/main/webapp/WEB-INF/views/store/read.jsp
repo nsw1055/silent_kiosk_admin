@@ -104,7 +104,7 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<p>메뉴를 삭제 하시겠습니까?</p>
+				<p>등록된 가게를 삭제 하시겠습니까?</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="delCancel btn btn-secondary"
@@ -141,8 +141,7 @@
 				<div class="card">
 					<div class="cardHeaderStyle card-header card-header-primary">
 						<div>
-							<h4 class="card-title">Edit Profile</h4>
-							<p class="card-category">Complete your profile</p>
+							<h4 class="card-title">내 정보</h4>
 						</div>
 					</div>
 					<div class="card-body">
@@ -266,7 +265,7 @@ document.querySelector(".modCommit").addEventListener("click" , function(e){
 	const email = document.querySelector("input[name='email']").value
 	const managerDTO = {mid:mid , phone:phone , email:email}
 	
-	const path : "/admin/manager/modifyMan"
+	const path = "/admin/manager/modifyMan"
 	
 	service.sendRegister(managerDTO, path, csrfTokenValue).then(result => {$(".modConfirm").modal("show")})
 	
@@ -287,24 +286,26 @@ document.querySelectorAll(".delBtn").forEach(event => {
 		e.preventDefault()
 		const sno = e.target.dataset.value
 		$(".delModal").modal("show")
-		
-		document.querySelector(".delAgree").addEventListener("click" , function(e){
 
-	const path = "/admin/store/delete"
-	service.sendRegister(sno, path, csrfTokenValue)then(res => res.text()).then(result => {
-		$(".delModal").modal("hide")
-		$(".delModalCon").modal("show")
-	   console.log("삭제")
-	} , false)
-	})
-}) 
+
+	document.querySelector(".delAgree").addEventListener("click" , function(e){
+	
+		const path = "/admin/store/delete"
+		service.sendRegister(sno, path, csrfTokenValue).then(result => {
+			$(".delModal").modal("hide")
+			$(".delModalCon").modal("show")
+	   		console.log("삭제")
+			} , false)
+		})
+	}) 
 })
+
 
 document.querySelector(".delCancel").addEventListener("click" , function(e){
 		   $(".delModal").modal("hide")
    } , false)
       
-   document.querySelector(".delCommit").addEventListener("click" , function(e){
+document.querySelector(".delCommit").addEventListener("click" , function(e){
 	   location.reload()
    } , false)
 

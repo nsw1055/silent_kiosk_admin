@@ -183,7 +183,7 @@
    }
    
 }) */
-
+const csrfTokenValue = "${_csrf.token}"
  
 document.querySelector(".docUpload").addEventListener("click" , function(e){
 
@@ -193,7 +193,7 @@ document.querySelector(".docUpload").addEventListener("click" , function(e){
 	    const files = e.target.files
 	    fd.append("files", files[0])
 	    fd.append("value", e.target.name)
-	    service.sendUpload(fd).then(result => {
+	    service.sendUpload(fd, csrfTokenValue).then(result => {
 	    	console.dir(result[0])
 	    	e.target.setAttribute("data-fileName" , result[0].fileName)
 	    }) 
@@ -226,7 +226,7 @@ document.querySelector(".regBtn").addEventListener("click" , function(e) {
 	obj.license = document.querySelector("input[name='license']").dataset.filename
 	
 	
-	service.sendRegister(obj, "/admin/manager/register").then(result => {$(".regModal").modal("show")}) 
+	service.sendRegister(obj, "/admin/manager/register", csrfTokenValue).then(result => {$(".regModal").modal("show")}) 
 	
 } , false)
 

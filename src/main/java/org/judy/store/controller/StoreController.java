@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,21 +72,41 @@ public class StoreController {
 	
 	@PostMapping("/register")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
-	public ResponseEntity<String> PostRegister(@RequestBody StoreDTO storeDTO) {
+	public ResponseEntity<String> PostRegister(@Validated @RequestBody StoreDTO storeDTO , BindingResult result) {
 		
+		if(result.hasErrors()) {
+			return new ResponseEntity<String>("fail" , HttpStatus.OK);
+		}
 		Integer sno = storeService.insertStore(storeDTO);
 			
-		String path = "C:\\upload\\admin\\manager\\logoImg\\"+sno;
+		String logoPath = "C:\\upload\\admin\\manager\\logoImg\\"+sno;
+		String storePath = "C:\\upload\\admin\\manager\\storeImg\\"+sno;
 		
-		File uploadPath = new File(path);
+		File logoUploadPath = new File(logoPath);
+		File storeUploadPath = new File(storePath);
 		
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
+		
+		if (logoUploadPath.exists() == false) {
+			logoUploadPath.mkdirs();
 		}
 		
-		copyLogo(sno, storeDTO.getLogoImg());
+		if (storeUploadPath.exists() == false) {
+			storeUploadPath.mkdirs();
+		}
 		
-
+		copyLogo(sno, storeDTO.getLogoImg(), "logoImg");
+		
+		storeDTO.getFileDTO().forEach(files -> {
+			String file = files.getSuuid() +"_"+ files.getSfileName();
+			copyLogo(sno , file, "storeImg");
+		});
+		
+		storeDTO.getFileDTO().forEach(files -> {
+			String file = "s_"+files.getSuuid() +"_"+ files.getSfileName();
+			copyLogo(sno , file, "storeImg");
+		});
+		
+		
 		return new ResponseEntity<String>("success" , HttpStatus.OK);
 		
 	}
@@ -94,6 +116,7 @@ public class StoreController {
 	public void getModify(String mid, Integer sno , Model model) {
 		model.addAttribute("mid" , mid);
 		model.addAttribute("store", storeService.getStoreOne(sno));
+		model.addAttribute("storeImg" , storeService.getStoreImg(sno));
 		
 	}
 	
@@ -103,15 +126,33 @@ public class StoreController {
 		
 		storeService.updateStore(storeDTO);
 		
-		String path = "C:\\upload\\admin\\manager\\logoImg\\"+storeDTO.getSno();
+		String logoPath = "C:\\upload\\admin\\manager\\logoImg\\"+storeDTO.getSno();
+		String storePath = "C:\\upload\\admin\\manager\\storeImg\\"+storeDTO.getSno();
 		
-		File uploadPath = new File(path);
+		File logoUploadPath = new File(logoPath);
+		File storeUploadPath = new File(storePath);
 		
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
+		
+		if (logoUploadPath.exists() == false) {
+			logoUploadPath.mkdirs();
 		}
 		
-		copyLogo(storeDTO.getSno(), storeDTO.getLogoImg());
+		if (storeUploadPath.exists() == false) {
+			storeUploadPath.mkdirs();
+		}
+		
+		copyLogo(storeDTO.getSno(), storeDTO.getLogoImg(), "logoImg");
+		
+		storeDTO.getFileDTO().forEach(files -> {
+			String file = files.getSuuid() +"_"+ files.getSfileName();
+			copyLogo(storeDTO.getSno() , file, "storeImg");
+		});
+		
+		storeDTO.getFileDTO().forEach(files -> {
+			String file = "s_"+files.getSuuid() +"_"+ files.getSfileName();
+			copyLogo(storeDTO.getSno() , file, "storeImg");
+		});
+		
 		
 
 		return new ResponseEntity<String>("success" , HttpStatus.OK);
@@ -140,7 +181,6 @@ public class StoreController {
 	public ResponseEntity<String> postMenuRegister(@RequestBody MenuDTO menuDTO) {
 		
 		Integer mno = storeService.insertMenu(menuDTO);
-		
 		
 		String path = "C:\\upload\\admin\\manager\\MImg\\"+menuDTO.getSno()+"\\"+mno;
 		
@@ -280,7 +320,7 @@ public class StoreController {
 	
 	private String getFolder() {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
 		Date date = new Date();
 
@@ -290,7 +330,7 @@ public class StoreController {
 
 	}
 	
-	private void copyLogo(Integer sno, String file) {
+	private void copyLogo(Integer sno, String file, String midPath) {
 		File tempFile = new File("C:\\upload\\temp\\admin\\manager\\"+getFolder()+"\\"+file);
 		log.info(tempFile);
 		InputStream inputStream;
@@ -300,7 +340,7 @@ public class StoreController {
 			byte[] buffer = new byte[inputStream.available()];
 		    inputStream.read(buffer);
 
-		    File targetFile = new File("C:\\upload\\admin\\manager\\logoImg\\"+sno+"\\"+file);
+		    File targetFile = new File("C:\\upload\\admin\\manager\\"+midPath+"\\"+sno+"\\"+file);
 		    OutputStream outStream = new FileOutputStream(targetFile);
 		    outStream.write(buffer);
 		    

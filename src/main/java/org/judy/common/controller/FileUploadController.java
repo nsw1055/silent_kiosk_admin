@@ -51,7 +51,7 @@ public class FileUploadController {
 
 		String path = "C:\\upload\\temp\\admin\\manager";
 		
-		return imgView(link, path);
+		return imgView(path, link);
 	}
 	
 	@GetMapping("/menu/view")
@@ -59,7 +59,7 @@ public class FileUploadController {
 		log.info("link: "+link);
 		String path = "C:\\upload\\admin\\manager\\MImg\\";
 
-		return imgView(link, path);
+		return imgView(path, link);
 	}
 	
 	@GetMapping("/topping/view")
@@ -67,7 +67,7 @@ public class FileUploadController {
 		log.info("link: "+link);
 		String path = "C:\\upload\\admin\\manager\\tImg\\";
 
-		return imgView(link, path);
+		return imgView(path, link);
 	}
 	
 	@GetMapping("/logo/view")
@@ -75,10 +75,20 @@ public class FileUploadController {
 		log.info("link: "+link);
 		String path = "C:\\upload\\admin\\manager\\logoImg\\";
 		
-		return imgView(link, path);
+		return imgView(path, link);
 	}
+	@GetMapping("/store/Imgview")
+	public ResponseEntity<byte[]> storeView(String link) {
+		log.info("link: "+link);
+		String path = "C:\\upload\\admin\\manager\\storeImg\\";
+		
+		return imgView(path, link);
+	}
+	
+	
 
 	@PostMapping(value = "/manager/upload", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<ManagerFileDTO>> postUpload(MultipartFile[] files) {
 
 		String path = "C:\\upload\\temp\\admin\\manager";
@@ -108,8 +118,8 @@ public class FileUploadController {
 
 			File saveFile = new File(uploadPath, fileName);
 
-			ManagerFileDTO fileDTO = ManagerFileDTO.builder().fileName(multipartFile.getOriginalFilename())
-					.uploadPath(savePath).uuid(uuid.toString()).build();
+			ManagerFileDTO fileDTO = ManagerFileDTO.builder().sfileName(multipartFile.getOriginalFilename())
+					.suploadPath(savePath).suuid(uuid.toString()).build();
 
 			try {
 				multipartFile.transferTo(saveFile);
@@ -137,6 +147,7 @@ public class FileUploadController {
 	}
 
 	@PostMapping(value = "/manager/doc/upload", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<ManagerFileDTO>> postDocUpload(MultipartFile[] files, String value) {
 
 		String path = "C:\\upload\\temp\\admin\\manager";
@@ -167,8 +178,8 @@ public class FileUploadController {
 
 			File saveFile = new File(uploadPath, fileName);
 
-			ManagerFileDTO fileDTO = ManagerFileDTO.builder().fileName(fileName)
-					.uploadPath(savePath).uuid(uuid.toString()).image(isImage).build();
+			ManagerFileDTO fileDTO = ManagerFileDTO.builder().sfileName(fileName)
+					.suploadPath(savePath).suuid(uuid.toString()).build();
 
 			try {
 				multipartFile.transferTo(saveFile);
@@ -232,6 +243,7 @@ public class FileUploadController {
 	// deleteFile
 
 	@PostMapping(value = "/manager/delete")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@ResponseBody
 	public ResponseEntity<String> delFile(@RequestBody String link) {
 
@@ -264,6 +276,7 @@ public class FileUploadController {
 	
 	// storeUpload
 	@PostMapping("/store/upload")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	   public ResponseEntity<List<ManagerFileDTO>> storeUpload(MultipartFile[] uploadFile) {
 
 	      String path = "C:\\upload\\temp\\admin\\manager";
@@ -294,17 +307,16 @@ public class FileUploadController {
 	         File saveFile = new File(uploadPath, uuid.toString() + "_" + fileName);
 
 	         log.info(saveFile);
-	         boolean isImage = multipartFile.getContentType().startsWith("image");
+	         //boolean isImage = multipartFile.getContentType().startsWith("image");
 
 	         try {
-
-	            
+   
 	               File sFile = new File(uploadPath, "s_" + uuid.toString() + "_" + fileName);
 	               FileOutputStream fos = new FileOutputStream(sFile);
 	               Thumbnailator.createThumbnail(multipartFile.getInputStream(), fos, 100, 100);
 
 	            
-	            ManagerFileDTO managerFile = new ManagerFileDTO(folderPath, uuid.toString(), fileName, isImage);
+	            ManagerFileDTO managerFile = ManagerFileDTO.builder().suploadPath(folderPath).suuid(uuid.toString()).sfileName(fileName).build();  		
 
 	            fileList.add(managerFile);
 

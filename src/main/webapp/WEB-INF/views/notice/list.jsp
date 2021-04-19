@@ -48,6 +48,7 @@
 						<div class="table-responsive">
 							<table class="table">
 								<thead class=" text-primary">
+								<tr>
 									<th>번호</th>
 									<th>분류</th>
 									<th>이미지</th>
@@ -55,14 +56,15 @@
 									<th>작성자</th>
 									<th>등록일자</th>
 									<th>수정일자</th>
+								</tr>
 								</thead>
 								<tbody class="tList">
 								<c:forEach items="${topList }" var="top">
-									<tr data-nno="${top.nno }" style="background-color: #f2f2f2;">
+								<tr data-nno="${top.nno }" style="background-color: #f2f2f2;">
 									<td>${top.nno }</td>
 									<td>${top.category}</td>
-									<td><c:if test="${top.img}"><img src="/admin/common/notice/thumb?nno=${top.nno}" style="width: 100px; height: 50px; object-fit: cover;" ></c:if></td>
-									<td><STRONG><b>${top.title}</b></STRONG><c:if test="${top.file}">&nbsp;<i class="fas fa-paperclip"></i></c:if></td>
+									<td data-nno="${top.nno}"><c:if test="${top.img}"><img src="/admin/common/notice/thumb?nno=${top.nno}" style="width: 100px; height: 50px; object-fit: cover;" ></c:if></td>
+									<td><STRONG data-nno="${top.nno}"><b>${top.title}</b></STRONG><c:if test="${top.file}">&nbsp;<i class="fas fa-paperclip"></i></c:if></td>
 									<td>${top.writer }</td>
 										<c:set var="now" value="<%=new java.util.Date()%>" />
 										<fmt:parseNumber value="${now.time}" var="now" integerOnly="true" />
@@ -90,7 +92,7 @@
 											</c:otherwise>
 										</c:choose>
 									</td>
-									</tr>
+								</tr>
 								</c:forEach>
 								
 	 
@@ -98,7 +100,7 @@
 									<tr data-nno="${notice.nno }">
 									<td>${notice.nno }</td>
 									<td>${notice.category}</td>
-									<td><c:if test="${notice.img}"><img src="/admin/common/notice/thumb?nno=${notice.nno}" style="width: 100px; height: 50px; object-fit: cover;" ></c:if></td>
+									<td data-nno="${notice.nno }"><c:if test="${notice.img}"><img src="/admin/common/notice/thumb?nno=${notice.nno}" style="width: 100px; height: 50px; object-fit: cover;" ></c:if></td>
 									<td>${notice.title}<c:if test="${notice.file}">&nbsp;<i class="fas fa-paperclip"></i></c:if></td>
 									<td>${notice.writer }</td>
 										<fmt:parseNumber value="${notice.regdate.time}" var="nreg" integerOnly="true" />
@@ -265,19 +267,19 @@ document.querySelector(".searchBtn").addEventListener("click", function(e){
 
 tlist.addEventListener("click", function(e){
 	
-	const nno = e.target.parentNode.getAttribute("data-nno")
+		const nno = e.target.parentNode.getAttribute("data-nno")
 	
-	console.log(nno)
+		console.log(nno)
 	
-	if(nno === null){
-		return;
-	}
+		if(nno === null){
+			return;
+		}
 	
-	actionForm.innerHTML += "<input type='hidden' name='nno' value='"+ nno +"'>"
+		actionForm.innerHTML += "<input type='hidden' name='nno' value='"+ nno +"'>"
 
-	actionForm.setAttribute("action","/admin/notice/read")
+		actionForm.setAttribute("action","/admin/notice/read")
 	 
-	actionForm.submit()
+		actionForm.submit()
 	 
 }, false)
 

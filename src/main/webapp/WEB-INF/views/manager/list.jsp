@@ -10,8 +10,7 @@
 				<div class="card">
 					<div class="cardHeaderStyle card-header card-header-primary">
 						<div>
-							<h4 class="card-title ">Simple Table</h4>
-							<p class="card-category">Here is a subtitle for this table</p>
+							<h4 class="card-title ">회원관리</h4>
 						</div>
 						<div class="cardHeaderBtn" >
 							<button type="submit" class="delListBtn btn btn-primary pull-right" style = "background-color: #ffffff; color: #ee6d09;">Del List</button>

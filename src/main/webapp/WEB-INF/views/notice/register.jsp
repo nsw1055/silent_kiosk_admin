@@ -2,80 +2,86 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../includes/header.jsp"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title">공지사항 등록</h4>
-                </div>
-                <div class="card-body">
-                  <form>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">제목</label>
-                          <input type="text" name="title" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">작성자</label>
-                          <input type="text" name="writer" value='<sec:authentication property="principal.username"/>' class="form-control" readonly="readonly">
-                        </div>
-                      </div>
-                      <div class="col-md-3">
-                        <div class="form-group bmd-form-group">
-                           <select style='width:px;' class="selectCate custom-select">
-                          <option value="안내">안내</option>
-                          <option value="긴급">긴급</option>
-                          <option value="이벤트">이벤트</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>내용</label>
-                          <div class="form-group bmd-form-group">
-                            <textarea class="form-control" name="content" rows="20"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                     </div>
-                     <div class="row">
-                      	<div class="col-md-12">
-                      		<input style="height:10vh;" type="file" multiple="multiple" name="files">
-                      	</div>
-                     </div>
-                     <div class="row">
-                     <ul class="fileUl">
-                     </ul>
-                      </div>
-                       <hr/>
-							<div class="btnContainer">
-						   		 <div class="checkbox" style="display: flex; flex-direction: row;">
-		                     	  <h5>공지사항 고정</h5>
-		                     	  <input style="margin-left: 10px; margin-top: 5px;" type="checkbox" class="checkShowed" name="showed" ${notice.showed==true?"checked":"" }>
-		                     	  </div>
-						<button class="btn btn-primary btn-round registerBtn">등록</button>
-						<button class="btn btn-primary btn-round listBtn">등록 취소</button>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary">
+						<h4 class="card-title">공지사항 등록</h4>
 					</div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-profile">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+					<div class="card-body">
+						<form>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group bmd-form-group">
+										<label class="bmd-label-floating">제목</label> <input
+											type="text" name="title" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group bmd-form-group">
+										<label class="bmd-label-floating">작성자</label> <input
+											type="text" name="writer"
+											value='<sec:authentication property="principal.username"/>'
+											class="form-control" readonly="readonly">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group bmd-form-group">
+										<select style='width: px;' class="selectCate custom-select">
+											<option value="안내">안내</option>
+											<option value="긴급">긴급</option>
+											<option value="이벤트">이벤트</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>내용</label>
+										<div class="form-group bmd-form-group">
+											<textarea class="form-control" name="content" rows="20"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<input style="height: 10vh;" type="file" multiple="multiple"
+										name="files">
+								</div>
+							</div>
+							<div class="row">
+								<ul class="fileUl">
+								</ul>
+							</div>
+							<hr />
+							<div class="btnContainer">
+								<div class="checkbox"
+									style="display: flex; flex-direction: row;">
+									<h5>공지사항 고정</h5>
+									<input style="margin-left: 10px; margin-top: 5px;"
+										type="checkbox" class="checkShowed" name="showed"
+										${notice.showed==true?"checked":"" }>
+								</div>
+								<button class="btn btn-primary btn-round registerBtn">등록</button>
+								<button class="btn btn-primary btn-round listBtn">등록 취소</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card card-profile"></div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <div class="modal" id="registerModal" tabindex="-1" role="dialog">
@@ -109,20 +115,20 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body checkModalBody">
-			</div>
+			<div class="modal-body checkModalBody"></div>
 			<div class="modal-footer">
-				<button type="button" onclick='location.href="/admin/notice/list"' class="btn btn-primary checkBtn">확인</button>
+				<button type="button" onclick='location.href="/admin/notice/list"'
+					class="btn btn-primary checkBtn">확인</button>
 			</div>
 		</div>
 	</div>
 </div>
-	
+
 <form action="/admin/notice/list" class="actionForm">
-	<input type="hidden" name="page" value="${pageDTO.page }"> 
-	<input type="hidden" name="perSheet" value="${pageDTO.perSheet }"> 
-	<input type="hidden" name="type" value="${pageDTO.type }"> 
-	<input type="hidden" name="keyword" value="${pageDTO.keyword }">
+	<input type="hidden" name="page" value="${pageDTO.page }"> <input
+		type="hidden" name="perSheet" value="${pageDTO.perSheet }"> <input
+		type="hidden" name="type" value="${pageDTO.type }"> <input
+		type="hidden" name="keyword" value="${pageDTO.keyword }">
 </form>
 
 
@@ -188,7 +194,7 @@
 		
 		const obj = {title:title, category:cate, writer:writer, content:content, showed:checkShowed.checked, list:arr}
 		
-		service.register(obj,csrfTokenValue).then(result => 
+		service.sendJson("/admin/notice/register", obj,csrfTokenValue).then(result => 
 		{
 			console.dir(result)
 		if(result[0]){

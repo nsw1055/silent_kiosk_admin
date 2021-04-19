@@ -105,7 +105,7 @@ document.querySelector(".listBtn").addEventListener("click", function(e){
 }, false)
 
 
-service.getFiles(${nno}).then(res=>res.json()).then(files => {
+service.getAjax("/admin/common/notice/getFiles?nno=${notice.nno}").then(res=>res.json()).then(files => {
 
    let str=""
 
@@ -135,7 +135,7 @@ deleteBtn.addEventListener("click", function(e){
 
 document.querySelector(".modalDeleteBtn").addEventListener("click", function(e){
 	
-	const deleteN = service.deleteNotice(${nno},csrfTokenValue, "${notice.writer}");
+	const deleteN = service.deleteNotice(${notice.nno},csrfTokenValue, "${notice.writer}");
 	deleteN.then(result => {
 		document.querySelector(".checkModalBody").innerHTML += "<p>"+result+"<p>"
 	})

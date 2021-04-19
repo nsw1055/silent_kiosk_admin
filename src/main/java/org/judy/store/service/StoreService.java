@@ -2,6 +2,7 @@ package org.judy.store.service;
 
 import java.util.List;
 
+import org.judy.common.util.ManagerFileDTO;
 import org.judy.store.domain.Menu;
 import org.judy.store.domain.Store;
 import org.judy.store.domain.Topping;
@@ -24,6 +25,8 @@ public interface StoreService {
 	void delStore(Integer sno);
 	
 	void updateStore(StoreDTO storeDTO);
+	
+	List<ManagerFileDTO> getStoreImg(Integer sno);
 	
 	// MENU
 	List<MenuDTO> getMenu(Integer sno, Integer cno);

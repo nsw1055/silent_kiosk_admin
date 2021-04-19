@@ -98,12 +98,11 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<div class="card">
 					<div class="cardHeaderStyle card-header card-header-primary">
 						<div>
-							<h4 class="card-title">Edit Profile</h4>
-							<p class="card-category">Complete your profile</p>
+							<h4 class="card-title">회원정보</h4>
 						</div>
 
 						<div class="cardHeaderBtn approvalBtn">
@@ -113,7 +112,6 @@
 									승인</button>
 							</c:if>
 						</div>
-
 					</div>
 					<div class="card-body">
 						<form>
@@ -179,35 +177,29 @@
 					</div>
 				</div>
 			</div>
+			</div>
+			<div class="row">
+			<c:forEach items="${store }" var="store">
 			<div class="col-md-4">
+			
 				<div class="card card-profile">
 					<div class="card-avatar">
-						<a href="javascript:;"> <img class="img"
-							src="../resources/assets/img/faces/marc.jpg" />
-						</a>
+						 <img class="imgLogo" style="width: 130px; height: 130px"
+							src="/admin/common/logo/view?link=${store.sno }/${store.logoImg}" />
 					</div>
+					
 					<div class="card-body">
-						<h4 class="card-title">storeName</h4>
-						<p class="card-description">storeAddress</p>
+						<h4 class="card-title">${store.sname }</h4>
+						<p class="card-description">${store.address }</p>
 						<div class="docDiv">
-							<%-- <c:forEach items="${store.docFiles }" var="doc">
-								<div class="doctest" style="display: flex; flex-direction: row;">
-									<p class="docFile card-description"
-										data-href="${doc.muploadPath }/${doc.muuid }_${doc.mfileName }">${doc.mfileName }</p>
-									<button rel="tooltip" title="Remove"
-										class="fileDelete btn btn-danger btn-link btn-sm"
-										value="${doc.muuid }">
-										<i class="material-icons" style="margin-bottom: auto;">close</i>
-									</button>
-								</div>
-							</c:forEach> --%>
+							
 						</div>
-
-
-						<a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
 					</div>
+					
+					
 				</div>
 			</div>
+			</c:forEach>
 		</div>
 	</div>
 </div>
@@ -228,7 +220,7 @@
 	}
 	
 }) */
-
+const csrfTokenValue = "${_csrf.token}"
 	const mid = document.querySelector("input[name='mid']").value
 // delete
 
@@ -252,7 +244,8 @@ document.querySelector(".delAgree").addEventListener("click" , function(e){
 	
  		return fetch ("/admin/manager/delete" , {
 				method : 'post' ,
-				headers : {'Content-Type':'application/json'} ,
+				headers : {'Content-Type' : 'application/json',
+					'X-CSRF-TOKEN': csrfTokenValue},
 				body : mid		
  		}).then(res => res.text()).then(result => $(".modal2").modal("show"))
  		
@@ -291,7 +284,8 @@ document.querySelector(".delCancel2").addEventListener("click" , function(e){
 	function approval() {
 		return fetch("/admin/manager/approval", {
 			method : 'post',
-			headers : {"Content-Type":"application/json"} , 
+			headers : {"Content-Type":"application/json",
+				'X-CSRF-TOKEN': csrfTokenValue},
 			body : mid
 		}).then(res => res.text())
 	}
@@ -313,50 +307,8 @@ document.querySelector(".delCommit2").addEventListener("click" , function(e){
 	location.reload()
 	
 } , false)
-
-// fileDonwload
-
-/* 	document.querySelectorAll(".docFile").forEach(e => {
-		
-		e.addEventListener("click" , function(event){
-			
-
-				const href = event.currentTarget.getAttribute("data-href")
-			
-				console.log(href)
-	
-			location.href = "/admin/common/manager/download?link=" +href
-			
-		})
-		
-	}) */
 	
 
-// deleteFile
-
-/* document.querySelectorAll(".fileDelete").forEach(e =>{
-	
-		e.addEventListener("click" , function(event){
-		
-		const muuid = event.currentTarget.getAttribute("value")
-
-		const hrefVal = service.getHref()
-		console.log(muuid)
-		console.log(hrefVAl)
-	/* 	function sendDelete(){
-		
-			return fetch("/admin/common/manager/delete", {
-				method : 'post',
-				headers : {"Content-Type" : "application/json"},
-				body : JSON.stringify(muuid)
-			}).then(res => res.text())
-		
-		}
-	
-		sendDelete().then(result => {console.log(result)}) 
-		
-	} , false)
-})  */
 
  document.querySelectorAll(".doctest").forEach(e => {
 
@@ -370,7 +322,8 @@ document.querySelector(".delCommit2").addEventListener("click" , function(e){
 				
 					return fetch("/admin/common/manager/delete", {
 						method : 'post',
-						headers : {"Content-Type" : "application/text; charset=utf-8"},
+						headers : {"Content-Type" : "application/text; charset=utf-8",
+							'X-CSRF-TOKEN': csrfTokenValue},
 						body : link
 					}).then(res => res.text())
 					
@@ -380,19 +333,6 @@ document.querySelector(".delCommit2").addEventListener("click" , function(e){
 				$(".modal5").modal("show")	
 			})
 		})
-				
-			 /* function sendDelete(){
-				
-				return fetch("/admin/common/manager/delete", {
-					method : 'post',
-					headers : {"Content-Type" : "application/text; charset=utf-8"},
-					body : link
-				}).then(res => res.text())
-			
-			}
-		
-			sendDelete().then(result => {console.log(result)})  */
-			
 			
 		}else{
 				location.href = "/admin/common/manager/download?link=" +link

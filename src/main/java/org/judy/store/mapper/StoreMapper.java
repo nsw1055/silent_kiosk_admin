@@ -25,6 +25,10 @@ public interface StoreMapper {
 	
 	public void insertStoreImg(ManagerFileDTO dto);
 	
+	public List<ManagerFileDTO> getStoreImage(Integer sno);
+	
+	public void deleteStoreImg(Integer sno);
+	
 	// MENU
 	
 	public List<Menu> getMenu(@Param("sno") Integer sno, @Param("cno") Integer cno);

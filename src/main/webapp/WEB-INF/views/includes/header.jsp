@@ -75,15 +75,25 @@ The above copyright notice and this permission notice shall be included in all c
     <div class="main-panel" >
     
       <!-- Navbar -->
-      <div style="width: 85vw; margin-top: 10px;">
+      
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+        
+          <div class="collapse navbar-collapse justify-content-end">
+            <i class="fas fa-user-circle fa-2x" style=" margin-top: 12px; margin-right: 10px; color: #757575;"></i>
+      			      			<p style="margin-top: 22px;  margin-right: 10px;">${pinfo.username}</p>
       			<form action="/admin/customLogout" method="post">
       			<input type="hidden" name="_csrf" value="${_csrf.token}">
-  				<button class="btn btn-primary btn-round logoutBtn" style="margin-top:10px; display: grow; grow-direction: center; float: right;">logout</button>
+  				<button class="btn btn-primary btn-round logoutBtn" style="margin-top:10px; display: grow; grow-direction: center;">logout</button>
 				</form>
-      			<sec:authentication property="principal" var="pinfo"/>
-      			<p style="margin-top: 18px; float: right; margin-right: 10px;">${pinfo.username}</p>
-      			<i class="fas fa-user-circle fa-2x" style="float: right; margin-top: 12px; margin-right: 10px; color: #757575;"></i>
-      </div>
+      			<sec:authentication property="principal" var="pinfo"/>	
+            
+          </div>
+        </div>
+      </nav>
+     
+      				
+
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
