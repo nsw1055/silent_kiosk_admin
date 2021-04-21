@@ -57,6 +57,31 @@
 												id="exampleInputPassword" placeholder="Password">
 										</div>
 										<input type="text" name="_csrf" value="${_csrf.token }"/>
+										<div class="input-group">
+										  <div class="input-group-prepend">
+										    <div class="input-group-text">
+										    <input type="radio" name="auth" value="manager" aria-label="Radio button for following text input">
+										    </div>
+										  </div>
+										  <input type="text" value="manager" class="form-control" aria-label="Text input with radio button" readonly="readonly">
+										</div>
+										<div class="input-group">
+										  <div class="input-group-prepend">
+										    <div class="input-group-text">
+										    <input type="radio" name="auth" value="admin" aria-label="Radio button for following text input">
+										    </div>
+										  </div>
+										  <input type="text" value="admin" class="form-control" aria-label="Text input with radio button" readonly="readonly">
+										</div>
+										<div class="input-group">
+										  <div class="input-group-prepend">
+										    <div class="input-group-text">
+										    <input type="radio" name="auth" value="advertiser" aria-label="Radio button for following text input">
+										    </div>
+										  </div>
+										  <input type="text" value="advertiser" class="form-control" aria-label="Text input with radio button" readonly="readonly">
+										</div>
+										
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
 												<input type="checkbox" name="remember-me" class="custom-control-input" id="customCheck">

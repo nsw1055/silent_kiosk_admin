@@ -263,7 +263,7 @@ document.querySelector("input[name='timg']").addEventListener("change" , functio
 			const tno = e.currentTarget.querySelector(".menuBtn").getAttribute("data-mno")
 			const tname = e.currentTarget.querySelector(".tname").innerHTML
 			const tprice = e.currentTarget.querySelector(".tprice").innerHTML
-			const timg = e.currentTarget.querySelector(".timg").innerHTML
+			const timg = e.currentTarget.querySelector(".timg").value
 		
 			
 			if(e.target == e.currentTarget.querySelector(".modBtn")){

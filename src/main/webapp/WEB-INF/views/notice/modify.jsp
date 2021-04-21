@@ -260,7 +260,7 @@
          if(!file.image){
             
                console.log(file.link)         
-               fileUl.innerHTML += "<li id='li"+file.uuid+"'><i class='fas fa-file'></i></a>"+file.fileName+"<button onclick='delTempImg(event, JSON.stringify("+file+"))'>삭제</button></li>" 
+               fileUl.innerHTML += "<li id='li"+file.uuid+"'><i class='fas fa-file'></i></a>"+file.fileName+"<button onclick='delTempImg(event, "+JSON.stringify(file)+")'>삭제</button></li>" 
          
          }else{
          fileUl.innerHTML += "<li id='li"+file.uuid+"'>"+file.fileName+"<img src='/admin/common/notice/preview?link="+file.thumbLink+"'/><button onclick='delTempImg(event, "+JSON.stringify(file)+")'>삭제</button></li>"

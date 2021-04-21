@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.judy.common.util.NoticeFileDTO;
@@ -39,7 +40,12 @@ public class NoticeController {
 
 	@GetMapping("/list")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER','ROLE_ADV')")
-	public void getList(PageDTO pageDTO, Model model) {
+	public void getList(PageDTO pageDTO, Model model, HttpServletRequest res) {
+
+		String auth = (String)res.getSession().getAttribute("auth");
+		
+		System.out.println("Controller:" +auth);
+		
 
 		PageMaker pageMaker = new PageMaker(pageDTO, service.getTotal(pageDTO));
 

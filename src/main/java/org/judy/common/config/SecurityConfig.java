@@ -6,17 +6,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.judy.common.security.CustomLoginSuccessHandler;
+import org.judy.common.security.Filtertest;
+import org.judy.common.security.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -47,6 +52,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       repo.setDataSource(dataSource);
       return repo;
    }
+   
+   @Bean
+   public UserDetailsService customUserService() {
+	   return new CustomUserDetailsService();
+   }
+   
+   @Bean
+
+   public Filtertest filterTest() throws Exception {
+
+      Filtertest authenticationFilterAnotherParam = new Filtertest();
+
+       authenticationFilterAnotherParam.setAuthenticationManager(this.authenticationManagerBean());
+
+       authenticationFilterAnotherParam.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login","POST"));
+
+       return authenticationFilterAnotherParam;
+
+   }
+   
 
    @Override
    protected void configure(HttpSecurity http) throws Exception {
@@ -76,7 +101,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       
       http.logout().logoutUrl("/customLogout").invalidateHttpSession(true).deleteCookies("remember-me", "JSESSION_ID");
       
-      http.rememberMe().key("zerock").tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
+      http.rememberMe().key("judy").tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
+      
+      http.addFilterBefore(filterTest(),UsernamePasswordAuthenticationFilter.class);
       
       http.csrf().requireCsrfProtectionMatcher(new RequestMatcher() {
 
@@ -101,29 +128,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    
    }
 
-   @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-      log.info("JDBC............");
-      
-      String queryUser = "select mid,mpw,enabled from tbl_manager where mid = ?";
-      
-      String queryDetails = "select mid,auth from tbl_auth where  mid =?";
-      
-      auth.jdbcAuthentication()
-      .dataSource(dataSource)
-      .passwordEncoder(passwordEncoder())
-      .usersByUsernameQuery(queryUser)
-      .authoritiesByUsernameQuery(queryDetails);
-   }
-   
 //   @Override
 //   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+//      log.info("JDBC............");
 //      
-//      log.info("configure........");
-//      auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
-//      auth.inMemoryAuthentication().withUser("member").password("$2a$10$4kT43wpBCsWhfLWqjPJka.j0mZuw0HnsrXHdC9S.AcuCJ7cuH5Q5a").roles("MEMBER");
+//      String queryDetails = "select mid,auth from tbl_auth where  mid =?";
+//      
+//      String queryManager = "select mid,mpw,enabled from tbl_manager where mid = ?";
+//      
+//      auth.jdbcAuthentication()
+//      .dataSource(dataSource)
+//      .passwordEncoder(passwordEncoder())
+//      .authoritiesByUsernameQuery(queryDetails)
+//      .usersByUsernameQuery(queryManager);
 //   }
+   
+   @Override
+   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+      
+	   auth.userDetailsService(customUserService()).passwordEncoder(passwordEncoder());
+   }
    
    
    

@@ -1,6 +1,10 @@
 package org.judy.manager.domain;
 
 import java.sql.Date;
+import java.util.List;
+
+import org.judy.common.security.domain.AuthVO;
+import org.judy.store.domain.Store;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -34,6 +38,8 @@ public class Manager {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	Date regdate, updatedate;
 	
+	List<Store> storeList;
 	
+	List<AuthVO> authList;
 	
 }

@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 @ComponentScan(basePackages = {"org.judy.common.task"})
 @Configuration
 @EnableScheduling
-@MapperScan(basePackages = {"org.judy.common.mapper"})
+@MapperScan(basePackages = {"org.judy.common.mapper","org.judy.common.security.mapper"})
 @Log4j
 public class CommonConfig {
 
