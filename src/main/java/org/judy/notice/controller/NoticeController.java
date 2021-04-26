@@ -39,7 +39,7 @@ public class NoticeController {
 	private final NoticeService service;
 
 	@GetMapping("/list")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER','ROLE_ADV')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_ADV')")
 	public void getList(PageDTO pageDTO, Model model, HttpServletRequest res) {
 
 		String auth = (String)res.getSession().getAttribute("auth");
@@ -56,7 +56,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/read")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER','ROLE_ADV')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_ADV')")
 	public void getOne(Integer nno, PageDTO pageDTO, Model model) {
 
 		model.addAttribute("notice", service.getOne(nno));

@@ -31,7 +31,7 @@ public interface StoreMapper {
 	
 	// MENU
 	
-	public List<Menu> getMenu(@Param("sno") Integer sno, @Param("cno") Integer cno);
+	public List<Menu> getMenu(@Param("sno") Integer sno, @Param("cno") Integer cno , @Param("mid") String mid);
 	
 	public String menuSname(Integer sno);
 	

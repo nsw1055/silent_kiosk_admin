@@ -18,62 +18,52 @@ import lombok.extern.log4j.Log4j;
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping("/sample")
+@RequestMapping("/account")
 @Log4j
 public class HomeController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+   private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+   /**
+    * Simply selects the home view to render by returning its name.
+    */
+   @RequestMapping(value = "/", method = RequestMethod.GET)
+   public String home(Locale locale, Model model) {
+      logger.info("Welcome home! The client locale is {}.", locale);
 
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+      Date date = new Date();
+      DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
-		String formattedDate = dateFormat.format(date);
+      String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate);
+      model.addAttribute("serverTime", formattedDate);
 
-		return "home";
-	}
-
-	@GetMapping("/all")
-	public void getAll() {
-
-	}
-
-	@GetMapping("/admin")
-	public void getAdmin() {
-
-	}
-
-	@GetMapping("/member")
-	public void getMember() {
-
-	}
-	
-	@GetMapping("/login")
-	public void getLogin() {
-		
-	}
-	
-	@GetMapping("/customLogin")
-	public void customLogin(String error, String logout, Model model) {
-		
-		log.info("error"+error);
-		log.info("logout"+logout);
-		
-		if(error != null) {
-			model.addAttribute("error", "Login Error");
-		}
-		if(logout != null) {
-			model.addAttribute("logout", "logOUT!!!");
-		}
-		
-	}
+      return "home";
+   }
+   
+   @GetMapping("/login")
+   public void getLogin() {
+      
+   }
+   
+   @GetMapping("/register")
+   public void getRegister() {
+      
+   }
+   
+   @GetMapping("/customLogin")
+   public void customLogin(String error, String logout, Model model) {
+      
+      log.info("error"+error);
+      log.info("logout"+logout);
+      
+      if(error != null) {
+         model.addAttribute("error", "Login Error");
+      }
+      if(logout != null) {
+         model.addAttribute("logout", "logOUT!!!");
+      }
+      
+   }
 
 }

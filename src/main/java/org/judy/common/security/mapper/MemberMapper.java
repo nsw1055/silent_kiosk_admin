@@ -1,13 +1,13 @@
 package org.judy.common.security.mapper;
 
+import java.util.List;
+
 import org.judy.common.security.domain.MemberVO;
-import org.judy.manager.domain.Manager;
 
 public interface MemberMapper {
 	
-	MemberVO read(String Userid);
+	MemberVO read(String mid);
 	
-	Manager managerRead(String mid);
 	
 
 }

@@ -36,7 +36,7 @@ public class CommonConfig {
 	public DataSource dataSource() {
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		hikariConfig.setJdbcUrl("jdbc:mysql://112.169.196.210:3307/judy?serverTimezone=UTC");
+		hikariConfig.setJdbcUrl("jdbc:mysql://112.169.196.210:3320/judy?serverTimezone=UTC");
 		hikariConfig.setUsername("judy");
 		hikariConfig.setPassword("judy");
 		

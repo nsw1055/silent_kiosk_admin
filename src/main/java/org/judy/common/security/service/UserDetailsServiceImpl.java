@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
 	private MemberMapper mapper;
@@ -19,13 +19,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		log.warn("userName : "+username);
-		
-		MemberVO vo = mapper.read(username);
-		
-		log.warn(vo);
+		log.warn("userName : " + username);
+			
+		MemberVO member = mapper.read(username);
+		 
+		 
+		return new CustomUser(member);
 
-		return vo == null ? null : new CustomUser(vo);
 	}
-
 }

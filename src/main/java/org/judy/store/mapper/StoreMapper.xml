@@ -78,7 +78,9 @@
 	
 	<select id="getMenu" resultType="org.judy.store.domain.Menu">
 		<![CDATA[
-		select * from tbl_store_menu where sno = #{sno} and cno = #{cno}
+		select ts.mid mid,tsm.mno mno, tsm.sno sno, menuName, mPrice, content, mImg, cno from tbl_store ts
+		right join tbl_store_menu tsm on ts.sno = tsm.sno
+		where tsm.sno = #{sno} and cno = #{cno} and mid = #{mid}
 		]]>
 	</select>
 	

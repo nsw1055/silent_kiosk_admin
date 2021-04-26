@@ -3,50 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.judy.common.security.mapper.MemberMapper">
-	<resultMap type="org.judy.common.security.domain.MemberVO"
-		id="memberMap">
-		<id property="userid" column="userid" />
-		<result property="userpw" column="userpw" />
-		<result property="userName" column="username" />
-		<result property="regDate" column="regdate" />
-		<result property="updateDate" column="updatedate" />
-		<collection property="authList" resultMap="authMap">
-		</collection>
-	</resultMap>
+	
 	<resultMap type="org.judy.common.security.domain.AuthVO" id="authMap">
 		<result property="userid" column="mid" />
 		<result property="auth" column="auth" />
 	</resultMap>
 
-	<resultMap type="org.judy.manager.domain.Manager"
-		id="managerMap">
+	<resultMap type="org.judy.common.security.domain.MemberVO" id="memberMap">
 		<id property="mid" column="mid" />
 		<result property="mpw" column="mpw" />
-		<result property="enabled" column="enabled" />
-		<result property="approval" column="approval" />
-		<result property="regDate" column="regdate" />
-		<result property="updateDate" column="updatedate" />
+		<result property="sno" column="mname" />
 		<collection property="authList" resultMap="authMap"></collection>
-		<collection property="storeList" resultMap="store"></collection>
-	</resultMap>
-	<resultMap type="org.judy.store.domain.Store" id="store">
-		<result property="mid" column="mid" />
-		<result property="sno" column="sno" />
 	</resultMap>
 
 	<select id="read" resultMap="memberMap">
-		select mem.userid,
-		userpw, username, enabled, regdate, updatedate, auth from
-		tbl_test mem
-		left outer join tbl_auth auth on mem.userid = auth.mid
-		where mem.userid
-		= #{userid}
-	</select>
-	<select id="managerRead" resultMap="managerMap">
-		select distinct tm.mid,ts.sno, tm.approval, ta.auth from tbl_manager tm
-		left join tbl_store ts on tm.mid = ts.mid
-		left join tbl_auth ta on tm.mid = ta.mid
-		where tm.mid = #{mid}
+		select tl.mid , mpw , mname , ta.auth from 
+		(select tm.mid mid , tm.mpw mpw , ts.sno mname from tbl_manager tm left join tbl_store ts on tm.mid = ts.mid where tm.mid = #{mid} and approval = 1
+		union all
+		select amid mid, ampw mpw, amname mname from tbl_admin where amid = #{mid}
+		union all
+		select adid mid, adpw mpw, '광고주' mname from tbl_adv where adid = #{mid} ) tl left join tbl_auth ta on tl.mid = ta.mid 
+		group by mid
 	</select>
 
 </mapper>

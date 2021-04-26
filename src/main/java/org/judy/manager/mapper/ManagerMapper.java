@@ -2,6 +2,7 @@ package org.judy.manager.mapper;
 
 import java.util.List;
 
+import org.judy.common.security.domain.AuthVO;
 import org.judy.common.util.PageDTO;
 import org.judy.manager.domain.Manager;
 
@@ -26,5 +27,7 @@ public interface ManagerMapper {
 	public void approval(String mid);
 	
 	public void updateMan(Manager manager);
+	
+	public void insertAuth(String mid);
 	
 }

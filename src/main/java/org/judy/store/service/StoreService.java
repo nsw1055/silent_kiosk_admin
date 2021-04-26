@@ -29,7 +29,7 @@ public interface StoreService {
 	List<ManagerFileDTO> getStoreImg(Integer sno);
 	
 	// MENU
-	List<MenuDTO> getMenu(Integer sno, Integer cno);
+	List<MenuDTO> getMenu(Integer sno, Integer cno , String mid);
 	
 	String menuSname(Integer sno);
 	

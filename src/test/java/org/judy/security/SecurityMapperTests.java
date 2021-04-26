@@ -20,7 +20,7 @@ public class SecurityMapperTests {
 	@Test
 	public void testMember() {
 		
-		log.info(mapper.read("test1"));
+		log.info(mapper.read("kyg"));
 		
 	}
 	
@@ -28,7 +28,7 @@ public class SecurityMapperTests {
 	@Test
 	public void testManager() {
 		
-		log.info(mapper.managerRead("user7"));
+		//log.info(mapper.managerRead("user7"));
 		
 	}
 

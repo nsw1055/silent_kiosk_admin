@@ -18,16 +18,12 @@ public class CustomUser extends User {
 	private Manager manager;
 
 	public CustomUser(MemberVO vo) {
-		super(vo.getUserid(), vo.getUserpw(), vo.getAuthList().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
+		super(vo.getMid(), vo.getMpw(), vo.getAuthList().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
 		
 		this.member = vo;
 	}
 
-	public CustomUser(Manager manager) {
-		super(manager.getMid(), manager.getMpw(), manager.getAuthList().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
-
-		this.manager = manager;
-	}
+	
 	
 	
 

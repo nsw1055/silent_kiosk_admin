@@ -57,21 +57,21 @@ public class StoreController {
 	}
 	  
 	@GetMapping("/read")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
+	@PreAuthorize("principal.username == #mid")
 	public void getStore(String mid , Model model) {
 		model.addAttribute("store" , storeService.getStore(mid));
 		model.addAttribute("manager" , managerService.selectOne(mid));
 	}
 	
 	@GetMapping("/register")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
+	@PreAuthorize("principal.username == #mid")
 	public void getRegister(String mid , Model model) {
 		model.addAttribute("mid" , mid);
 		
 	}
 	
 	@PostMapping("/register")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
+	@PreAuthorize("principal.username == #storeDTO.getMid")
 	public ResponseEntity<String> PostRegister(@Validated @RequestBody StoreDTO storeDTO , BindingResult result) {
 		
 		if(result.hasErrors()) {
@@ -112,7 +112,7 @@ public class StoreController {
 	}
 
 	@GetMapping("/modify")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
+	@PreAuthorize("principal.username == #mid")
 	public void getModify(String mid, Integer sno , Model model) {
 		model.addAttribute("mid" , mid);
 		model.addAttribute("store", storeService.getStoreOne(sno));
@@ -121,7 +121,7 @@ public class StoreController {
 	}
 	
 	@PostMapping("/modify")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #storeDTO.mid')")
+	@PreAuthorize("principal.username == #mid")
 	public ResponseEntity<String> postModify(@RequestBody StoreDTO storeDTO) {
 		
 		storeService.updateStore(storeDTO);
@@ -160,7 +160,7 @@ public class StoreController {
 	}
 	
 	@PostMapping("/delete")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
+	@PreAuthorize("principal.username == #mid")
 	public ResponseEntity<String> postDelete(@RequestBody Integer sno){
 		
 		storeService.delStore(sno);
@@ -169,10 +169,10 @@ public class StoreController {
 	}
 	
 	@GetMapping("/menuList")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','principal.username == #mid')")
-	public void getMenu(Integer sno, Integer cno, Model model) {
+	@PreAuthorize("principal.username == #mid")
+	public void getMenu(String mid,Integer sno, Integer cno,Model model) {
 		
-		model.addAttribute("menu", storeService.getMenu(sno, cno));
+		model.addAttribute("menu", storeService.getMenu(sno, cno , mid));
 		model.addAttribute("sname", storeService.menuSname(sno));	
 	}
 	

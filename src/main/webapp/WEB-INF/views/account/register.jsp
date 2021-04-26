@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../includes/header.jsp"%>
+<%@ include file="../includes/header2.jsp"%>
 
 
 <div class="regModal modal" tabindex="-1">
@@ -24,7 +24,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Edit Profile</h4>
@@ -153,20 +153,6 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card card-profile">
-                    <div class="card-avatar">
-                        <a href="javascript:;"> <img class="img"
-                                                     src="../resources/assets/img/faces/marc.jpg"/>
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">${store.sname }</h4>
-                        <p class="card-description">${store.address }</p>
-                        <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -193,11 +179,11 @@
             e.preventDefault()
             const fd = new FormData()
             const files = e.target.files
+            console.log(files)
             fd.append("files", files[0])
             fd.append("value", e.target.name)
             service.sendUpload(fd, csrfTokenValue).then(result => {
-                console.dir(result[0])
-                e.target.setAttribute("data-fileName", result[0].fileName)
+                e.target.setAttribute("data-fileName", result[0].sfileName)
             })
 
         })

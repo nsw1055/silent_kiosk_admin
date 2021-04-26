@@ -141,10 +141,6 @@ public class ManagerController {
 		return new ResponseEntity<String>("sccuss", HttpStatus.OK);
 	}
 	
-	@GetMapping("/register")
-	public void getRegister() {
-		
-	}
 	
 	@PostMapping("/register")
 	public ResponseEntity<String> postRegister(@RequestBody ManagerDTO dto) {

@@ -11,6 +11,7 @@ Coded by Creative Tim
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,33 +49,6 @@ The above copyright notice and this permission notice shall be included in all c
       <div class="logo">
           <a href="/admin/notice/list" class="simple-text logo-normal"><span style="font-family: 'yg-jalnan'; color: #ee6d39; font-size:x-large; ">Silent Kiosk</span></a>
         </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li class="nav-item  ">
-            <a class="nav-link" href="/admin/notice/list">
-              <i class="material-icons">dashboard</i>
-              <p>공지사항</p>
-            </a>
-          </li>
-          <sec:authentication property="principal" var="pinfo"/>
-           <sec:authentication property="principal" var="pinfo"/>
-             <sec:authorize access="hasRole('ROLE_ADMIN')">
-          <li class="nav-item  ">
-            <a class="nav-link" href="/admin/manager/list">
-              <i class="material-icons">content_paste</i>
-              <p>회원관리</p>
-            </a>
-          </li>
-          </sec:authorize>
-          <li class="nav-item  ">
-          <sec:authentication property="principal" var="pinfo"/>
-            <a class="nav-link" href="/admin/store/read?mid=${pinfo.username}">
-              <i class="material-icons">content_paste</i>
-              <p>마이페이지</p>
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
     <div class="main-panel" >
     
@@ -84,13 +58,10 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="container-fluid">
         
           <div class="collapse navbar-collapse justify-content-end">
-            <i class="fas fa-user-circle fa-2x" style=" margin-top: 12px; margin-right: 10px; color: #757575;"></i>
-                              <p style="margin-top: 22px;  margin-right: 10px;">${pinfo.username}</p>
                <form action="/admin/customLogout" method="post">
                <input type="hidden" name="_csrf" value="${_csrf.token}">
               <button class="btn btn-primary btn-round logoutBtn" style="margin-top:10px; display: grow; grow-direction: center;">logout</button>
             </form>
-               <sec:authentication property="principal" var="pinfo"/>   
             
           </div>
         </div>

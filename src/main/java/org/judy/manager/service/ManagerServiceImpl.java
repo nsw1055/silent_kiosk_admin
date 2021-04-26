@@ -7,7 +7,9 @@ import org.judy.common.util.PageDTO;
 import org.judy.manager.domain.Manager;
 import org.judy.manager.dto.ManagerDTO;
 import org.judy.manager.mapper.ManagerMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -20,6 +22,8 @@ public class ManagerServiceImpl implements ManagerService {
 
 
 	private final ManagerMapper mapper;
+	
+	private final PasswordEncoder pwEncoder;
 	
 	
 
@@ -74,14 +78,17 @@ public class ManagerServiceImpl implements ManagerService {
 		mapper.approval(mid);
 	}
 	
-
+	@Transactional
 	@Override
-	public void registerMan(ManagerDTO managerDTO) {
-		log.info("registerMan.....");
-		Manager manager = toDomain(managerDTO);
-		mapper.registerMan(manager);
-		
-	}
+	   public void registerMan(ManagerDTO managerDTO) {
+	      log.info("registerMan.....");
+	      String mpw =managerDTO.getMpw();
+	      String enMpw = pwEncoder.encode(mpw);
+	      managerDTO.setMpw(enMpw);
+	      Manager manager = toDomain(managerDTO);
+	      mapper.registerMan(manager);
+	      mapper.insertAuth(managerDTO.getMid());
+	   }
 
 
 	@Override

@@ -31,4 +31,9 @@ public class StoreMapperTests {
 		mapper.deleteDoc("08051d27-c76b-481a-a943-b406c939d270");
 	}
 	
+	@Test
+	public void testGetMenu() {
+		log.info(mapper.getMenu(53, 1, "user7"));
+	}
+	
 }

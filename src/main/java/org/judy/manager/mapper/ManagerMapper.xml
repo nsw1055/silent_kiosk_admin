@@ -102,6 +102,8 @@
 	</update>
 	
 
-	
+	<insert id="insertAuth" >
+	insert into tbl_auth (mid, auth) values (#{mid}, 'ROLE_MANAGER');
+	</insert>
 	
 </mapper>
